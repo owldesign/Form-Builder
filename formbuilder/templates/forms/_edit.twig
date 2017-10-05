@@ -1,0 +1,154 @@
+{% extends "_layouts/cp" %}
+
+{% hook 'formBuilder.prepTemplate' %}
+
+{% set fullPageForm = true %}
+{% set docUrl = 'http://google.com' %}
+{% set selectedSubnavItem = "forms" %}
+{% set bodyClass = 'formbuilder fb-edit-form' %}
+
+{% import "_includes/forms" as forms %}
+{% import "formbuilder/_includes/_components" as components %}
+
+{% includeJsResource "formbuilder/js/forms.js" %}
+{% includeJsResource "formbuilder/js/option.js" %}
+{% includeJsResource "formbuilder/js/modal.js" %}
+{% includeJsResource "formbuilder/js/field-settings.js" %}
+{% includeJsResource "formbuilder/js/fields.js" %}
+{% includeJsResource "formbuilder/js/tags.js" %}
+
+{% if form is not defined and formId is defined %}
+    {% set form = craft.formBuilder.getFormById(formId) %}
+    {% if not form %}
+        {% exit 404 %}
+    {% endif %}
+{% endif %}
+
+{% set groups = craft.formBuilder.getAllGroups('id') %}
+{% if not groups %}
+    {% exit 404 %}
+{% endif %}
+
+{% set groupId = craft.request.getQuery('groupId') %}
+
+{% set statusId = form.statusId is defined ? form.statusId  %}
+
+{% if not groupId %}
+    {% if form is defined %}
+        {% set groupId = form.groupId %}
+    {% else %}
+        {% set groupId = groups|keys[0] %}
+    {% endif %}
+{% endif %}
+
+{% if groups[groupId] is not defined %}
+    {% exit 404 %}
+{% endif %}
+
+{% if formId is defined %}
+    {% set title = form.name %}
+{% else %}
+    {% set title = "Create a new form"|t %}
+{% endif %}
+
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
+{% endblock %}
+
+
+{% block main %}
+    <input type="hidden" name="action" value="formBuilder/form/save">
+    <input type="hidden" name="redirect" value="formbuilder/forms/{groupId}">
+
+    {% if form %}
+        <input type="hidden" name="formId" value="{{ form.id }}">
+        <input type="hidden" name="fieldLayoutId" value="{{ form.fieldLayoutId }}">
+    {% endif %}
+
+    {% set availableFields = form is defined ? form.getFieldLayout().getFields() : null %}
+    {% set fieldsOption = [] %}
+    {% set fieldsOption = [{label: 'Select Field', value: ''}] %}
+    {% for field in availableFields %}
+        {% set fieldItem = field.getField(field) %}
+        {% if fieldItem.type == 'PlainText' %}
+            {% set fieldsOption = fieldsOption|merge([{ label: fieldItem.name, value: fieldItem.handle }]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% set errors = form.getErrors() %}
+    {% set templates = craft.formBuilder.getAllTemplates() %}
+    {% set templateOption = [{label: 'Select Template', value: ''}] %}
+    {% for template in templates %}
+        {% set templateOption = templateOption|merge([{ label: template.name, value: template.handle }]) %}
+    {% endfor %}
+
+    <div class="grid">
+
+        <div class="item" data-colspan="2">
+            {% include 'formbuilder/forms/_includes/fields' ignore missing with { theme: 'moss' } %}
+            {% hook 'formBuilder.formNotificationsHtml' %}
+        </div>
+
+        <div class="editform-sidebar item last">
+
+            <section class="form-settings-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Settings" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder/forms/_includes/settings/basic-settings' ignore missing %}
+                </div>
+            </section>
+
+            <section class="form-options-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Database" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder/forms/_includes/settings/save-entries' ignore missing %}
+                </div>
+            </section>
+
+            <section class="form-options-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Form Options" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder/forms/_includes/options/submit-button' ignore missing %}
+                    {% include 'formbuilder/forms/_includes/options/redirect' ignore missing %}
+                    {% include 'formbuilder/forms/_includes/options/ajax' ignore missing %}
+                    {% include 'formbuilder/forms/_includes/options/terms-conditions' ignore missing %}
+                </div>
+            </section>
+
+            <section class="spam-protection-tout cmp-tout theme-white">
+                <header>
+                    <span class="tout-title">{{ "Spam Protection" |t }}</span>
+                </header>
+                <div class="body">
+                    {% include 'formbuilder/forms/_includes/spam/honeypot' ignore missing %}
+                    {% include 'formbuilder/forms/_includes/spam/timed' ignore missing %}
+                </div>
+            </section>
+
+            <div class="pane meta save-form-meta last">
+                <button type="submit" href="#" class="btns btn-info save-form">{{ "Save Form" |t }}<span class="btn-hint">&#8984; + S</span></button>
+            </div>
+
+            {% if formId is defined %}
+                <div class="pane meta delete-form-meta last">
+                    <a href="#" class="btns btn-danger delete-form" data-id="{{ form.id }}">{{ "Delete Form" |t }}</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% includejs %}
+        $('.section-collapsible').each(function(i,el){
+            new FormBuilderSection(el);
+        });
+        {% if form and not form.handle %}new Craft.HandleGenerator('#formName', '#formHandle');{% endif %}
+    {% endincludejs %}
+
+{% endblock %}

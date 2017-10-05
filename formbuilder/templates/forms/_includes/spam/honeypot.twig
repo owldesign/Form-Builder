@@ -1,0 +1,40 @@
+{% set container = {
+    title: 'Honeypot' |t,
+    info: null |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'spam[honeypot][message]',
+        value: form.spam.honeypot.message is defined ? form.spam.honeypot.message : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    1: {
+        type: 'checkbox',
+        name: 'spam[honeypot][enabled]',
+        value: '1',
+        checked: form.spam.honeypot.enabled is defined and form.spam.honeypot.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Honeypot Message' |t,
+    instructions: 'Enter message for screen readers.' |t,
+    successMessage: 'Honeypot Protection Updated.' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

@@ -1,0 +1,42 @@
+{% set container = {
+    title: 'Save to Database' |t,
+    info: 'Should entries be saved to database?' |t,
+    icon: null,
+    toggle: true,
+    class: 'has-fields',
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'settings[database][titleFormat]',
+        value: form.settings.database.titleFormat is defined ? form.settings.database.titleFormat : '',
+        class: 'hidden',
+        id: null,
+        hint: 'FORMAT',
+        tags: true
+    },
+    1: {
+        type: 'checkbox',
+        name: 'settings[database][enabled]',
+        value: '1',
+        checked: form.settings.database.enabled is defined and form.settings.database.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Title Format' |t,
+    instructions: 'Enter format for saved entries.' |t,
+    successMessage: 'Title Format Updated' |t,
+    inputs: inputs,
+    fields: fieldsOption |json_encode()
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

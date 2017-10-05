@@ -1,0 +1,237 @@
+.cmp-tout {
+    position: relative;
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: $c-textDarkBlue;
+    letter-spacing: $letter-spacing;
+    border-radius: $border-radius;
+    background-color: $c-white;
+    border: 1px solid darken($c-border, 5);
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    @include antialias;
+
+    &.bodycollapsed, &.bodycollapsed.optionscollapsed {
+        header {
+            border-radius: $border-radius;
+            & > .actions .icons.last {
+                border-bottom-right-radius: $border-radius;
+            }
+        }
+    }
+
+    &.section-collapsible {
+        &:not(.bodycollapsed) {
+            .bodytoggle {
+                &:after {
+                    @include transform(rotate(180deg));
+                }
+            }
+        }
+
+        &:not(.optionscollapsed) {
+            .optionstoggle {
+                &:after {
+                    @include transform(rotate(180deg));
+                }
+            }
+        }
+    }
+    
+    .section-status {
+        display: block;
+        font-size: 10px;
+        color: $c-warning;
+    }
+
+    header {
+        position: relative;
+        border-bottom: 1px solid darken($c-border, 5);
+        padding: 15px 20px;
+
+        .tout-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+
+        &.theme-moss {
+            color: $c-white;
+            background-color: $c-moss;
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+
+            & > .actions {
+                .icons {
+                    color: $c-white;
+                    border-color: lighten($c-moss, 10);
+                    &:hover {
+                        background-color: lighten($c-moss, 10);
+                    }
+                    &.last {
+                        border-top-right-radius: $border-radius;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .actions {
+        @include position(absolute, 0 0 auto auto);
+        z-index: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+
+        .status {
+            @include size(10px);
+            margin-right: 20px;
+            &.off {
+                background-color: $c-danger;
+            }
+            &.on {
+                background-color: $c-success;
+            }
+        }
+
+        .settings {
+            &.icon {
+                color: $c-moss;
+            }
+        }
+
+
+
+        .icons {
+            position: relative;
+            display: inline-block;
+            padding: 15px 0;
+            @include size(48px 100%);
+            text-align: center;
+            color: $c-moss;
+            border-left: 1px solid $c-border;
+            box-sizing: border-box;
+            &:hover {
+                background-color: $c-border;
+            }
+            &:after {
+                @include position(absolute, 50% auto auto 50%);
+                margin-top: -7px;
+                margin-left: -5px;
+
+                font-family: 'Craft';
+                speak: none;
+                -webkit-font-feature-settings: "liga", "dlig";
+                -moz-font-feature-settings: "liga=1, dlig=1";
+                -moz-font-feature-settings: "liga", "dlig";
+                -ms-font-feature-settings: "liga", "dlig";
+                -o-font-feature-settings: "liga", "dlig";
+                font-feature-settings: "liga", "dlig";
+                text-rendering: optimizeLegibility;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                direction: ltr;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                display: inline-block;
+                text-align: center;
+                font-style: normal;
+                vertical-align: middle;
+                word-wrap: normal !important;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+
+        }
+
+        .text-icon {
+            width: auto;
+            padding: 15px 20px;
+            &:after {
+                display: none;
+                margin-left: 15px;
+            }
+        }
+        .collapser { &:after { content: '▼'; } }
+        .settings { &:after { content: 'settings'; } }
+    }
+
+
+
+    .body, .body-options {
+        padding: 20px;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        .tout-count {
+            font-weight: bold;
+        }
+        .tout-count-text {
+            font-size: 12px;
+        }
+
+        &.theme-moss {
+            background-color: lighten($c-moss, 50);
+        }
+    }
+
+    // Theme 
+    &.theme-moss {
+        background-color: $c-moss;
+        color: $c-white;
+
+        header {
+            border-color: #6F8996;
+        }
+    }
+}
+
+// Form Settings
+.form-settings-tout, .template-settings-tout {
+    .body, .body-options {
+        padding: 0;
+    }
+    .fb-field {
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid $c-border;
+        input.text {
+            border-radius: 0;
+            border: 0;
+            background-color: transparent;
+        }
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+}
+
+.fieldlayout-fields {
+    .body-options {
+        padding :0;
+    }
+}
+
+.notification-fields, .plugin-settings-fields {
+    padding: 0 !important;
+    background-color: $c-white !important;
+    header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 15px 20px;
+        .action {
+            margin-left: auto;
+        }
+    }
+
+    .body {
+        padding: 0;
+    }
+}

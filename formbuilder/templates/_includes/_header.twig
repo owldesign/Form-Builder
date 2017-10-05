@@ -1,0 +1,36 @@
+{% includeJsResource "formbuilder/js/packs/regular.min.js" %}
+{% includeJsResource "formbuilder/js/packs/light.min.js" %}
+{% includeJsResource "formbuilder/js/fontawesome.min.js" %}
+{% includeJsResource "formbuilder/js/plugins.js" %}
+{% includeJsResource "formbuilder/js/formbuilder.js" %}
+{% includeCssResource "formbuilder/css/formbuilder.css" %}
+
+<div class="logo">
+    {% include 'formbuilder/_includes/icons/formbuilder-icon.twig' ignore missing %}
+</div>
+
+<h1>{{ title }}</h1>
+
+{% if createForm is defined and createForm %}
+    {% set newFormUrl = url('formbuilder/forms/new', (groupId is defined ? { groupId: groupId } : { groupId: 1 })) %}
+    <a href="{{ newFormUrl }}" id="new-form-btn" class="btns btn-info submit add icon">{{ "Create New Form"|t }}</a>
+{% endif %}
+
+{% if createTemplate is defined and createTemplate %}
+    <div class="button-wrapper">
+        <a href="{{ url('formbuilder/templates/new') }}" class="btns btn-info">{{ "Create New Template"|t }}</a>
+        {#<div class="is-menu">#}
+            {#<a href="#">Minimal</a>#}
+            {#<a href="#">Branded</a>#}
+        {#</div>#}
+    </div>
+{% endif %}
+
+<script type="text/javascript">
+    window.FormBuilder = {
+        formCount: '{{ craft.formBuilder.getAllForms() |length }}',
+        unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}',
+        templateCount: '{{ craft.formBuilder.totalTemplates() }}',
+    }
+</script>
+

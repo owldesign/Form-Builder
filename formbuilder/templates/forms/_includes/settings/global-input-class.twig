@@ -1,0 +1,32 @@
+{% set container = {
+    title: 'Input Class' |t,
+    info: 'Global class for all inputs.' |t,
+    icon: null,
+    toggle: false,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'settings[fields][globalInputClass]',
+        value: form.settings.fields.globalInputClass is defined ? form.settings.fields.globalInputClass : '',
+        class: 'hidden',
+        id: null,
+        hint: 'CLASS'
+    }
+} %}
+
+{% set modal = {
+    title: 'Input Class' |t,
+    instructions: 'Global class for all inputs.' |t,
+    successMessage: 'Global Input Class Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

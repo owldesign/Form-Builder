@@ -1,0 +1,64 @@
+/* ============================================ *
+ * Configuration
+ * ============================================ */
+
+.formbuilder.fb-settings {
+
+    .settings-container {
+        padding: 20px 0 60px 0;
+        background-color: $c-offWhite;
+    }
+
+    .option-item {
+        padding: 17px 20px;
+    }
+
+    .button-wrapper {
+        padding: 10px;
+        text-align: center;
+        input {
+            width: 100%;
+        }
+    }
+
+    #formbuilder-integrations {
+        .not-available {
+            pointer-events: none;
+            td {
+                position: relative;
+                &:before {
+                    content: '';
+                    display: block;
+                    @include position(absolute, 0 0 0 0);
+                    z-index: 100;
+                    @include size(100%);
+                    background: rgba($c-offWhite, .8);
+                }
+            }
+        }
+        
+        .plugin-info {
+            display: flex;
+            align-items: center;
+
+            .icon {
+                margin-right: 15px;
+            }
+        }
+        
+        .name {
+            font-family: 'Roboto';
+            font-weight: 500;
+            color: $c-text;
+        }
+
+        .plugin-version {
+            font-size: 10px !important;
+        }
+
+        .status {
+            margin-right: 0 !important;
+        }
+    }
+
+}

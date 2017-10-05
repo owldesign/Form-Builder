@@ -1,0 +1,48 @@
+{% set container = {
+    title: 'Terms & Conditions' |t,
+    info: 'his form requires acceptance of terms & conditions.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'options[terms][label]',
+        value: form.options.terms.label is defined ? form.options.terms.label : '',
+        class: 'hidden',
+        id: null,
+        hint: 'LABEL'
+    },
+    1: {
+        type: 'textarea',
+        name: 'options[terms][copy]',
+        value: form.options.terms.copy is defined ? form.options.terms.copy : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    2: {
+        type: 'checkbox',
+        name: 'options[terms][enabled]',
+        value: '1',
+        checked: form.options.terms.enabled is defined and form.options.terms.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Terms & Conditions' |t,
+    instructions: 'This form requires acceptance of terms & conditions.' |t,
+    successMessage: 'Terms & Conditions Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

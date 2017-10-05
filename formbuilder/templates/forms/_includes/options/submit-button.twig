@@ -1,0 +1,40 @@
+{% set container = {
+    title: 'Submit Button' |t,
+    info: 'Enter a custom submit button text.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'options[submitButton][text]',
+        value: form.options.submitButton.text is defined ? form.options.submitButton.text : '',
+        class: 'hidden',
+        id: null,
+        hint: 'TEXT'
+    },
+    1: {
+        type: 'checkbox',
+        name: 'options[submitButton][enabled]',
+        value: '1',
+        checked: form.options.submitButton.enabled is defined and form.options.submitButton.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Submit Button Text' |t,
+    instructions: 'Enter a custom submit button text.' |t,
+    successMessage: 'Submit Button Text Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

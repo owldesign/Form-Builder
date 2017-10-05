@@ -1,0 +1,8 @@
+.delete-icon {
+  color: $c-red;
+  transition: all .3s ease;
+
+  &:hover {
+    color: darken($c-red, 20);
+  }
+}

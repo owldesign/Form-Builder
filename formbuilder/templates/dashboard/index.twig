@@ -1,0 +1,15 @@
+{% extends '_layouts/cp' %}
+{% hook 'formBuilder.prepTemplate' %}
+
+{% set title = 'Dashboard' %}
+{% set selectedSubnavItem = "dashboard" %}
+{% set bodyClass = 'formbuilder fb-dashboard' %}
+
+
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
+{% endblock %}
+
+{% block main %}
+    Dashboard
+{% endblock %}

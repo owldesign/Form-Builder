@@ -1,0 +1,194 @@
+/* ============================================ *
+ * Templates
+ * ============================================ */
+
+.formbuilder.fb-templates {
+    
+    #page-header {
+        .btns, .button-wrapper {
+            margin-left: auto;
+        }
+    }
+
+    #main {
+        background-color: $c-offWhite;
+    }
+    
+    .button-wrapper {
+        position: relative;
+    }
+
+    .has-menu {}
+
+    .is-menu {
+        position: absolute;
+        width: 100%;
+        right: 0;
+        border-radius: $border-radius;
+        margin-top: 5px;
+        background: rgba($c-blue, .1);
+        transform: scale(0);
+        transform-origin: top right;
+        transition: all .3s ease;
+
+        &.show {
+            transform: scale(1);
+        }
+        
+        a {
+            display: block;
+            padding: 15px;
+            color: $c-moss;
+            &:hover {
+                background: rgba($c-blue, .1);
+            }
+        }
+    }
+
+    .templates-container {
+        padding: 0 30px 20px 30px;
+        background-color: $c-offWhite;
+
+        header {
+            text-align: center;
+            .title, .subtitle {
+                display: block;
+                font-family: 'Roboto';
+                @include antialias;
+            }
+            .title {
+                font-weight: bold;
+                font-size: 18px;
+                padding-bottom: 5px;
+                color: $c-textDarkBlue;
+            }
+
+            .subtitle {
+                color: $c-text;
+            }
+        }
+    }
+
+    .templates-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .template-item {
+        margin-right: 20px;
+        margin-bottom: 20px;
+        min-width: 200px;
+        max-width: 200px;
+        height: 165px;
+
+        svg {
+            @include size(100%);
+        }
+
+
+        .template-title {
+            font-family: 'Roboto';
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: .03em;
+            color: $c-textDarkBlue;
+            @include antialias;
+        }
+    }
+
+    .template-new-link {
+        display: block;
+        border-radius: 10px;
+        box-sizing: border-box;
+        @include size(100%);
+        border: 3px solid transparent;
+        &:hover {
+            border-color: $c-success;
+        }
+    }
+
+    #notemplates {
+        text-align: center;
+        padding: 60px 30px;
+
+        .title {
+            font-weight: bold;
+            font-size: 18px;
+            padding-bottom: 5px;
+            color: $c-textDarkBlue;
+        }
+    }
+}
+
+// Editing
+.formbuilder.fb-templates-edit {
+
+    #main {
+        background-color: $c-offWhite;
+    }
+
+    .padded {
+        padding: 0 !important;
+    }
+    
+    .templates-container {
+        padding: 0 60px 60px 60px;
+    }
+
+    .template-cmp-tout {
+        .body {
+            padding: 0;
+        }
+    }
+
+    .delete-template-meta, .save-template-meta {
+        box-shadow: none;
+        border: none;     
+        .delete-template, .save-template {
+            display: block;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+
+    #templateHeaderLogo {
+        .add {
+            position: static !important;
+            margin: 0 !important;
+        }
+    }
+
+    .select {
+        padding-right: 30px;
+        padding-left: 10px;
+    }
+}
+
+// Template Styles
+.template-container {
+    padding: 60px;
+    border-radius: $border-radius;
+    border: 1px solid $c-border;
+    background-color: $c-white;
+
+    transition: all .3s ease;
+
+    .template-logo, .template-header, .template-body, .template-footer {
+        display: block;
+        font-family: 'Roboto';
+        margin: 10px 0;
+        line-height: 1.4;
+        @include antialias;
+    }
+
+    .sample {
+        display: block;
+        padding: 10px 15px;
+        font-size: 10px !important;
+        background-color: $c-border;
+    }
+}

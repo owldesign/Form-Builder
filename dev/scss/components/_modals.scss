@@ -1,0 +1,95 @@
+.formbuilder-modal {
+    border: 1px solid $c-border;
+    min-width: 420px !important;
+    
+    header {
+        padding: 60px 60px 40px 60px;
+        text-align: center;
+        .modal-title {
+            font-family: 'Roboto';
+            font-size: 28px;
+            color: $c-textDarkBlue;
+            @include antialias;
+        }
+
+        .instructions {
+            padding-top: 15px;
+            font-family: 'Roboto';
+            font-size: 14px;
+            color: $c-textLight;
+            max-width: 460px;
+            margin: 0 auto;
+            @include antialias;
+
+        }
+    }
+
+    .body {
+        position: relative;
+        padding: 0 60px 50px 60px;
+
+        .fb-field {
+            margin-bottom: 15px;
+        }
+    }
+
+    footer {
+        border-top: 1px solid $c-border;
+        background-image: none;
+        background-color: $c-white;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        & > input {
+            display: block;
+            flex: 1;
+            border: none;
+            outline: none;
+            border-radius: 0;
+            padding: 20px;
+            cursor: pointer;
+            color: $c-textDarkBlue;
+            background-color: transparent;
+            @include appearance(none);
+            &:first-child {
+                border-right: 1px solid $c-border;
+            }
+            &:hover {
+                background-color: $c-border;
+            }
+
+            &.submit:focus {
+                background-color: $c-border;
+            }
+        }
+        &:before, &:after {
+            display: none;
+        }
+    }
+
+    .tags-container {
+        display: flex;
+        flex-direction: row;
+
+        .tag-btn {
+            border-radius: $border-radius;
+            border: 1px solid $c-border;
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-family: 'Roboto';
+            font-size: 12px;
+            color: $c-textLight;
+            cursor: pointer;
+            transition: all .3s ease;
+            @include antialias;
+            &:hover {
+                background-color: $c-border;
+            }
+        }
+    }
+
+}

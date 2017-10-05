@@ -1,0 +1,42 @@
+{% set groupOptions = [] %}
+{% for group in groups %}
+    {% set groupOptions = groupOptions|merge([{ label: group.name, value: group.id }]) %}
+{% endfor %}
+
+{% set statuses = craft.formBuilder.getFormStatuses() %}
+
+
+<div class="fb-field {{ errors is defined and form.getError('name') ? 'error' }}" {% if form.getError('name') %}data-error-message="{{ form.getError('name') }}"{% endif %}>
+    <label for="formName" class="input-hint">{{ "NAME" |t }}</label>
+    <input type="text" id="formName" class="text input-control"  name="name" value="{{ form is defined ? form.name }}" autocomplete="off">
+    {% if form.getError('name') %}<div class="input-error">{{ form.getError('name') }}</div>{% endif %}
+</div>
+
+<div class="fb-field {{ errors is defined and form.getError('handle') ? 'error' }}" {% if form.getError('handle') %}data-error-message="{{ form.getError('handle') }}"{% endif %}>
+    <label for="formHandle" class="input-hint">{{ "HANDLE" |t }}</label>
+    <input type="text" class="text code input-control" id="formHandle" name="handle" value="{{ form is defined ? form.handle }}" autocomplete="off">
+    {% if form.getError('handle') %}<div class="input-error">{{ form.getError('handle') }}</div>{% endif %}
+</div>
+
+<div class="fb-field">
+    <label for="formHandle" class="input-hint">{{ "GROUP" |t }}</label>
+    <div class="select">
+        <select id="groupId" name="groupId">
+            {% for option in groupOptions %}
+                <option value="{{ option.value }}" {% if option.value == groupId %}selected{% endif %}>{{ option.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="fb-field">
+    <label for="formHandle" class="input-hint">{{ "STATUS" |t }}</label>
+    <div class="select">
+        <select id="statusId" name="statusId">
+            {% for status in statuses %}
+                <option value="{{ status.id }}" {% if status.id == statusId %}selected{% endif %}>{{ status.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+

@@ -1,0 +1,48 @@
+{% set container = {
+    title: 'AJAX Submission' |t,
+    info: 'Should we submit the form via ajax? No page refresh will happen.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'options[ajax][messages][success]',
+        value: form.options.ajax.messages.success is defined ? form.options.ajax.messages.success : '',
+        class: 'hidden',
+        id: null,
+        hint: 'SUCCESS'
+    },
+    1: {
+        type: 'text',
+        name: 'options[ajax][messages][error]',
+        value: form.options.ajax.messages.error is defined ? form.options.ajax.messages.error : '',
+        class: 'hidden',
+        id: null,
+        hint: 'ERROR'
+    },
+    2: {
+        type: 'checkbox',
+        name: 'options[ajax][enabled]',
+        value: '1',
+        checked: form.options.ajax.enabled is defined and form.options.ajax.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    }
+} %}
+
+{% set modal = {
+    title: 'Ajax Submission' |t,
+    instructions: 'Provide submission messages.' |t,
+    successMessage: 'Ajax Submission updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

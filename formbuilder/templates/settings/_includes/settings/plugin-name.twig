@@ -1,0 +1,35 @@
+{% set name = 'pluginName' %}
+
+{% set value = settings.pluginName ? settings.pluginName %}
+
+{% set container = {
+    title: 'Plugin Name' |t,
+    info: null,
+    icon: null,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: name,
+        value: value,
+        class: 'hidden',
+        id: null,
+        hint: 'NAME'
+    }
+} %}
+
+{% set modal = {
+    title: 'Plugin Name' |t,
+    instructions: 'Plugin name for the end user.' |t,
+    successMessage: 'Plugin Name Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

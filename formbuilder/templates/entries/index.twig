@@ -1,0 +1,87 @@
+{% extends "_layouts/cp" %}
+{% hook 'formBuilder.prepTemplate' %}
+
+{% set title = "Entries"|t %}
+{% set selectedSubnavItem = "entries" %}
+{% set bodyClass = 'formbuilder fb-entries' %}
+
+{% set elementTypeClass = 'Formbuilder_Entry' %}
+{% set elementType = craft.elements.getElementType(elementTypeClass) %}
+{% set context = 'index' %}
+{% set sources = craft.elementIndexes.getSources(elementTypeClass, 'index') %}
+{% set customizableSources = (sources is not empty and context == 'index' and currentUser.admin) %}
+
+{% includeJsResource "formbuilder/js/entries.js" %}
+
+{% includeCssResource "formbuilder/css/charts-explorer.css" %}
+{% includeJsResource 'formbuilder/js/entrieschart.js' %}
+
+{% set groups = craft.formBuilder.getAllGroups('id') %}
+
+{% if groupId is defined %}
+    {% if groups[groupId] is not defined %}
+        {% exit 404 %}
+    {% endif %}
+
+    {% set forms = groups[groupId].getForms() %}
+    {% set group = craft.formBuilder.getGroupById(groupId) %}
+{% else %}
+    {% set forms = craft.formBuilder.getAllForms() %}
+{% endif %}
+
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
+{% endblock %}
+
+{% block sidebar %}
+    {% if sources is not empty %}
+        <nav id="sources">
+            <ul>
+                {% for key, source in sources %}
+                    {% if source.heading is defined %}
+                        <li class="heading"><span>{{ source.heading|t }}</span></li>
+                    {% else %}
+                        <li>
+                            <a data-key="{{ source.key is defined ? source.key : key }}"
+                                    {%- if source.hasThumbs is defined and source.hasThumbs %} data-has-thumbs{% endif %}
+                                    {%- if source.structureId is defined and source.structureId %} data-has-structure{% endif %}
+                                    {%- if source.defaultSort is defined %}{% set defaultSort = source.defaultSort %} data-default-sort="{{ defaultSort is iterable ? defaultSort|join(':') : defaultSort }}"{% endif %}
+                                    {%- if source.data is defined -%}
+                                {% for dataKey, dataVal in source.data %} data-{{ dataKey }}="{{ dataVal }}"{% endfor %}
+                                    {%- endif %}>
+                                {{- source.label -}}
+                                {% if source.criteria.formId is defined %}
+                                    {% set entryCount = craft.formBuilder.getUnreadEntriesByFormId(source.criteria.formId) %}
+                                    {% if entryCount > 0 %}
+                                        <span class="entry-count">{{ entryCount }}</span>
+                                    {% endif %}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+
+        {% if customizableSources %}
+            <a class="btns btn-white customize-sources" title="{{ 'Customize sources'|t }}">{{ 'Customize Sidebar'|t }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="elementindex">
+        {% include "_elements/indexcontainer" %}
+    </div>
+{% endblock %}
+
+
+{% includejs %}
+    Craft.elementIndex = Craft.createElementIndex('{{ elementTypeClass }}', $('#main'), {
+        context:        '{{ context }}',
+        storageKey:     'elementindex.{{ elementTypeClass }}',
+        criteria:       Craft.defaultIndexCriteria
+    });
+{% endincludejs %}

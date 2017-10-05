@@ -1,0 +1,222 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% import "formbuilder/_includes/_components" as components %}
+
+{% hook 'formBuilder.prepTemplate' %}
+
+{% set selectedSubnavItem = "settings" %}
+{% set bodyClass = 'formbuilder fb-settings' %}
+{% set fullPageForm = true %}
+{% set title = 'Settings' %}
+
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
+{% endblock %}
+
+{% block main %}
+    <input type="hidden" name="action" value="formBuilder/setting/save">
+    {{ getCsrfInput() }}
+
+    <section class="settings-container">
+
+        <div class="grid" data-max-cols="3">
+            <div class="item" data-colspan="1">
+                <section class="cmp-tout">
+                    <header class="theme-moss">
+                        <div class="titlebar">
+                            <span class="tout-title">{{ "Plugin Options" |t }}</span>
+                        </div>
+                    </header>
+
+                    <div class="body notification-fields theme-moss">
+                        {% include 'formbuilder/settings/_includes/settings/plugin-name' ignore missing %}
+                        {% include 'formbuilder/settings/_includes/settings/admin-permission' ignore missing %}
+                        {% include 'formbuilder/settings/_includes/settings/unread-notifications' ignore missing %}
+                        <div class="button-wrapper">
+                            <input type="submit" class="btns btn-info submit" value="{{ 'Save'|t }}">
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="item" data-colspan="2">
+                <table class="data fullwidth formbuilder-table" id="formbuilder-integrations">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="1" class="heading-title">{{ "Integrations"|t }}</th>
+                        <th scope="col" class="col-center"></th>
+                        <th scope="col" class="col-center"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="heading-row">
+                            <td data-title="{{ "Name"|t }}" class="name col-left">{{ "Name" |t }}</td>
+                            <td data-title="{{ "Status"|t }}" class="name col-center">{{ "Status" |t }}</td>
+                            <td data-title="{{ "Version"|t }}" class="name col-center">{{ "Version" |t }}</td>
+                            <td class="name col-center"></td>
+                        </tr>
+                    {% for integration in integrations %}
+                        {% set availability = integration.available ? 'is-available' : 'not-available' %}
+                        {% set needsAttention = false %}
+
+                        <tr class="{{ availability }}">
+                            <td data-title="{{ "Name"|t }}" class="name col-left">
+                                <div class="plugin-info">
+                                    {% if integration.plugin %}
+                                        <div class="icon">
+                                            <img src="{{ craft.plugins.getPluginIconUrl(integration.plugin.getClassHandle(), 72) }}" width="36" height="36">
+                                        </div>
+                                    {% else %}
+                                    {% endif %}
+                                    <div class="plugin-name">
+                                        {{ integration.name }}
+                                    </div>
+                                </div>
+
+                                {% if integration.plugin and integration.plugin.isEnabled and integration.plugin.isInstalled %}
+
+                                    {% for key, required in integration.plugin.getRequiredFields() %}
+                                        {% if attribute(integration.plugin.settings, key) %}
+
+                                        {% else %}
+                                            <div class="plugin-status warning">
+                                                <code>{{ required.empty }}</code>
+                                            </div>
+                                            {% set needsAttention = true %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                {% endif %}
+                            </td>
+
+                            <td data-title="{{ "Status"|t }}" class="current-status col-center">
+                                {% if integration.plugin %}
+                                    {% if integration.plugin.isEnabled and integration.plugin.isInstalled %}
+                                        {% if needsAttention %}
+                                            <span class="status warning"></span>
+                                        {% else %}
+                                            <span class="status green"></span>
+                                        {% endif %}
+                                    {%  else %}
+                                        {% if not integration.plugin.isEnabled %}
+                                            {% if not integration.plugin.isInstalled %}
+                                                <span class="status off"></span>
+                                            {% else %}
+                                                <span class="status warning"></span>
+                                            {% endif %}
+                                        {% endif %}
+                                    {%  endif %}
+                                {%  endif %}
+                            </td>
+
+                            <td class="col-center">
+                                {% if integration.plugin %}
+                                    <span class="plugin-version code">{{ integration.plugin.getVersion }}</span>
+                                {% else %}
+                                    <span class="plugin-version code">{{ integration.version }}</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="template-actions col-right">
+                                {% if integration.plugin %}
+                                    {% if integration.plugin.isEnabled and integration.plugin.isInstalled %}
+                                        {% if needsAttention %}
+                                            <a href="/admin{{ integration.plugin.getSettingsUrl() }}" class="btns btn-info integration-configure">{{ "Configure" |t }}</a>
+                                        {% else %}
+                                            <a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Uninstall" |t }}</a>
+                                        {% endif %}
+                                    {%  else %}
+                                        {% if not integration.plugin.isEnabled %}
+                                            {% if not integration.plugin.isInstalled %}
+                                                <a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Install" |t }}</a>
+                                            {% else %}
+                                                <a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Enable" |t }}</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    {%  endif %}
+                                {% else %}
+                                    <a href="{{ integration.downloadUrl }}" class="btns btn-info">{{ "Download" |t }}</a>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+
+
+
+                        {#<tr class="{{ availability }}">#}
+                            {#<td data-title="{{ "Name"|t }}" class="name col-left">#}
+                                {#{{ integration.name }}#}
+
+                                {#{% if integration.plugin and integration.plugin.isEnabled and integration.plugin.isInstalled %}#}
+                                    {#{% if integration.plugin.settings.webhookUrl == '' %}#}
+                                    {#<div class="plugin-status warning">#}
+                                        {#<code> {{ "Needs webhook URL" |t }}</code>#}
+                                    {#</div>#}
+                                    {#{% endif %}#}
+                                {#{% endif %}#}
+                            {#</td>#}
+                            {#<td data-title="{{ "Status"|t }}" class="current-status col-center">#}
+                                {#{% if integration.plugin %}#}
+                                    {#{% if integration.plugin.isEnabled and integration.plugin.isInstalled %}#}
+                                        {#{% if integration.plugin.settings.webhookUrl == '' %}#}
+                                            {#<span class="status warning"></span>#}
+                                        {#{% else %}#}
+                                            {#<span class="status green"></span>#}
+                                        {#{% endif %}#}
+                                    {#{% else %}#}
+                                        {#{% if not integration.plugin.isEnabled %}#}
+                                            {#{% if not integration.plugin.isInstalled %}#}
+                                                {#<span class="status off"></span>#}
+                                            {#{% else %}#}
+                                                {#<span class="status warning"></span>#}
+                                            {#{% endif %}#}
+                                        {#{% endif %}#}
+                                    {#{% endif %}#}
+                                {#{% else %}#}
+                                    {#<span class="status off"></span>#}
+                                {#{% endif %}#}
+                            {#</td>#}
+                            {#<td class="col-center">#}
+                                {#{% if integration.plugin %}#}
+                                    {#<span class="plugin-version code">{{ integration.plugin.getVersion }}</span>#}
+                                {#{% else %}#}
+                                    {#<span class="plugin-version code">{{ integration.version }}</span>#}
+                                {#{% endif %}#}
+                            {#</td>#}
+                            {#<td class="template-actions col-right">#}
+                                {#{% if integration.plugin %}#}
+                                    {#{% if integration.plugin.isEnabled and integration.plugin.isInstalled %}#}
+                                        {#{% if integration.plugin.settings.webhookUrl == '' %}#}
+                                            {#<a href="{{ url('/admin/settings/plugins/slacknotifications') }}" class="btns btn-info integration-configure">{{ "Configure" |t }}</a>#}
+                                        {#{% else %}#}
+                                            {#<a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Uninstall" |t }}</a>#}
+                                        {#{% endif %}#}
+                                    {#{% else %}#}
+                                        {#{% if not integration.plugin.isEnabled %}#}
+                                            {#{% if not integration.plugin.isInstalled %}#}
+                                                {#<a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Install" |t }}</a>#}
+                                            {#{% else %}#}
+                                                {#<a href="{{ url('/admin/settings/plugins') }}" class="btns btn-info">{{ "Enable" |t }}</a>#}
+                                            {#{% endif %}#}
+                                        {#{% endif %}#}
+                                    {#{% endif %}#}
+                                {#{% else %}#}
+                                    {#<a href="{{ integration.downloadUrl }}" class="btns btn-info">{{ "Download" |t }}</a>#}
+                                {#{% endif %}#}
+                            {#</td>#}
+                        {#</tr>#}
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </section>
+
+    {% includeJsResource "formbuilder/js/option.js" %}
+    {% includeJsResource "formbuilder/js/modal.js" %}
+
+{% endblock %}

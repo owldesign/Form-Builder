@@ -1,0 +1,31 @@
+{% set collapsed = form.settings.sections.fields.collapsed ?? false %}
+
+<section class="cmp-tout section-collapsible fields-section fieldlayout-fields optionscollapsed"{% if form.settings.sections.fields.collapsed is not defined or collapsed %} data-collapsed{% endif %}>
+    <input type="hidden" value="0" name="settings[sections][fields][collapsed]">
+    <input type="checkbox" value="1" name="settings[sections][fields][collapsed]" class="section-toggle hidden">
+    <header class="theme-{{ theme is defined ? theme }}">
+        <div class="titlebar">
+            <span class="tout-title">{{ "Fields" |t }}</span>
+            <div class="preview"></div>
+        </div>
+        <div class="actions">
+            <a class="icons collapser bodytoggle" title="Collapse" role="combobox" tabindex="0"></a>
+            <a class="icons collapser optionstoggle last text-icon" title="Options" role="combobox" tabindex="0">Options</a>
+            <div class="menu">
+                <ul class="padded">
+                    <li><a data-action="settings">{{ "Settings"|t }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="body">
+        {% include 'formbuilder/forms/_includes/fields/fields' ignore missing %}
+    </div>
+
+    <div class="body-options" style="display: none;">
+        {% include 'formbuilder/forms/_includes/settings/global-input-templates' ignore missing %}
+        {% include 'formbuilder/forms/_includes/settings/global-input-container-class' ignore missing %}
+        {% include 'formbuilder/forms/_includes/settings/global-input-class' ignore missing %}
+    </div>
+</section>

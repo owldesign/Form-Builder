@@ -1,0 +1,85 @@
+{% extends "_layouts/cp" %}
+{% hook 'formBuilder.prepTemplate' %}
+
+{% set title = "Forms"|t %}
+{% set selectedSubnavItem = "forms" %}
+{% set bodyClass = 'formbuilder fb-forms' %}
+
+{% set elementTypeClass = 'Formbuilder_Form' %}
+{% set elementType = craft.elements.getElementType(elementTypeClass) %}
+{% set context = 'index' %}
+{% set sources = craft.elementIndexes.getSources(elementTypeClass, 'index') %}
+{% set customizableSources = (sources is not empty and context == 'index' and currentUser.admin) %}
+
+{% includeJsResource "formbuilder/js/groups.js" %}
+{% includeJsResource "formbuilder/js/forms.js" %}
+
+{% set groups = craft.formBuilder.getAllGroups('id') %}
+
+{% if groupId is defined %}
+    {% if groups[groupId] is not defined %}
+        {% exit 404 %}
+    {% endif %}
+
+    {% set forms = groups[groupId].getForms() %}
+    {% set group = craft.formBuilder.getGroupById(groupId) %}
+{% else %}
+    {% set forms = craft.formBuilder.getAllForms() %}
+{% endif %}
+
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title, createForm: true, groups: groups } %}
+{% endblock %}
+
+{% block sidebar %}
+    {% if sources is not empty %}
+        <nav id="sources">
+            <ul>
+                {% for key, source in sources %}
+                    {% if source.heading is defined %}
+                        <li class="heading"><span>{{ source.heading|t }}</span></li>
+                    {% else %}
+                        <li {% if source.key != '*' %}class="group-item"{% endif %}>
+                            <a data-label="{{ source.label }}" {% if source.icon is defined and source.icon %}data-icon-name="{{ source.icon }}"{% endif %} data-key="{{ source.key is defined ? source.key : key }}" {%- if source.defaultSort is defined %}{% set defaultSort = source.defaultSort %} data-default-sort="{{ defaultSort is iterable ? defaultSort|join(':') : defaultSort }}"{% endif %}{%- if source.data is defined -%}{% for dataKey, dataVal in source.data %} data-{{ dataKey }}="{{ dataVal }}"{% endfor %}{%- endif %}>
+                                {% if source.icon is defined and source.icon %}
+                                    <i class="far fa-{{ source.icon }}"></i>
+                                {% endif %}
+                                {{- source.label -}}
+
+                                {% if source.key != '*' %}
+                                    <span class="edit-group"><i class="fal fa-pencil"></i></span>
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            <section class="group-selector">
+                <div class="buttons">
+                    <div id="newgroupbtn" class="btns btn-info submit add icon">New Group</div>
+                </div>
+            </section>
+        </nav>
+
+        {% if customizableSources %}
+            <a class="btns btn-white customize-sources" title="{{ 'Customize sources'|t }}">{{ 'Customize Sidebar'|t }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="elementindex">
+        {% include "_elements/indexcontainer" %}
+    </div>
+{% endblock %}
+
+{% includejs %}
+    Craft.elementIndex = Craft.createElementIndex('{{ elementTypeClass }}', $('#main'), {
+        context:        '{{ context }}',
+        storageKey:     'elementindex.{{ elementTypeClass }}',
+        criteria:       Craft.defaultIndexCriteria
+    });
+{% endincludejs %}

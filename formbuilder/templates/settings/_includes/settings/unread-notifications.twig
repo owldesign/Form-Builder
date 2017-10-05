@@ -1,0 +1,33 @@
+{% set adminPermission = settings.unreadNotifications is defined ? settings.unreadNotifications %}
+
+{% set name = 'unreadNotifications' %}
+
+{% set enabled = settings.unreadNotifications is defined ? settings.unreadNotifications : false %}
+
+{% set container = {
+    title: 'Unread Notifications' |t,
+    info: 'Unread entry count will show up next to plugin name in the sidebar.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'checkbox',
+        name: name,
+        value: '1',
+        checked: enabled,
+        class: 'hidden',
+        id: null
+    }
+} %}
+
+{% set modal = null %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

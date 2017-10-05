@@ -1,0 +1,25 @@
+#nav-formbuilder {
+  position: relative; }
+  #nav-formbuilder:after {
+    display: none;
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    bottom: auto;
+    left: auto;
+    height: auto;
+    width: auto;
+    margin-top: -9px;
+    padding: 0 7px;
+    border-radius: 5px;
+    background-color: #4da1ff;
+    text-align: center;
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }

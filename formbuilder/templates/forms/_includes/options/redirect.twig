@@ -1,0 +1,40 @@
+{% set container = {
+    title: 'Custom Redirect' |t,
+    info: 'Enter a custom redirect path for successful submissions.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'text',
+        name: 'options[redirect][url]',
+        value: form.options.redirect.url is defined ? form.options.redirect.url : '',
+        class: 'hidden',
+        id: null,
+        hint: 'PATH'
+    },
+    1: {
+        type: 'checkbox',
+        name: 'options[redirect][enabled]',
+        value: '1',
+        checked: form.options.redirect.enabled is defined and form.options.redirect.enabled == '1' ? true : false,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Custom Redirect' |t,
+    instructions: 'Enter relative site path.' |t,
+    successMessage: 'Custom Redirect Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

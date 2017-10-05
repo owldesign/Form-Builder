@@ -1,0 +1,140 @@
+.formbuilder {
+    .btns {
+        position: relative;
+        display: inline-block;
+        font-family: 'Roboto';
+        font-weight: 900;
+        font-size: 12px;
+        font-style: normal;
+        border-radius: 5px;
+        letter-spacing: $letter-spacing;
+        text-transform: uppercase;
+        color: $c-white;
+        padding: 12px 19px 10px 19px;
+        height: auto;
+        background-image: none !important;
+        transition: all .3s ease;
+        box-shadow: none;
+        box-sizing: border-box;
+        @include antialias;
+
+        // Inputs
+        border: none;
+        box-shadow: none;
+        cursor: pointer;
+        outline: none;
+
+        &:before {
+            margin-right: 15px !important;
+            font-size: 15px;
+        }
+        &:hover {
+            background-image: none;
+        }
+
+        svg {
+            vertical-align: middle;
+        }
+
+        &.btn-addon {
+            padding-right: 65px;
+            &:before {
+                content: '';
+                display: block;
+                @include position(absolute, 0 30px auto auto);
+                height: 40px;
+                width: 1px;
+                background: white;
+            }
+            &:after {
+                font-family: 'FontAwesome';
+                display: block;
+                @include position(absolute, 12px 17px auto auto);
+            }
+
+            &.i-arrow-down {
+                &:after {
+                    content: '\f107';
+                }
+            }
+        }
+
+        &.btn-white {
+            background-color: $c-white;
+            border: 1px solid $c-border;
+            color: $c-textDarkBlue;
+            &.icon {
+                background: $c-white;
+            }
+            &:hover {
+                background-color: $c-border;
+            }
+        }
+
+        &.btn-add {
+            background-color: lighten($c-moss, 35);
+            &:hover {
+                background-color: $c-moss;
+                svg * {
+                    fill: $c-white !important;
+                }
+            }
+        }
+        
+        &.btn-link {
+            color: $c-info;
+            &:hover {
+                color: darken($c-info, 20);
+            }
+        }
+
+        &.btn-info {
+            color: $c-white;
+            background-color: $c-info;
+            &:hover {
+                background-color: lighten($c-info, 5);
+            }
+
+            .btn-hint {
+                color: lighten($c-info, 20);
+            }
+        }
+
+        &.btn-danger {
+            color: $c-white;
+            background-color: $c-danger;
+            &:hover {
+                background-color: lighten($c-danger, 5);
+            }
+        }
+
+        &.btn-moss {
+            background-color: $c-moss;
+            &:hover, &.active {
+                background-color: lighten($c-moss, 5);
+            }
+        }
+
+        // Button hints
+        .btn-hint {
+            float: right;
+        }
+
+        // Repeater
+        &.btn-repeater {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            &.btn-info {
+                background: transparent;
+                border: 2px dashed $c-info;
+                color: $c-info;
+
+                &:hover {
+                    background: $c-info;
+                    color: white;
+                }
+            }
+        }
+    }
+}

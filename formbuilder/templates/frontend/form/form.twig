@@ -1,0 +1,75 @@
+{%- set options     = options is defined and options is not empty ? options : {} %}
+{%- set errors      = entry.getErrors()|length ? entry.getErrors() : false %}
+{%- set id          = options.id is defined ? options.id : form.handle ~ '-form' %}
+{%- set class       = options.class is defined ? options.class : form.handle ~ '-form' -%}
+
+{%- set settings    = form.options -%}
+{%- set spam        = form.spam -%}
+
+<form method="post" accept-charset="utf-8" enctype="multipart/form-data" {%- if id %} id="{{ id }}"{% endif -%} {%- if class %} class="{{ class -}}{%- if errors %} {{ errorClass }}{% endif -%}"{% endif -%}>
+    {{ getCsrfInput() }}
+    <input type="hidden" name="action" value="formBuilder/entry/save">
+    <input type="hidden" name="formId" value="{{ form.id }}">
+    <input type="hidden" name="statusId" value="1">
+
+    {# Page Context #}
+    {% if options.context is defined %}
+        <input type="hidden" name="contextEntryId" value="{{ options.context.id }}">
+    {% endif %}
+
+    {# Redirect #}
+    {% if settings.redirect.enabled %}
+        <input type="hidden" name="redirect" value="{% if settings.redirect.enabled %}{{ url(settings.redirect.url) }}{% else %}{{ craft.request.url }}{% endif %}">
+    {% endif %}
+
+    {# Spam Protection #}
+    {% if spam.honeypot.enabled %}
+        <div style="display:none;"><label for="email-address-new-one">{{ spam.honeypot.message }}</label><input name="email-address-new-one" value="" id="email-address-new-one"></div>
+    {% endif %}
+
+    {% if spam.timed.enabled %}
+        <input type="hidden" name="spamTimeMethod" value="{{ 'now'|date('U') }}">
+    {% endif %}
+
+    {% hook 'formBuilder.beforeFieldsHook' %}
+    {{ fieldset | raw }}
+
+    {# Terms & Conditions #}
+    {% if settings.terms.enabled %}
+        {{ craft.formBuilder.getTermsConditionsInputs(form) |raw }}
+    {% endif %}
+
+    {% hook 'formBuilder.afterFieldsHook' %}
+
+    {# <div class="notifications">
+      <p class="notification error-message">{{ craft.session.getFlash('error') | raw }}</p>
+      <p class="notification success-message">{{ craft.session.getFlash('success') | raw }}</p>
+      {% set errors = (errors is defined ? errors : null) %}
+      {% if errors %}
+      <ul class="errors">
+        {% for error in errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div> #}
+
+    <button type="submit">
+        {% if settings.submitButton.enabled %}
+            {{ settings.submitButton.text }}
+        {% else %}
+            {{ "Submit Message" |t }}
+        {% endif %}
+    </button>
+
+</form>
+
+{% if settings.ajax.enabled %}
+    {% includeJsResource 'formbuilder/js/ajaxsubmit.js' %}
+    {% includejs %}
+        new AjaxForm('#{{ id }}').init();
+    {% endincludejs %}
+{% endif %}
+
+
+

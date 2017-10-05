@@ -1,0 +1,141 @@
+.formbuilder {
+    .fb-field {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid $c-border;
+        border-radius: $border-radius;
+
+        .input {
+            flex: 1;
+        }
+
+        &.error {
+            border-color: $c-danger;
+            .input-hint {
+                color: $c-danger;
+            }
+        }
+
+        .input-control, > input, .select, > textarea {
+            flex: 1;
+        }
+
+        .input-error {
+            font-family: 'Roboto';
+            font-size: 10px;
+            padding: 0 15px 15px 15px;
+            width: 100%;
+        }
+
+        label {
+            font-family: 'Roboto';
+            color: $c-textDarkBlue;
+        }
+
+        .input-hint {
+            font-family: Menlo, monospace;
+            color: darken($c-border, 15);
+            font-size: 10px;
+            padding: 0 15px;
+            line-height: normal;
+            letter-spacing: .1em;
+
+            &.active-field {
+                color: $c-success;
+            }
+        }
+
+        .result-label {
+            position: absolute;
+            top: 17px;
+            right: auto;
+            bottom: auto;
+            left: 15px;
+            font-family: Menlo, monospace;
+            color: $c-textLight;
+            font-size: 10px;
+            &.doubled {
+                line-height: 1.4;
+                top: 14px;
+            }
+        }
+
+        input, textarea, select {
+            font-family: 'Roboto';
+            color: $c-textDarkBlue;
+            outline: none;
+            box-shadow: none !important;
+            width: 100%;
+            border-radius: 0;
+            background-color: transparent;
+            background-image: none;
+            border: none;
+            padding: 14px 10px !important;
+
+            &:focus {
+                border-color: $c-border;
+            }
+            &.text {
+
+            }
+            &.code {
+                font-family: Menlo, monospace;
+            }
+        }
+
+        .redactor-box {
+            flex: 1;
+            background: transparent;
+            .redactor-toolbar {
+                box-shadow: none !important;
+                border-left: 1px solid $c-border;
+                border-top-right-radius: $border-radius;
+                li a {
+                    &:hover {
+                        background-color: $c-info;
+                    }
+                }
+            }
+            .redactor-layer {
+                background: transparent;
+                min-height: 150px !important;
+                border: none;
+                border-top: 1px solid $c-border;
+                border-left: 1px solid $c-border;
+            }
+        }
+
+
+        .select {
+            box-shadow: none !important;
+            width: 100%;
+            border-radius: 0;
+            background-color: transparent;
+            background-image: none;
+            border: none;
+            &:after {
+                right: 20px !important;
+            }
+        }
+
+        .switch {
+            padding: 15px 0;
+
+        }
+    }
+
+    .lightswitch {
+        @include size(68px 26px);
+
+        .lightswitch-container {
+            width: 68px;
+        }
+
+        .label {
+            width: 34px;
+        }
+    }
+}

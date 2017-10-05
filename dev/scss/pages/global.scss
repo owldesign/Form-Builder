@@ -1,0 +1,227 @@
+/* ============================================ *
+
+ |  ____|                     |  _ \        (_)| |    | |          
+ | |__  ___   _ __  _ __ ___  | |_) | _   _  _ | |  __| |  ___  _ __ 
+ |  __|/ _ \ | '__|| '_ ` _ \ |  _ < | | | || || | / _` | / _ \| '__|
+ | |  | (_) || |   | | | | | || |_) || |_| || || || (_| ||  __/| |  
+ |_|   \___/ |_|   |_| |_| |_||____/  \__,_||_||_| \__,_| \___||_| 
+
+* ============================================ */
+
+.formbuilder {
+
+    // Misc
+    a {
+        text-decoration: none;
+        outline: none;
+    }
+    hr {
+        border-color: $c-border;
+        margin: 20px 0;
+    }
+
+    #main {
+        padding: 0 35px;
+    }
+
+    #main, .pane {
+        background-color: $c-offWhite;
+    }
+
+    .pane {
+        box-shadow: none;
+        padding-top: 0;
+    }
+    
+    // Header
+    #page-header {
+        padding: 40px 60px;
+        background-color: $c-offWhite;
+        justify-content: flex-start;
+        align-items: center;
+
+        .logo {
+            @include size(35px);
+            svg {
+                @include size(100%);
+            }
+        }
+
+        h1 {
+            color: $c-textDark;
+            font-family: 'Roboto';
+            font-weight: bold;
+            margin: 0 0 0 20px;
+            @include antialias;
+        }
+
+        @include bp(max-width, $mobile) {
+            padding: 40px 20px;
+        }
+    }
+
+    #nav-formbuilder:after {
+        display: none;
+    }
+
+    #nav-formbuilder {
+        overflow: hidden;
+        background-color: darken($c-moss, 15);
+        a.sel {
+            background-color: darken($c-moss, 10);
+        }
+        .subnav {
+            li {
+                position: relative;
+                transition: background-color .3s ease;
+                &:after {
+                    display: none;
+                    content: "";
+                    @include position(absolute, 50% 15px auto auto);
+                    @include size(auto auto);
+                    margin-top: -9px;
+                    padding: 0 7px;
+                    border-radius: 5px;
+                    background-color: $c-info;
+                    text-align: center;
+                    font-family: 'Roboto';
+                    font-weight: bold;
+                    font-size: 9px;
+                    letter-spacing: $letter-spacing;
+                    color: $c-white;
+                    @include antialias;
+                }
+
+                &:nth-child(1) { a:before { content: "gauge"; } }
+                &:nth-child(2) { a:before { content: "field"; } }
+                &:nth-child(3) { a:before { content: "categories"; } }
+                &:nth-child(4) { a:before { content: "section"; } }
+                &:nth-child(5) { a:before { content: "settings"; } }
+
+                &:hover {
+                    a:before { opacity: 1; }
+                    a:after { 
+                        right: -2px;
+                        opacity: .4
+                    }
+                }
+
+                a {
+                    transition: all .3s ease;
+                    &.sel {
+                        &:before { opacity: 1; }
+                        &:after { right: -1px; }
+                        &:hover {
+                            &:after {
+                                right: -1px;
+                                opacity: 1;
+                            }
+                        }
+                    }
+                    &:after {
+                        transition: all .3s ease;
+                        content: "";
+                        display: block;
+                        @include position(absolute, 5px -5px 0 auto);
+                        @include size(5px 70%);
+                        background-color: $c-success;
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                    }
+                    &:before {
+                        transition: all .3s ease;
+                        position: absolute;
+                        margin-left: -26px;
+                        opacity: .4;
+                        font-family: 'Craft';
+                        speak: none;
+                        -webkit-font-feature-settings: "liga", "dlig";
+                        -moz-font-feature-settings: "liga=1, dlig=1";
+                        -moz-font-feature-settings: "liga", "dlig";
+                        -ms-font-feature-settings: "liga", "dlig";
+                        -o-font-feature-settings: "liga", "dlig";
+                        font-feature-settings: "liga", "dlig";
+                        text-rendering: optimizeLegibility;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        direction: ltr;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                        display: inline-block;
+                        text-align: center;
+                        font-style: normal;
+                        vertical-align: middle;
+                        word-wrap: normal !important;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                    }
+                }
+
+                &:last-child {
+                    background-color: rgba($c-success, .3);
+                    &:hover {
+                        background-color: rgba($c-success, .7);
+                    }
+                    a {
+                        color: $c-white;
+                        &:after { display: none !important; }
+                        &:before { content: "plus"; }
+                    }
+                }
+            }
+        }
+    }
+
+    .fb-hud {
+        .main {
+            padding: 0;
+        }
+
+        .action-item-menu, .form-item-menu {
+            li {
+                transition: background-color .3s ease;
+                &:hover {
+                    background-color: $c-grayBackground;
+                }
+            }
+            a {
+                display: block;
+                font-family: 'Roboto';
+                font-weight: bold;
+                font-size: 14px;
+                color: $c-textDarkBlue;
+                padding: 15px 20px;
+                @include antialias;
+
+                svg {
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    .menu {
+        .status {
+            &.on, &.enabled {
+                background-color: $c-success;
+            }
+            &.off, &.disabled {
+                background-color: $c-danger;
+            }
+        }
+        a {
+            font-family: 'Roboto';
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: $letter-spacing;
+            color: $c-textDarkBlue;
+            &:hover {
+                background-color: $c-grayBackground;
+            }
+        }
+    }
+}
