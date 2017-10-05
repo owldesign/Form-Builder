@@ -86,8 +86,7 @@ class FormBuilderPlugin extends BasePlugin
     public function getReleaseFeedUrl()
     {
         return parent::getReleaseFeedUrl();
-        // TODO: add release feed
-        // return 'https://raw.githubusercontent.com/roundhouse/FormBuilder-2-Craft-CMS/master/releases.json';
+         return 'https://raw.githubusercontent.com/owldesign/Form-Builder/master/releases.json';
     }
 
     /**
