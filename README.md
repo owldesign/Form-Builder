@@ -5,11 +5,11 @@ This plugin is currently in beta, you can start playing around with it. Its actu
 
 ## Changelog
 
-Refer to [releases.json](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/blob/master/releases.json) for updates.
+Refer to [releases.json](https://github.com/owldesign/Form-Builder/blob/master/releases.json) for updates.
 
 
 
 
 ## Issue Tracking and Bug Reporting
 
-If you have found a bug please use [Github's Issues](https://github.com/roundhouse/FormBuilder-2-Craft-CMS/issues) to report and track issues.
+If you have found a bug please use [Github's Issues](https://github.com/owldesign/Form-Builder/issues) to report and track issues.
