@@ -82,10 +82,11 @@ if $ and window.Garnish
                         if response.success
                             for hudID of Garnish.HUD.activeHUDs
                                 Garnish.HUD.activeHUDs[hudID].hide()
-                            $('.upload-details').addClass 'zap'
+#                            $('.upload-details').parent().addClass 'zap'
+                            $('.upload-details').parent().velocity 'fadeOut', duration: '100'
                             setTimeout (->
-                                $('.upload-details').remove()
-                            ), 300
+                                $('.upload-details').parent().remove()
+                            ), 100
                     ), this)
 
             $menu.find('.download-all-files').on 'click', (e) ->

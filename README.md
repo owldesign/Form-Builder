@@ -11,11 +11,11 @@ This plugin is currently in beta, you can start playing around with it. Its actu
 | Text | ✅ |
 | Textarea | ✅ |
 | File Upload | ✅ |
-| Checkboxes |  |
-| Dropdown |  |
-| Multi Select |  |
-| Number |  |
-| Radio Buttons |  |
+| Checkboxes | ✅ |
+| Dropdown | ✅ |
+| Multi Select | ✅ |
+| Number | ✅ |
+| Radio Buttons | ✅ |
 
 ### Advanced Fields
 

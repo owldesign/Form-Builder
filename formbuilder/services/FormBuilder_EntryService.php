@@ -128,6 +128,7 @@ class FormBuilder_EntryService extends BaseApplicationComponent
                         $entry->id = $entryRecord->id;
                     }
 
+
                     if ($transaction !== null) {
                         $transaction->commit();
                     }
@@ -147,7 +148,6 @@ class FormBuilder_EntryService extends BaseApplicationComponent
 
         } else {
             return false;
-
         }
     }
 

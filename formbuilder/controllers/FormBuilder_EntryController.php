@@ -76,6 +76,7 @@ class FormBuilder_EntryController extends BaseController
             $saved = true;
         }
 
+
         // Notifications
         if ($saved) {
             $this->_sendNotifications($this->form['notifications']);
@@ -266,7 +267,7 @@ class FormBuilder_EntryController extends BaseController
      */
     private function _sendNotifications($notifications)
     {
-        if (count($notifications) > 0) {
+        if ($notifications != 'null' && count($notifications) > 0) {
             foreach($notifications as $type => $notification) {
                 switch ($type) {
                     case 'email':

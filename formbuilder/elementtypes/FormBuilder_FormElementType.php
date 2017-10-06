@@ -121,6 +121,7 @@ class FormBuilder_FormElementType extends BaseElementType
             array(
                 'confirmationMessage'   => Craft::t('Are you sure you want to delete selected forms and its entries?'),
                 'successMessage'        => Craft::t('Form and entries deleted.'),
+                'failMessage'           => Craft::t('Cannot delete form.'),
             )
         );
 

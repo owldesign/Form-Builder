@@ -45,17 +45,17 @@ class FormBuilder_DeleteElementAction extends BaseElementAction
      */
     public function performAction(ElementCriteriaModel $criteria)
     {
+        $entryType = $criteria->elementType->classHandle;
 
-        $response = formbuilder()->forms->deleteForms($criteria->ids());
-
-        if ($response) {
-            $this->setMessage(Craft::t('Forms has been deleted.'));
+        if ($entryType == 'FormBuilder_Form') {
+            if (formbuilder()->forms->deleteForms($criteria->ids())) {
+                return true;
+            }
         } else {
-            $this->setMessage(Craft::t('Cannot delete forms.'));
+            craft()->elements->deleteElementById($criteria->ids());
         }
 
-
-        return $response;
+        return true;
     }
 
     // Protected Methods
@@ -69,8 +69,9 @@ class FormBuilder_DeleteElementAction extends BaseElementAction
     protected function defineParams()
     {
         return array(
-            'confirmationMessage' => array(AttributeType::String),
-            'successMessage'      => array(AttributeType::String),
+            'confirmationMessage'   => array(AttributeType::String),
+            'successMessage'        => array(AttributeType::String),
+            'failMessage'           => array(AttributeType::String)
         );
     }
 }

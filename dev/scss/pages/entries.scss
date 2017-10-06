@@ -144,16 +144,29 @@
             }
 
             .field {
+                position: relative;
                 border-bottom: 1px solid $c-border;
                 margin: 0;
                 padding: 0 20px;
                 padding-bottom: 10px;
                 margin-bottom: 10px;
+
+                transform-origin: center center;
+                transition: transform .3s ease;
+
                 &:first-child {
                     padding-top: 10px;
                 }
                 &:last-child {
                     border-bottom: none;
+                }
+
+                &.zap {
+                    transform: scale(0);
+                }
+
+                &.theme-moss {
+                    border-bottom: 1px solid rgba($c-border, .1);
                 }
             }
 
@@ -161,8 +174,39 @@
                 display: block;
             }
 
+            .value-results {
+                margin-top: 5px;
+            }
+
             .entry-value {
                 font-weight: bold;
+
+                &.tag-value {
+                    display: inline-block;
+                    border-radius: $border-radius;
+                    border: 1px solid $c-border;
+                    padding: 1px 10px;
+                }
+            }
+
+            .submission-action-trigger {
+                @include position(absolute, 0 20px auto auto);
+            }
+
+            .asset-container {
+                tbody {
+                    tr {
+                        td {
+                            border-bottom: 0;
+                            border-top: 1px solid $c-border;
+                        }
+                        &:first-child {
+                            td {
+                                border-top: 0;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -179,17 +223,6 @@
             // .body {
             //     padding: 16px 0;
             // }
-        }
-
-        &.upload-details {
-            transform-origin: center center;
-            transition: transform .3s ease;
-            &.zap {
-                transform: scale(0);
-            }
-            .body {
-                padding: 0;
-            }
         }
     }
 

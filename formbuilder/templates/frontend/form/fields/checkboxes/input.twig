@@ -1,0 +1,31 @@
+{%- set classes = [
+    'checkbox-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+]|filter|join(' ') %}
+{%- set id              = (custom.html.id is defined ? custom.html.id : null) %}
+{%- set required        = (field.required is defined and field.required ? ' required') %}
+{%- set options         = (field.settings.options is defined ? field.settings.options : []) %}
+{%- set values          = (values is defined ? values : []) %}
+{%- set name            = (name is defined and name ? name~'[]' : null) %}
+
+{% if name is defined and (name|length < 3 or name|slice(-2) != '[]') %}
+    <input type="hidden" name="{{ name }}" value="">
+{% endif %}
+
+{%- for key, option in options %}
+    {%- set optionLabel = (option.label is defined ? option.label : option) %}
+    {%- set optionValue = (option.value is defined ? option.value : key) -%}
+    {%- set index = 'checkbox-' ~ loop.index %}
+
+    <input
+        type="checkbox"
+        value="{{ optionValue }}"
+        id="{{ id ? id : index }}"
+        class="{{ classes }}"
+        {%- if name is defined %} name="{{ name }}"{% endif %}
+        {%- if (optionValue in values) %} checked{% endif %}
+        {%- if disabled is defined and disabled %} disabled{% endif %}>
+
+    <label for="{{ id ? id : index }}">{{ optionLabel|raw }}</label>
+{%- endfor %}

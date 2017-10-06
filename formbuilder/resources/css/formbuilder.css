@@ -400,31 +400,49 @@
     .formbuilder.fb-entry .submission-details-tout .body .bold {
       font-weight: bold; }
     .formbuilder.fb-entry .submission-details-tout .body .field {
+      position: relative;
       border-bottom: 1px solid #E9EFF4;
       margin: 0;
       padding: 0 20px;
       padding-bottom: 10px;
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      transform-origin: center center;
+      transition: transform .3s ease; }
       .formbuilder.fb-entry .submission-details-tout .body .field:first-child {
         padding-top: 10px; }
       .formbuilder.fb-entry .submission-details-tout .body .field:last-child {
         border-bottom: none; }
+      .formbuilder.fb-entry .submission-details-tout .body .field.zap {
+        transform: scale(0); }
+      .formbuilder.fb-entry .submission-details-tout .body .field.theme-moss {
+        border-bottom: 1px solid rgba(233, 239, 244, 0.1); }
     .formbuilder.fb-entry .submission-details-tout .body .entry-label {
       display: block; }
+    .formbuilder.fb-entry .submission-details-tout .body .value-results {
+      margin-top: 5px; }
     .formbuilder.fb-entry .submission-details-tout .body .entry-value {
       font-weight: bold; }
+      .formbuilder.fb-entry .submission-details-tout .body .entry-value.tag-value {
+        display: inline-block;
+        border-radius: 5px;
+        border: 1px solid #E9EFF4;
+        padding: 1px 10px; }
+    .formbuilder.fb-entry .submission-details-tout .body .submission-action-trigger {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      bottom: auto;
+      left: auto; }
+    .formbuilder.fb-entry .submission-details-tout .body .asset-container tbody tr td {
+      border-bottom: 0;
+      border-top: 1px solid #E9EFF4; }
+    .formbuilder.fb-entry .submission-details-tout .body .asset-container tbody tr:first-child td {
+      border-top: 0; }
   .formbuilder.fb-entry .submission-details-tout.theme-moss {
     background-color: #637c8a;
     color: #ffffff; }
     .formbuilder.fb-entry .submission-details-tout.theme-moss header {
       border-color: #6F8996; }
-  .formbuilder.fb-entry .submission-details-tout.upload-details {
-    transform-origin: center center;
-    transition: transform .3s ease; }
-    .formbuilder.fb-entry .submission-details-tout.upload-details.zap {
-      transform: scale(0); }
-    .formbuilder.fb-entry .submission-details-tout.upload-details .body {
-      padding: 0; }
 .formbuilder.fb-entry table.submission tr td {
   padding: 16px 20px;
   vertical-align: top; }

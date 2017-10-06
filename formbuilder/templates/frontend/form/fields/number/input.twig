@@ -1,0 +1,19 @@
+{%- set classes = [
+    'number-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+]|filter|join(' ') %}
+{%- set id              = custom.html.id is defined ? custom.html.id : '' %}
+{%- set value           = value is not empty ? value : null %}
+{%- set required        = field.required is defined and field.required ? ' required' %}
+{%- set minValue        = field.settings.min is defined and field.settings.min ? '0' %}
+{%- set maxValue        = field.settings.max is defined and field.settings.min ? null %}
+
+<input
+    type="number"
+    id="{{ id }}"
+    class="{{ classes }}"
+    name="{{ name }}"
+    value="{{ value }}"
+    min="{{ minValue }}"
+    max="{{ maxValue }}" />

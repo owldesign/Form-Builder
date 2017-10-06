@@ -1,24 +1,19 @@
+{%- set classes = [
+    'text-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+]|filter|join(' ') %}
 {%- set id              = custom.html.id is defined ? custom.html.id : '' %}
-{%- set classes         = {} %}
-
 {%- set value           = value is not empty ? value : null %}
 {%- set required        = field.required is defined and field.required ? " required" %}
 {%- set placeholder     = settings.placeholder is not empty ? settings.placeholder : '' %}
 {%- set maxlength       = settings.maxLength is not empty ? settings.maxLength : '' %}
 {%- set initialRows     = settings.initialRows is not empty ? settings.initialRows : 10 %}
 
-{% if form.settings.fields.globalInputClass is defined %}
-    {%- set classes = classes|merge([form.settings.fields.globalInputClass]) %}
-{% endif %}
-
-{% if custom.html.class is defined %}
-    {%- set classes = classes|merge([custom.html.class]) %}
-{% endif %}
-
 {%- if settings.multiline -%}
     <textarea
         id="{{ id }}"
-        class="{%- for class in classes %}{{ class }} {%- endfor %}"
+        class="{{ classes }}"
         name="{{ name }}"
         {%- if placeholder %}placeholder="{{ placeholder }}"{%- endif %}
         {%- if maxlength %}maxlength="{{ maxlength }}"{%- endif %}
@@ -32,7 +27,7 @@
     <input
         type="text"
         id="{{ id }}"
-        class="{%- for class in classes %}{{ class }} {%- endfor %}"
+        class="{{ classes }}"
         name="{{ name }}"
         {%- if placeholder %}placeholder="{{ placeholder }}"{%- endif %}
         {%- if maxlength %}maxlength="{{ maxlength }}"{%- endif %}

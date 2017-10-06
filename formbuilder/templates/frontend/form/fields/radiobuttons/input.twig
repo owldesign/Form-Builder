@@ -1,0 +1,26 @@
+{%- set classes = [
+    'radio-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+    ]|filter|join(' ') %}
+{%- set id              = (custom.html.id is defined ? custom.html.id : null) %}
+{%- set options         = (field.settings.options is defined ? field.settings.options : []) %}
+{%- set value           = (value is defined ? value : null) %}
+{%- set name            = (name is defined ? name : null) %}
+
+{%- for key, option in options %}
+    {%- set optionLabel = (option.label is defined ? option.label : option) %}
+    {%- set optionValue = (option.value is defined ? option.value : '1') -%}
+    <label>
+        <input
+            type="radio"
+            value="{{ optionValue }}"
+            id="{{ id is defined and loop.first ? id : null }}"
+            class="{{ classes }}"
+            {%- if name is defined %} name="{{ name }}"{% endif %}
+            {%- if checked is defined and checked %} checked{% endif %}
+            {%- if autofocus is defined and autofocus and not craft.request.isMobileBrowser(true) %} autofocus{% endif %}
+            {%- if disabled is defined and disabled %} disabled{% endif %}>
+        {% if optionLabel is defined %}{{ optionLabel|raw }}{% endif %}
+    </label>
+{%- endfor %}

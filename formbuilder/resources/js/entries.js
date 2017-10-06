@@ -96,10 +96,12 @@ if ($ && window.Garnish) {
               for (hudID in Garnish.HUD.activeHUDs) {
                 Garnish.HUD.activeHUDs[hudID].hide();
               }
-              $('.upload-details').addClass('zap');
+              $('.upload-details').parent().velocity('fadeOut', {
+                duration: '100'
+              });
               return setTimeout((function() {
-                return $('.upload-details').remove();
-              }), 300);
+                return $('.upload-details').parent().remove();
+              }), 100);
             }
           }), this));
         }

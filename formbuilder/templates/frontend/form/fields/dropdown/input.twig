@@ -1,0 +1,33 @@
+{%- set classes = [
+    'dropdown-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+    ]|filter|join(' ') %}
+{%- set id              = (custom.html.id is defined ? custom.html.id : null) %}
+{%- set options         = (field.settings.options is defined ? field.settings.options : []) %}
+{%- set value           = (value is defined ? value : null) %}
+{%- set hasOptgroups    = false -%}
+
+<select
+    id="{{ id }}"
+    class="{{ classes }}"
+    {%- if name is defined %} name="{{ name }}"{% endif %}>
+    {% for key, option in options %}
+        {% if option.optgroup is defined %}
+            {% if hasOptgroups %}
+                </optgroup>
+            {% else %}
+                {% set hasOptgroups = true %}
+            {% endif %}
+            <optgroup label="{{ option.optgroup }}">
+        {% else %}
+            {% set optionLabel = (option.label is defined ? option.label : option) %}
+            {% set optionValue = (option.value is defined ? option.value : key) %}
+            {% set optionDisabled = (option.disabled is defined ? option.disabled : false) %}
+            <option value="{{ optionValue }}"{% if optionValue == value %} selected{% endif %}{% if optionDisabled %} disabled{% endif %}>{{ optionLabel }}</option>
+        {% endif %}
+    {% endfor %}
+    {% if hasOptgroups %}
+        </optgroup>
+    {% endif %}
+></select>
