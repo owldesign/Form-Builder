@@ -2,6 +2,31 @@
 
 This plugin is currently in beta, you can start playing around with it. Its actually fully usable, however I haven't added all the fields (text, textarea, and file uploads are the only available fields right now). Stay tuned...
 
+## Available Fields
+
+### Basic Fields
+
+| Field        | Available           |
+| ------------- |:-------------:|
+| Text | ✅ |
+| Textarea | ✅ |
+| File Upload | ✅ |
+| Checkboxes |  |
+| Dropdown |  |
+| Multi Select |  |
+| Number |  |
+| Radio Buttons |  |
+
+### Advanced Fields
+
+| Field        | Available           |
+| ------------- |:-------------:|
+| Color |  |
+| Date/Time |  |
+| Lightswitch |  |
+| Rich Text |  |
+| Table |  |
+| Tags |  |
 
 ## Changelog
 
