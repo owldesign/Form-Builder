@@ -100,6 +100,13 @@ class FormBuilderVariable
         return $html;
     }
 
+    public function getFormByHandle($handle)
+    {
+        $form = formbuilder()->forms->getFormByHandle($handle);
+
+        return $form;
+    }
+
     /**
      * Get all form groups
      *
@@ -140,6 +147,17 @@ class FormBuilderVariable
     public function getFormStatuses()
     {
         return formbuilder()->forms->getAllStatuses();
+    }
+
+    /**
+     * Get entry by ID
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getEntryById($id)
+    {
+        return formbuilder()->entries->getEntryById($id);
     }
 
     /**
@@ -207,17 +225,6 @@ class FormBuilderVariable
     public function getUnreadEntriesByFormId($formId)
     {
         return formbuilder()->entries->getUnreadEntriesByFormId($formId);
-    }
-
-    /**
-     * Get total number of templates
-     *
-     * @return mixed
-     */
-    public function totalTemplates()
-    {
-        $count = formbuilder()->templates->getTotalTemplates();
-        return $count;
     }
 
     /**

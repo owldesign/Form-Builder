@@ -76,11 +76,6 @@
     {% endfor %}
 
     {% set errors = form.getErrors() %}
-    {% set templates = craft.formBuilder.getAllTemplates() %}
-    {% set templateOption = [{label: 'Select Template', value: ''}] %}
-    {% for template in templates %}
-        {% set templateOption = templateOption|merge([{ label: template.name, value: template.handle }]) %}
-    {% endfor %}
 
     <div class="grid">
 

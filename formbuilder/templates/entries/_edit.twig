@@ -37,10 +37,11 @@
                             {% set self = field.getField() %}
                             {% set handle = self.handle %}
 
-                                <div class="field">
-                                    <span class="entry-label">{{ self.name }}</span>
-                                    {% if self.type == 'Assets' %}
-                                        {% set files = files|merge(attribute(entry, handle).find()) %}
+                            <div class="field">
+                                <span class="entry-label">{{ self.name }}</span>
+                                {% if self.type == 'Assets' %}
+                                    {% set files = files|merge(attribute(entry, handle).find()) %}
+                                    {% if files %}
                                         {% for file in files %}
                                             {% if file.id not in fileIds %}
                                                 {% set fileIds = fileIds|merge([file.id]) %}
@@ -75,27 +76,29 @@
                                                 {% endfor %}
                                             </table>
                                         </div>
-                                    {% elseif self.type == 'Checkboxes' %}
-                                        <div class="value-results">
-                                            {% for item in attribute(entry, handle) %}
-                                                <span class="entry-value tag-value">{{ item.label }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% elseif self.type == 'RadioButtons' %}
-                                        <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                    {% elseif self.type == 'Dropdown' %}
-                                        <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                    {% elseif self.type == 'MultiSelect' %}
-                                        <div class="value-results">
-                                            {% for item in attribute(entry, handle) %}
-                                                <span class="entry-value tag-value">{{ item.label }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        <span class="entry-value">{{ attribute(entry, handle) }}</span>
                                     {% endif %}
-                                </div>
-                            {#{% endif %}#}
+                                {% elseif self.type == 'Checkboxes' %}
+                                    <div class="value-results">
+                                        {% for item in attribute(entry, handle) %}
+                                            <span class="entry-value tag-value">{{ item.label }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% elseif self.type == 'RadioButtons' %}
+                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
+                                {% elseif self.type == 'Dropdown' %}
+                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
+                                {% elseif self.type == 'MultiSelect' %}
+                                    <div class="value-results">
+                                        {% for item in attribute(entry, handle) %}
+                                            <span class="entry-value tag-value">{{ item.label }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% elseif self.type == 'Number' %}
+                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
+                                {% elseif self.type == 'PlainText' %}
+                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
+                                {% endif %}
+                            </div>
                         {% endfor %}
                     {% endfor %}
                 </div>

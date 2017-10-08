@@ -360,6 +360,88 @@ class FormBuilder_FormService extends BaseApplicationComponent
         return $result;
     }
 
+    /**
+     * Clear email notifications
+     *
+     * @return bool
+     */
+    public function clearEmailNotifications()
+    {
+        $elements = $this->getCriteria()->find();
+
+        if ($elements) {
+            foreach ($elements as $form) {
+                $notifications = $form->notifications;
+
+                if ($notifications) {
+                    if (isset($notifications['email'])) {
+                        unset($notifications['email']);
+                        if ($notifications) {
+                            $notifications = JsonHelper::encode($notifications);
+                        } else {
+                            $notifications = null;
+                        }
+                    } else {
+                        $notifications = JsonHelper::encode($notifications);
+                    }
+                } else {
+                    $notifications = null;
+                }
+
+                craft()->db->createCommand()->update(
+                    'formbuilder_forms',
+                    ['notifications' => $notifications],
+                    ['in', 'id', $form->id]
+                );
+
+                craft()->templateCache->deleteCachesByElementId($form->id);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Clear slack notifications
+     *
+     * @return bool
+     */
+    public function clearSlackNotifications()
+    {
+        $elements = $this->getCriteria()->find();
+
+        if ($elements) {
+            foreach ($elements as $form) {
+                $notifications = $form->notifications;
+
+                if ($notifications) {
+                    if (isset($notifications['slack'])) {
+                        unset($notifications['slack']);
+                        if ($notifications) {
+                            $notifications = JsonHelper::encode($notifications);
+                        } else {
+                            $notifications = null;
+                        }
+                    } else {
+                        $notifications = JsonHelper::encode($notifications);
+                    }
+                } else {
+                    $notifications = null;
+                }
+
+                craft()->db->createCommand()->update(
+                    'formbuilder_forms',
+                    ['notifications' => $notifications],
+                    ['in', 'id', $form->id]
+                );
+
+                craft()->templateCache->deleteCachesByElementId($form->id);
+            }
+        }
+
+        return true;
+    }
+
     // Private Methods
     // =========================================================================
 

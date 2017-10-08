@@ -224,7 +224,7 @@ class FormBuilderPlugin extends BasePlugin
         );
 
         if (craft()->userSession->isAdmin() || $settings->canDoActions) {
-            if (craft()->plugins->getPlugin('EmailNotifications', true)) {
+            if (craft()->plugins->getPlugin('FormBuilderEmailNotifications', true)) {
                 $context['subnav']['templates'] = array(
                     'icon' => 'settings',
                     'label' => Craft::t('Templates'),

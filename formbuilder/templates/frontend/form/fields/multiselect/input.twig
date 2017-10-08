@@ -16,7 +16,7 @@
     multiple
     id="{{ id }}"
     class="{{ classes }}"
-    {%- if name is defined and name %} name="{{ name }}[]"{% endif %}
+    {%- if name is defined and name %} name="{{ name }}[]"{% endif %}>
     {%- for key, option in options %}
         {% if option.optgroup is defined %}
             {% if hasOptgroups %}

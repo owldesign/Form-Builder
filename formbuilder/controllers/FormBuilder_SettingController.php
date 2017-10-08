@@ -23,27 +23,27 @@ class FormBuilder_SettingController extends BaseController
         // Integrations
 
         // Email
-        $emailNotificationsPlugin = craft()->plugins->getPlugin('EmailNotifications', false);
+        $emailNotificationsPlugin = craft()->plugins->getPlugin('FormBuilderEmailNotifications', false);
         $this->_integration($emailNotificationsPlugin, 'Email Notifications', '1.0.0', 'http://download.com', true);
 
         // Slack
-        $slackNotificationsPlugin = craft()->plugins->getPlugin('SlackNotifications', false);
+        $slackNotificationsPlugin = craft()->plugins->getPlugin('FormBuilderSlackNotifications', false);
         $this->_integration($slackNotificationsPlugin, 'Slack Notifications', '1.0.0', 'http://download.com', true);
 
         // Salesforce
-        $salesforce = craft()->plugins->getPlugin('Salesforce', false);
+        $salesforce = craft()->plugins->getPlugin('FormBuilderSalesforce', false);
         $this->_integration($salesforce, 'Salesforce', '1.0.0', 'http://download.com', false);
 
         // Mailchimp
-        $mailchimp = craft()->plugins->getPlugin('Mailchimp', false);
+        $mailchimp = craft()->plugins->getPlugin('FormBuilderMailchimp', false);
         $this->_integration($mailchimp, 'Mailchimp', '1.0.0', 'http://download.com', false);
 
         // Constant Contact
-        $constantContact = craft()->plugins->getPlugin('ConstantContact', false);
+        $constantContact = craft()->plugins->getPlugin('FormBuilderConstantContact', false);
         $this->_integration($constantContact, 'Constant Contact', '1.0.0', 'http://download.com', false);
 
         // Formstack
-        $formstack = craft()->plugins->getPlugin('Formstack', false);
+        $formstack = craft()->plugins->getPlugin('FormBuilderFormstack', false);
         $this->_integration($formstack, 'Formstack', '1.0.0', 'http://download.com', false);
 
 
