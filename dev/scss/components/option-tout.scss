@@ -67,7 +67,7 @@
         .option-edit {
             color: $c-moss;
             display: inline-block;
-            padding: 10px;
+            padding: 10px 13px;
             svg {
                 vertical-align: middle;
             }
@@ -126,9 +126,9 @@
                         margin: auto;
                         vertical-align: middle;
                     }
-                    &:hover {
-                        svg * { fill: $c-white; }
-                    }
+                    // &:hover {
+                    //     svg * { fill: $c-white; }
+                    // }
                 }
 
                 .option-result-edit {
@@ -139,7 +139,10 @@
 
                 .option-result-delete {
                     font-size: 20px;
-
+                    color: $c-danger;
+                    svg * {
+                        fill: $c-danger;
+                    }
                     i {
                         position: absolute;
                         top: 50%;

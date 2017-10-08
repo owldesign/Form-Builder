@@ -273,13 +273,13 @@ class FormBuilder_EntryController extends BaseController
                     case 'email':
                         if (craft()->plugins->getPlugin('FormBuilderEmailNotifications', true)) {
                             FormBuilderPlugin::log("Sending Email Notifications");
-                            craft()->emailNotifications->prepareNotification($this->entry, $notification, $this->post);
+                            craft()->formBuilderEmailNotifications->prepareNotification($this->entry, $notification, $this->post);
                         }
                         break;
                     case 'slack':
                         if (craft()->plugins->getPlugin('FormBuilderSlackNotifications', true)) {
                             FormBuilderPlugin::log("Sending Slack Notifications");
-                            craft()->slackNotifications->prepareNotification($this->entry, $notification, $this->post);
+                            craft()->formBuilderSlackNotifications->prepareNotification($this->entry, $notification, $this->post);
                         }
                         break;
                 }

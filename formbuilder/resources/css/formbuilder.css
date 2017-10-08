@@ -1708,7 +1708,7 @@ table.formbuilder-table .icon.move:before {
   .formbuilder .option-item .option-edit {
     color: #637c8a;
     display: inline-block;
-    padding: 10px; }
+    padding: 10px 13px; }
     .formbuilder .option-item .option-edit svg {
       vertical-align: middle; }
     .formbuilder .option-item .option-edit:hover svg * {
@@ -1765,12 +1765,13 @@ table.formbuilder-table .icon.move:before {
           width: 23px;
           margin: auto;
           vertical-align: middle; }
-        .formbuilder .option-item .result-item .option-result-actions > a:hover svg * {
-          fill: #ffffff; }
       .formbuilder .option-item .result-item .option-result-actions .option-result-edit:hover {
         background-color: rgba(77, 161, 255, 0.4); }
       .formbuilder .option-item .result-item .option-result-actions .option-result-delete {
-        font-size: 20px; }
+        font-size: 20px;
+        color: #ff6d4a; }
+        .formbuilder .option-item .result-item .option-result-actions .option-result-delete svg * {
+          fill: #ff6d4a; }
         .formbuilder .option-item .result-item .option-result-actions .option-result-delete i {
           position: absolute;
           top: 50%;
