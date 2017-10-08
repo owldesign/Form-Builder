@@ -1,6 +1,6 @@
 # Currently in BETA
 
-This plugin is currently in beta, you can start playing around with it. Its actually fully usable, however I haven't added all the fields (text, textarea, and file uploads are the only available fields right now). Stay tuned...
+This plugin is currently in beta, you can start playing around with it.
 
 ## Available Fields
 
