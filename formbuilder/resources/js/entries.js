@@ -41,8 +41,25 @@ if ($ && window.Garnish) {
   Garnish.$doc.ready(function() {
     if (Craft.elementIndex) {
       Craft.elementIndex.on('updateElements', function(e) {
-        var elementsCount;
+        var elementsCount, selectedSource, unreadItems;
+        Craft.postActionRequest('formBuilder/entry/getUnreadEntries', $.proxy((function(response, textStatus) {
+          if (response.success) {
+            window.FormBuilder.unreadCount = response.count;
+            return $('.total-entry-count').html(response.count);
+          }
+        }), this));
+        selectedSource = e.target.instanceState.selectedSource;
         elementsCount = e.target.view.elementSelect.$items.length;
+        unreadItems = $.grep(e.target.view.elementSelect.$items, function(elem) {
+          var status;
+          status = $(elem).find('.element').data('status');
+          return status === 'blue';
+        }).length;
+        if (unreadItems !== 0) {
+          $('a[data-key="' + selectedSource + '"]').find('.entry-count').html(unreadItems);
+        } else {
+          $('a[data-key="' + selectedSource + '"]').find('.entry-count').html('');
+        }
         if (elementsCount === 0) {
           return e.target.view.elementSelect.$container.html($('<tr><td colspan="6">' + Craft.t("No entries available") + '</td></tr>'));
         }

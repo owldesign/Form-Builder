@@ -25,9 +25,9 @@
         {#</div>#}
     </div>
 {% endif %}
-
 <script type="text/javascript">
     window.FormBuilder = {
+        pageTitle: '{{ _context.title is defined ? _context.title : '' }}',
         unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}'
     }
 

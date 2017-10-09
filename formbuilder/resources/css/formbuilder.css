@@ -60,42 +60,30 @@
   background-color: #43545d; }
   .formbuilder #nav-formbuilder a.sel {
     background-color: #4e616c; }
+  .formbuilder #nav-formbuilder .total-entry-count {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    bottom: auto;
+    left: auto;
+    height: auto;
+    width: auto;
+    margin-top: -9px;
+    padding: 0 7px;
+    border-radius: 5px;
+    background-color: #4da1ff;
+    text-align: center;
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
   .formbuilder #nav-formbuilder .subnav li {
     position: relative;
     transition: background-color .3s ease; }
-    .formbuilder #nav-formbuilder .subnav li:after {
-      display: none;
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      bottom: auto;
-      left: auto;
-      height: auto;
-      width: auto;
-      margin-top: -9px;
-      padding: 0 7px;
-      border-radius: 5px;
-      background-color: #4da1ff;
-      text-align: center;
-      font-family: 'Roboto';
-      font-weight: bold;
-      font-size: 9px;
-      letter-spacing: 0.04em;
-      color: #ffffff;
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: 100%;
-      text-rendering: optimizeLegibility; }
-    .formbuilder #nav-formbuilder .subnav li:nth-child(1) a:before {
-      content: "gauge"; }
-    .formbuilder #nav-formbuilder .subnav li:nth-child(2) a:before {
-      content: "field"; }
-    .formbuilder #nav-formbuilder .subnav li:nth-child(3) a:before {
-      content: "categories"; }
-    .formbuilder #nav-formbuilder .subnav li:nth-child(4) a:before {
-      content: "section"; }
-    .formbuilder #nav-formbuilder .subnav li:nth-child(5) a:before {
-      content: "settings"; }
     .formbuilder #nav-formbuilder .subnav li:hover a:before {
       opacity: 1; }
     .formbuilder #nav-formbuilder .subnav li:hover a:after {
@@ -124,35 +112,6 @@
         background-color: #a6e50f;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px; }
-      .formbuilder #nav-formbuilder .subnav li a:before {
-        transition: all .3s ease;
-        position: absolute;
-        margin-left: -26px;
-        opacity: .4;
-        font-family: 'Craft';
-        speak: none;
-        -webkit-font-feature-settings: "liga", "dlig";
-        -moz-font-feature-settings: "liga=1, dlig=1";
-        -moz-font-feature-settings: "liga", "dlig";
-        -ms-font-feature-settings: "liga", "dlig";
-        -o-font-feature-settings: "liga", "dlig";
-        font-feature-settings: "liga", "dlig";
-        text-rendering: optimizeLegibility;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        direction: ltr;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        display: inline-block;
-        text-align: center;
-        font-style: normal;
-        vertical-align: middle;
-        word-wrap: normal !important;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none; }
     .formbuilder #nav-formbuilder .subnav li:last-child {
       background-color: rgba(166, 229, 15, 0.3); }
       .formbuilder #nav-formbuilder .subnav li:last-child:hover {
@@ -161,8 +120,6 @@
         color: #ffffff; }
         .formbuilder #nav-formbuilder .subnav li:last-child a:after {
           display: none !important; }
-        .formbuilder #nav-formbuilder .subnav li:last-child a:before {
-          content: "plus"; }
 .formbuilder .fb-hud .main {
   padding: 0; }
 .formbuilder .fb-hud .action-item-menu li, .formbuilder .fb-hud .form-item-menu li {

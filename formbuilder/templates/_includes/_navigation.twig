@@ -1,0 +1,28 @@
+<ul class="subnav">
+    <li>
+        <a href="/admin/formbuilder/dashboard" {% if title == 'Dashboard' %}class="sel"{% endif %}>{{ "Dashboard" |t }}</a>
+    </li>
+
+    <li>
+        <a href="/admin/formbuilder/forms" {% if title == 'Forms' %}class="sel"{% endif %}>{{ "Forms" |t }}</a>
+    </li>
+
+    <li>
+        <a href="/admin/formbuilder/entries" {% if title == 'Entries' %}class="sel"{% endif %}>
+            {{ "Entries" |t }}
+            <span class="total-entry-count"></span>
+        </a>
+    </li>
+
+    <li>
+        <a href="/admin/formbuilder/templates" {% if title == 'Templates' %}class="sel"{% endif %}>{{ "Template" |t }}</a>
+    </li>
+
+    <li>
+        <a href="/admin/formbuilder/settings" {% if title == 'Settings' %}class="sel"{% endif %}>{{ "Settings" |t }}</a>
+    </li>
+
+    <li>
+        <a href="/admin/formbuilder/forms/new?groupId=1">{{ "Create New Form" |t }}</a>
+    </li>
+</ul>

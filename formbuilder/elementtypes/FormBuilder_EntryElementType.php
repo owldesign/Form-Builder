@@ -152,6 +152,7 @@ class FormBuilder_EntryElementType extends BaseElementType
     {
         $attributes = array(
             'title'         => Craft::t('Title'),
+            'statusId'      => Craft::t('Status'),
             'formId'        => Craft::t('Form'),
             'dateCreated'   => Craft::t('Date Submitted')
         );
@@ -168,6 +169,7 @@ class FormBuilder_EntryElementType extends BaseElementType
     {
         $attributes = array(
             'title'         => array('label' => Craft::t('Title')),
+            'statusId'      => array('label' => Craft::t('Status')),
             'formId'        => array('label' => Craft::t('Forms')),
             'dateCreated'   => array('label' => Craft::t('Date Submitted'))
         );

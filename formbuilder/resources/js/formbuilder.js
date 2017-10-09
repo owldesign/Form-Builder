@@ -1,14 +1,6 @@
-var Branding, formCount, templateCount, unreadCount;
+var Branding;
 
 if ($ && window.Garnish) {
-  if (window.FormBuilder) {
-    unreadCount = window.FormBuilder.unreadCount;
-    formCount = window.FormBuilder.formCount;
-    templateCount = window.FormBuilder.templateCount;
-    if (unreadCount > 0) {
-      $('<style>#nav-formbuilder .subnav > li:nth-child(3)::after{display:block;content:"' + unreadCount + '"}</style>').appendTo('head');
-    }
-  }
   Branding = Garnish.Base.extend({
     displayFooter: function(plugin) {
       var brandHtml;
@@ -20,3 +12,17 @@ if ($ && window.Garnish) {
     }
   });
 }
+
+Garnish.$doc.ready(function() {
+  var data, menuItem;
+  menuItem = $('#nav-formbuilder');
+  data = {
+    title: window.FormBuilder.pageTitle
+  };
+  return Craft.postActionRequest('formBuilder/renderNavigation', data, $.proxy((function(response, textStatus) {
+    if (response.success) {
+      menuItem.append(response.markup);
+    }
+    return $('.total-entry-count').html(window.FormBuilder.unreadCount);
+  }), this));
+});

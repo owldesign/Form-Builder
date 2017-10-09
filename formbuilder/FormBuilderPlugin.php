@@ -26,7 +26,7 @@ class FormBuilderPlugin extends BasePlugin
 
         if (craft()->request->isCpRequest()) {
             // Plugin Prep Template Hook
-            craft()->templates->hook('formBuilder.prepTemplate', array($this, '_prepTemplate'));
+//            craft()->templates->hook('formBuilder.prepTemplate', array($this, '_prepTemplate'));
 
             // Check for unread entries
             if ($this->getSettings()->unreadNotifications && $this->getSettings()->unreadNotifications == '1') {
@@ -219,25 +219,22 @@ class FormBuilderPlugin extends BasePlugin
         }
 
         $context['subnav']['entries'] = array(
-            'label' => Craft::t('Entries'),
+            'label' => '<span>something</span>' . Craft::t('Entries'),
             'url' => 'formbuilder/entries'
         );
 
         if (craft()->userSession->isAdmin() || $settings->canDoActions) {
             if (craft()->plugins->getPlugin('FormBuilderEmailNotifications', true)) {
                 $context['subnav']['templates'] = array(
-                    'icon' => 'settings',
                     'label' => Craft::t('Templates'),
                     'url' => 'formbuilder/templates'
                 );
             }
             $context['subnav']['settings'] = array(
-                'icon' => 'settings',
                 'label' => Craft::t('Settings'),
                 'url' => 'formbuilder/settings'
             );
             $context['subnav']['createnewform'] = array(
-                'icon' => 'plus',
                 'label' => Craft::t('Create New Form'),
                 'url' => 'formbuilder/forms/new?groupId=1'
             );

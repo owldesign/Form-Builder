@@ -180,6 +180,21 @@ class FormBuilder_EntryController extends BaseController
     }
 
     /**
+     * Get unread entries count
+     *
+     * @return mixed
+     */
+    public function actionGetUnreadEntries()
+    {
+        $count = formbuilder()->entries->getUnreadEntries();
+
+        $this->returnJson(array(
+            'success' => true,
+            'count' => $count
+        ));
+    }
+
+    /**
      * Spam protection validation
      */
     private function _spamProtection()

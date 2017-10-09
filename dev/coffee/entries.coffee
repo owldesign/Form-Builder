@@ -37,7 +37,24 @@ if $ and window.Garnish
     Garnish.$doc.ready ->
         if Craft.elementIndex
             Craft.elementIndex.on 'updateElements', (e) ->
+                Craft.postActionRequest 'formBuilder/entry/getUnreadEntries', $.proxy(((response, textStatus) ->
+                    if response.success
+                        window.FormBuilder.unreadCount = response.count
+                        $('.total-entry-count').html response.count
+                ), this)
+
+                selectedSource = e.target.instanceState.selectedSource
                 elementsCount = e.target.view.elementSelect.$items.length
+                unreadItems = $.grep(e.target.view.elementSelect.$items, (elem) ->
+                    status = $(elem).find('.element').data 'status'
+                    status == 'blue'
+                ).length
+
+                if unreadItems != 0
+                    $('a[data-key="'+selectedSource+'"]').find('.entry-count').html unreadItems
+                else
+                    $('a[data-key="'+selectedSource+'"]').find('.entry-count').html ''
+
                 if elementsCount == 0
                     e.target.view.elementSelect.$container.html($('<tr><td colspan="6">'+Craft.t("No entries available")+'</td></tr>'))
 
