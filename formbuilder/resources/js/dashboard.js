@@ -1,18 +1,16 @@
+var loader;
+
 if ($ && window.Garnish) {
-  $('.tout-action-trigger').on('click', function(e) {
-    var $menu, type;
+  loader = $('.slack-loader');
+  $('#slack-invitation').on('submit', function(e) {
+    var data;
+    loader.velocity('fadeIn', {
+      duration: '200'
+    });
     e.preventDefault();
-    type = $(this).data('type');
-    $menu = $('<div class="tout-dropdown"/>').html('<ul class="form-item-menu">' + '</ul>');
-    if (type === 'forms') {
-      $('<li><a href="/admin/formbuilder2/forms/new">Create New</a></li>').appendTo($menu.find('ul'));
-      $('<li><a href="/admin/formbuilder2/forms">View All</a></li>').appendTo($menu.find('ul'));
-    } else if (type === 'entries') {
-      $('<li><a href="/admin/formbuilder2/entries">View All</a></li>').appendTo($menu.find('ul'));
-    }
-    return new Garnish.HUD($(this), $menu, {
-      hudClass: 'hud fb-hud touthud',
-      closeOtherHUDs: false
+    data = $(this).serialize();
+    return Craft.postActionRequest('https://formbuildertools.slack.com/join/shared_invite/enQtMjQ1OTExNTQ1ODQ2LWU1OWY0YTY3Mzc2ZWU2MTc5Mzc2MjNlZjIyNmU4YWIxZWZjZDlkZTY0NDY1ZWI4NmFlZjcxODQ4NDA0YTFlNjc', data, function(response, textStatus) {
+      return console.log(response);
     });
   });
 }

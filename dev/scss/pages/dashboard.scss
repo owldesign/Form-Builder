@@ -1,145 +1,150 @@
+@import "../components/_slack-loader";
+
 .formbuilder.fb-dashboard {
+    #page-header {
+        @include position(absolute, 10px 10px auto auto);
+        width: 100%;
+        background: transparent;
+
+        .page-header {
+            display: none;
+        }
+    }
+
     #main {
+        padding: 0;
         background-color: $c-offWhite;
         & > .padded { padding: 0; }
     }
 
+    #hero {
+        background-color: rgba($c-purple, .6);
+
+        .content-wrapper {
+            padding: 40px 60px 20px 60px;
+        }
+
+        .product-info {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            display: flex;
+            font-family: $roboto;
+            font-size: 45px;
+            font-weight: 900;
+            color: white;
+            @include antialias;
+
+            .logo {
+                margin-right: 15px;
+            }
+        }
+
+        .pane {
+            padding: 15px 25px;
+            background-color: rgba($c-purple, .2);
+        }
+    }
+
+    .button-group {
+        margin-top: 20px;
+    }
+
     .dashboard-container {
         padding: 40px 60px;
+
+        .pane {
+            padding: 0;
+        }
+        
+        .elementindex {
+            td {
+                text-align: left;
+            }
+        }
+
+    }
+
+    .features-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+
+        .feature-item {
+            text-align: center;
+            &:first-child {
+                margin-left: 0 !important;
+            }
+            margin: 10px !important;
+        }
+
+        .feature-count {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .feature-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            opacity: .4;
+        }
+
+        span {
+            font-family: $roboto;
+            display: block;
+            color: white;
+            line-height: normal;
+            @include antialias;
+        }
     }
 
 
-    // About
-    .formbuilder-info {
-        padding-left: 60px;
-        header {
+    .slack-tout {
+        margin-left: -35px;
+        margin-right: -35px;
+        background-color: rgba($c-purple, .6);
+        padding: 30px 20px;
+
+        .invitation-message {
+            margin: 0;
+        }
+        
+        .tout-wrapper {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-
-            .fb-logo {
-                @include size(50px);
-                margin-right: 20px;
-            }
-
-            svg {
-                width: 100%;
-                height: 100%;
-                vertical-align: middle;
-            }
-
-            h2 {
-                font-family: 'Roboto';
-                font-size: 24px;
-                color: $c-textDarkBlue;
-                margin: 0;
-            }
+            flex-wrap: wrap;
         }
 
-        .body {
-            margin-top: 15px;
+        h1 {
+            color: white;
+            font-family: 'Roboto';
+            font-weight: 500;
+            margin-bottom: 20px;
+            @include antialias;
+        }
+        
+        .input {
+            position: relative;
+        }
 
-            ul {
-                li {
-                    font-family: 'Roboto';
-                    font-size: 12px;
-                    @include antialias;
-                    padding-bottom: 5px;
-                    span {
-                        font-weight: bold;
-                    }
-                }
-            }
+        input {
+            color: $c-text;
+            font-family: 'Roboto';
+            font-weight: 500;
+            letter-spacing: .03em;
+            padding: 11px 15px 10px 15px;
+            outline: none;
+            min-width: 200px;
+            border: 0;
+            border-radius: $border-radius;
+            background: white;
+            margin-right: 5px;
+            @include antialias;
         }
     }
-
-    // #main > .padded {
-    //     padding: 0;
-    // }
-
-    // .pane {
-    //     margin: 0;
-    //     padding: 20px;
-    //     border-radius: 0;
-    // }
-
-    //   // Forms & Entries
-    //   .d-forms, .d-entries {
-    //     @include align-items(center);
-    //     @include display(flex);
-    //     @include flex-direction(row);
-    //     @include justify-content(flex-start);
-    //     & > div {
-    //       @include flex(1);
-    //   }
-    //   h2, p {
-    //       margin: 0;
-    //       padding: 0;
-    //       font-family: $opensans;
-    //       @include antialias;
-    //   }
-    //   h2 {
-    //       font-weight: 700;
-    //       font-size: 26px;
-    //   }
-    //   p {
-    //       font-size: 12px;
-    //       font-weight: 600;
-    //       padding-top: 5px;
-    //       margin-top: 5px;
-    //       color: rgba($c-blue, .8);
-    //   }
-    //   .action {
-    //       max-width: 33px;
-    //       a {
-    //         display: block;
-    //     }
-    // }
-    // }
-
-    // .entries-count {
-    //     background-color: $c-danger;
-    //     @include clearfix();
-    //     & > div {
-    //         text-align: center;
-    //         width: 50%;
-    //         float: left;
-    //         padding: 30px;
-    //         box-sizing: border-box;
-    //         &:first-child {
-    //             border-right: 1px solid lighten($c-danger, 5);
-    //         }
-    //         span {
-    //             display: block;
-    //             @include antialias();
-    //         }
-    //     }
-
-    //     .tout-title, .tout-text {
-    //         font-size: 18px;
-    //         font-weight: bold;
-    //         text-transform: uppercase;
-    //         color: $c-white;
-    //     }
-
-    //     .tout-title {
-    //         margin-bottom: 20px;
-    //     }
-
-    //     .tout-text {
-    //         font-size: 26px;
-    //     }
-    // }
-
-    // .forms-collection, .entries-collection {
-    //     // display: flex;
-    //     // flex-direction: row;
-    //     // flex-wrap: wrap;
-    //     padding: 15px;
-    //     & > section {
-    //         // min-width: 290px;
-    //         margin: 15px;
-    //         background-color: $c-white;
-    //     }
-    // }
 }

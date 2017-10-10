@@ -55,6 +55,8 @@
                                     {% set entryCount = craft.formBuilder.getUnreadEntriesByFormId(source.criteria.formId) %}
                                     {% if entryCount > 0 %}
                                         <span class="entry-count">{{ entryCount }}</span>
+                                    {% else %}
+                                        <span class="entry-count"></span>
                                     {% endif %}
                                 {% endif %}
                             </a>

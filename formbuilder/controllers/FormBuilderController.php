@@ -4,6 +4,8 @@ namespace Craft;
 
 class FormBuilderController extends BaseController
 {
+    protected $allowAnonymous = true;
+
     /**
      * Render navigation
      */

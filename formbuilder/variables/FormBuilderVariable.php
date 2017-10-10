@@ -149,6 +149,11 @@ class FormBuilderVariable
         return formbuilder()->forms->getAllStatuses();
     }
 
+    public function entries(array $attributes = array())
+    {
+        return formbuilder()->entries->getCriteria($attributes);
+    }
+
     /**
      * Get entry by ID
      *

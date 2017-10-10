@@ -5,11 +5,137 @@
 {% set selectedSubnavItem = "dashboard" %}
 {% set bodyClass = 'formbuilder fb-dashboard' %}
 
+{% includeJsResource "formbuilder/js/dashboard.js" %}
 
 {% block pageHeader %}
     {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
 {% endblock %}
 
 {% block main %}
-    <h2 style="padding: 0px 50px 50px 30px; ">Widgets and other useful information coming soon!</h2>
+
+    <section id="hero" class="section">
+        <div class="content-wrapper">
+
+            <div class="product-info">
+                <h1 class="lead text-white">
+                    <div class="logo">
+                        <svg width="43" height="31" viewBox="0 0 43 31" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <defs>
+                                <path
+                                    d="M2.275.065C1.075.065.093 1.07.093 2.337L.11 6.393c0 1.25.965 2.272 2.18 2.272h38.404c1.2 0 2.18-1.006 2.18-2.272V2.337c0-1.25-.965-2.272-2.18-2.272H2.274z"
+                                    id="a"></path>
+                                <path
+                                    d="M2.275.032C1.075.032.093 1.038.093 2.304L.11 6.36c0 1.25.965 2.272 2.18 2.272h38.404c1.2 0 2.18-1.006 2.18-2.272V2.304c0-1.25-.965-2.272-2.18-2.272H2.274z"
+                                    id="c"></path>
+                                <path
+                                    d="M2.27.112c-1.223 0-2.222.99-2.222 2.236v2.987c0 1.23 1 2.236 2.22 2.236h16.348c1.222 0 2.222-.99 2.222-2.235V2.348c0-1.23-1-2.236-2.222-2.236H2.27z"
+                                    id="e"></path>
+                            </defs>
+                            <g fill="none" fill-rule="evenodd">
+                                <g>
+                                    <mask id="b" fill="#fff">
+                                        <use xlink:href="#a"></use>
+                                    </mask>
+                                    <path fill="#FFF" mask="url(#b)" d="M-2.337 11.196H45.32v-13.68H-2.336"></path>
+                                </g>
+                                <g transform="translate(0 10.952)">
+                                    <mask id="d" fill="#fff">
+                                        <use xlink:href="#c"></use>
+                                    </mask>
+                                    <path fill="#FFF" mask="url(#d)" d="M-2.337 11.163H45.32V-2.515H-2.336"></path>
+                                </g>
+                                <g transform="translate(0 23)">
+                                    <mask id="f" fill="#fff">
+                                        <use xlink:href="#e"></use>
+                                    </mask>
+                                    <path fill="#A6E50F" mask="url(#f)" d="M-2.428 10.063H23.33v-12.46H-2.43"></path>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <span>Form Builder</span>
+                </h1>
+            </div>
+
+            <div class="features-wrapper">
+                <div class="feature-item pane">
+                    <span class="feature-count">{{ craft.formBuilder.getAllForms()|length }}</span>
+                    <span class="feature-title">Forms</span>
+                </div>
+                <div class="feature-item pane">
+                    <span class="feature-count">{{ craft.formBuilder.totalEntries() }}</span>
+                    <span class="feature-title">Entries</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="dashboard-container">
+        <div class="grid">
+            <div class="item">
+                <table class="data fullwidth formbuilder-table" id="formbuilder-recent-entries">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="1" class="heading-title">{{ "Recent Entries"|t }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="heading-row">
+                            <td data-title="{{ "Name"|t }}" class="name col-left">{{ "Title" |t }}</td>
+                            <td data-title="{{ "Version"|t }}" class="name col-right">{{ "Date Created" |t }}</td>
+                        </tr>
+                        {% for entry in craft.formBuilder.entries({ limit: 5 }) %}
+                        <tr>
+                            <td data-title="{{ "Name"|t }}" class="name col-left"><a href="{{ url('/admin/formbuilder/entries/edit/' ~ entry.id) }}">{{ entry.getTitle }}</a></td>
+                            <td data-title="{{ "Date Created"|t }}" class="name col-right"><span class="light">{{ entry.dateCreated |date("M d, Y") }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                    <div class="button-group">
+                        <a href="{{ url('/admin/formbuilder/entries') }}" class="btns btn-info">View All Entries</a>
+                    </div>
+                {#</div>#}
+                <div class="features-wrapper">
+                    <div class="feature-item pane">
+                        <span class="feature-count">14</span>
+                        <span class="feature-title">Forms</span>
+                    </div>
+                    <div class="feature-item pane">
+                        <span>25</span>
+                        <span>Entries</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slack-tout page-tout">
+    <div class="tout-wrapper">
+        <h1>Need Help? Join the Slack Team!</h1>
+        <div class="tout-form">
+            <a href="https://formbuildertools.slack.com/join/shared_invite/enQtMjQ1OTExNTQ1ODQ2LWU1OWY0YTY3Mzc2ZWU2MTc5Mzc2MjNlZjIyNmU4YWIxZWZjZDlkZTY0NDY1ZWI4NmFlZjcxODQ4NDA0YTFlNjc" target="_blank" class="btns btn-success">Join Slack Team!</a>
+        {#<form method="post" id="slack-invitation">#}
+        {#{{ getCsrfInput() }}#}
+        {#<input type="hidden" name="action" value="https://formbuilder.tools/actions/nutshell/slack/invite">#}
+        {#<input type="hidden" name="firstName" placeholder="First Name (optional)">#}
+        {#<input type="hidden" name="lastName" placeholder="Last Name (optional)">#}
+        {#<div class="input">#}
+        {#<input type="text" name="emailAddress" placeholder="E-mail address" />#}
+        {#<button type="submit" class="btns btn-success">Join</button>#}
+        {#<div class="slack-loader" >#}
+        {#<div class="loader"></div>#}
+        {#</div>#}
+        {#</div>#}
+        {#</form>#}
+
+        {#<p class="invitation-message"></p>#}
+        </div>
+    </div>
+    </section>
+
 {% endblock %}

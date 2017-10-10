@@ -108,6 +108,14 @@
             }
         }
 
+        &.btn-success {
+            color: $c-white;
+            background-color: $c-success;
+            &:hover {
+                background-color: lighten($c-success, 5);
+            }
+        }
+
         &.btn-moss {
             background-color: $c-moss;
             &:hover, &.active {

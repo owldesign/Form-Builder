@@ -8,7 +8,6 @@
  * Author: Vadim Goncharov (@owldesign)
  * Date: 9.19.86
  * ============================================ */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800,300);
 /* ============================================ *
 
  |  ____|                     |  _ \        (_)| |    | |          
@@ -31,25 +30,49 @@
 .formbuilder .pane {
   box-shadow: none;
   padding-top: 0; }
+.formbuilder .plugin-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  bottom: auto;
+  left: auto;
+  background-color: rgba(98, 64, 150, 0.2);
+  border-radius: 5px; }
+  .formbuilder .plugin-status span {
+    display: block;
+    padding: 9px 15px;
+    color: white;
+    font-family: "Roboto", "Helvetica", sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    line-height: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
 .formbuilder #page-header {
   padding: 40px 60px;
   background-color: #fafbfc;
   justify-content: flex-start;
   align-items: center; }
-  .formbuilder #page-header .logo {
-    height: 35px;
-    width: 35px; }
-    .formbuilder #page-header .logo svg {
-      height: 100%;
-      width: 100%; }
-  .formbuilder #page-header h1 {
-    color: #4A4A4A;
-    font-family: 'Roboto';
-    font-weight: bold;
-    margin: 0 0 0 20px;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility; }
+  .formbuilder #page-header .page-header {
+    display: flex;
+    align-items: center; }
+    .formbuilder #page-header .page-header .logo {
+      height: 35px;
+      width: 35px; }
+      .formbuilder #page-header .page-header .logo svg {
+        height: 100%;
+        width: 100%; }
+    .formbuilder #page-header .page-header h1 {
+      color: #4A4A4A;
+      font-family: 'Roboto';
+      font-weight: bold;
+      margin: 0 0 0 20px;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility; }
   @media only screen and (max-width: 482px) {
     .formbuilder #page-header {
       padding: 40px 20px; } }
@@ -152,42 +175,165 @@
   .formbuilder .menu a:hover {
     background-color: #F4F7F9; }
 
+.loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg); }
+  .loader:before, .loader:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.25em;
+    transform: translate(-50%, -50%); }
+  .loader:before {
+    animation: before 2s infinite; }
+  .loader:after {
+    animation: after 2s infinite; }
+
+@keyframes before {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75); }
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75); }
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75); }
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75); } }
+@keyframes after {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75); }
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75); }
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75); }
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75); } }
+.slack-loader {
+  position: absolute;
+  top: 3px;
+  right: 77px; }
+
+.loader {
+  transform: scale(0.5); }
+
+.formbuilder.fb-dashboard #page-header {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  background: transparent; }
+  .formbuilder.fb-dashboard #page-header .page-header {
+    display: none; }
 .formbuilder.fb-dashboard #main {
+  padding: 0;
   background-color: #fafbfc; }
   .formbuilder.fb-dashboard #main > .padded {
     padding: 0; }
+.formbuilder.fb-dashboard #hero {
+  background-color: rgba(98, 64, 150, 0.6); }
+  .formbuilder.fb-dashboard #hero .content-wrapper {
+    padding: 40px 60px 20px 60px; }
+  .formbuilder.fb-dashboard #hero .product-info {
+    margin-bottom: 30px; }
+  .formbuilder.fb-dashboard #hero h1 {
+    display: flex;
+    font-family: "Roboto", "Helvetica", sans-serif;
+    font-size: 45px;
+    font-weight: 900;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
+    .formbuilder.fb-dashboard #hero h1 .logo {
+      margin-right: 15px; }
+  .formbuilder.fb-dashboard #hero .pane {
+    padding: 15px 25px;
+    background-color: rgba(98, 64, 150, 0.2); }
+.formbuilder.fb-dashboard .button-group {
+  margin-top: 20px; }
 .formbuilder.fb-dashboard .dashboard-container {
   padding: 40px 60px; }
-.formbuilder.fb-dashboard .formbuilder-info {
-  padding-left: 60px; }
-  .formbuilder.fb-dashboard .formbuilder-info header {
+  .formbuilder.fb-dashboard .dashboard-container .pane {
+    padding: 0; }
+  .formbuilder.fb-dashboard .dashboard-container .elementindex td {
+    text-align: left; }
+.formbuilder.fb-dashboard .features-wrapper {
+  display: flex;
+  flex-wrap: wrap; }
+  .formbuilder.fb-dashboard .features-wrapper .feature-item {
+    text-align: center;
+    margin: 10px !important; }
+    .formbuilder.fb-dashboard .features-wrapper .feature-item:first-child {
+      margin-left: 0 !important; }
+  .formbuilder.fb-dashboard .features-wrapper .feature-count {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 7px; }
+  .formbuilder.fb-dashboard .features-wrapper .feature-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    opacity: .4; }
+  .formbuilder.fb-dashboard .features-wrapper span {
+    font-family: "Roboto", "Helvetica", sans-serif;
+    display: block;
+    color: white;
+    line-height: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
+.formbuilder.fb-dashboard .slack-tout {
+  margin-left: -35px;
+  margin-right: -35px;
+  background-color: rgba(98, 64, 150, 0.6);
+  padding: 30px 20px; }
+  .formbuilder.fb-dashboard .slack-tout .invitation-message {
+    margin: 0; }
+  .formbuilder.fb-dashboard .slack-tout .tout-wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: center; }
-    .formbuilder.fb-dashboard .formbuilder-info header .fb-logo {
-      height: 50px;
-      width: 50px;
-      margin-right: 20px; }
-    .formbuilder.fb-dashboard .formbuilder-info header svg {
-      width: 100%;
-      height: 100%;
-      vertical-align: middle; }
-    .formbuilder.fb-dashboard .formbuilder-info header h2 {
-      font-family: 'Roboto';
-      font-size: 24px;
-      color: #323C47;
-      margin: 0; }
-  .formbuilder.fb-dashboard .formbuilder-info .body {
-    margin-top: 15px; }
-    .formbuilder.fb-dashboard .formbuilder-info .body ul li {
-      font-family: 'Roboto';
-      font-size: 12px;
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: 100%;
-      text-rendering: optimizeLegibility;
-      padding-bottom: 5px; }
-      .formbuilder.fb-dashboard .formbuilder-info .body ul li span {
-        font-weight: bold; }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; }
+  .formbuilder.fb-dashboard .slack-tout h1 {
+    color: white;
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-bottom: 20px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
+  .formbuilder.fb-dashboard .slack-tout .input {
+    position: relative; }
+  .formbuilder.fb-dashboard .slack-tout input {
+    color: #595D66;
+    font-family: 'Roboto';
+    font-weight: 500;
+    letter-spacing: .03em;
+    padding: 11px 15px 10px 15px;
+    outline: none;
+    min-width: 200px;
+    border: 0;
+    border-radius: 5px;
+    background: white;
+    margin-right: 5px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility; }
 
 .formbuilder.fb-forms #page-header .btns {
   margin-left: auto; }
@@ -681,6 +827,11 @@
     background-color: #ff6d4a; }
     .formbuilder .btns.btn-danger:hover {
       background-color: #ff8264; }
+  .formbuilder .btns.btn-success {
+    color: #ffffff;
+    background-color: #a6e50f; }
+    .formbuilder .btns.btn-success:hover {
+      background-color: #b2f01d; }
   .formbuilder .btns.btn-moss {
     background-color: #637c8a; }
     .formbuilder .btns.btn-moss:hover, .formbuilder .btns.btn-moss.active {

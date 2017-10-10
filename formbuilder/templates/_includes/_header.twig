@@ -5,11 +5,17 @@
 {% includeJsResource "formbuilder/js/formbuilder.js" %}
 {% includeCssResource "formbuilder/css/formbuilder.css" %}
 
-<div class="logo">
-    {% include 'formbuilder/_includes/icons/formbuilder-icon.twig' ignore missing %}
+<div class="plugin-status">
+    <span class="status-text">BETA</span>
 </div>
 
-<h1>{{ title }}</h1>
+<div class="page-header">
+    <div class="logo">
+        {% include 'formbuilder/_includes/icons/formbuilder-icon.twig' ignore missing %}
+    </div>
+
+    <h1>{{ title }}</h1>
+</div>
 
 {% if createForm is defined and createForm %}
     {% set newFormUrl = url('formbuilder/forms/new', (groupId is defined ? { groupId: groupId } : { groupId: 1 })) %}
@@ -30,5 +36,4 @@
         pageTitle: '{{ _context.title is defined ? _context.title : '' }}',
         unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}'
     }
-
 </script>
