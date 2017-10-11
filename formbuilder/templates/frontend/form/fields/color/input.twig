@@ -1,0 +1,14 @@
+{%- set classes = [
+    'color-field',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+]|filter|join(' ') %}
+{%- set id              = custom.html.id is defined ? custom.html.id : '' %}
+{%- set value           = value is not empty ? value : null %}
+
+<input
+    type="color"
+    id="{{ id }}"
+    class="{{ classes }}"
+    name="{{ name }}"
+    value="{{ value }}" />

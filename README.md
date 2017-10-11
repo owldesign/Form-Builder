@@ -16,17 +16,9 @@ This plugin is currently in beta, you can start playing around with it.
 | Multi Select | ✅ |
 | Number | ✅ |
 | Radio Buttons | ✅ |
+| Color | ✅ |
+| Date/Time | ✅ |
 
-### Advanced Fields
-
-| Field        | Available           |
-| ------------- |:-------------:|
-| Color |  |
-| Date/Time |  |
-| Lightswitch |  |
-| Rich Text |  |
-| Table |  |
-| Tags |  |
 
 ## Changelog
 
