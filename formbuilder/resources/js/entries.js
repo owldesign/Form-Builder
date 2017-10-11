@@ -45,7 +45,11 @@ if ($ && window.Garnish) {
         Craft.postActionRequest('formBuilder/entry/getUnreadEntries', $.proxy((function(response, textStatus) {
           if (response.success) {
             window.FormBuilder.unreadCount = response.count;
-            return $('.total-entry-count').html(response.count);
+            if (response.count > 0) {
+              return $('.total-entry-count').html(response.count);
+            } else {
+              return $('.total-entry-count').html('');
+            }
           }
         }), this));
         selectedSource = e.target.instanceState.selectedSource;

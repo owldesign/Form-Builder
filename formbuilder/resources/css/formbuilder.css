@@ -30,6 +30,27 @@
 .formbuilder .pane {
   box-shadow: none;
   padding-top: 0; }
+.formbuilder .total-entry-count {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  bottom: auto;
+  left: auto;
+  height: auto;
+  width: auto;
+  margin-top: -9px;
+  padding: 0 7px;
+  border-radius: 5px;
+  background-color: #4da1ff;
+  text-align: center;
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility; }
 .formbuilder .plugin-status {
   position: absolute;
   top: 10px;
@@ -83,27 +104,9 @@
   background-color: #43545d; }
   .formbuilder #nav-formbuilder a.sel {
     background-color: #4e616c; }
-  .formbuilder #nav-formbuilder .total-entry-count {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    bottom: auto;
-    left: auto;
-    height: auto;
-    width: auto;
-    margin-top: -9px;
-    padding: 0 7px;
-    border-radius: 5px;
-    background-color: #4da1ff;
-    text-align: center;
-    font-family: 'Roboto';
-    font-weight: bold;
-    font-size: 9px;
-    letter-spacing: 0.04em;
-    color: #ffffff;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility; }
+  .formbuilder #nav-formbuilder .svg-inline--fa {
+    margin-right: 10px;
+    fill-opacity: .4; }
   .formbuilder #nav-formbuilder .subnav li {
     position: relative;
     transition: background-color .3s ease; }
@@ -113,6 +116,7 @@
       right: -2px;
       opacity: 0.4; }
     .formbuilder #nav-formbuilder .subnav li a {
+      padding-left: 40px;
       transition: all .3s ease; }
       .formbuilder #nav-formbuilder .subnav li a.sel:before {
         opacity: 1; }
@@ -132,7 +136,7 @@
         left: auto;
         height: 70%;
         width: 5px;
-        background-color: #a6e50f;
+        background-color: #fafbfc;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px; }
     .formbuilder #nav-formbuilder .subnav li:last-child {
@@ -266,6 +270,10 @@
   margin-top: 20px; }
 .formbuilder.fb-dashboard .dashboard-container {
   padding: 40px 60px; }
+  .formbuilder.fb-dashboard .dashboard-container .total-entry-count {
+    position: static;
+    padding: 3px 7px;
+    font-size: inherit; }
   .formbuilder.fb-dashboard .dashboard-container .pane {
     padding: 0; }
   .formbuilder.fb-dashboard .dashboard-container .elementindex td {
@@ -297,8 +305,6 @@
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility; }
 .formbuilder.fb-dashboard .slack-tout {
-  margin-left: -35px;
-  margin-right: -35px;
   background-color: rgba(98, 64, 150, 0.6);
   padding: 30px 20px; }
   .formbuilder.fb-dashboard .slack-tout .invitation-message {

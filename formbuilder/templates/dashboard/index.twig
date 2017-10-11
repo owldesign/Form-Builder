@@ -75,6 +75,14 @@
     <section class="dashboard-container">
         <div class="grid">
             <div class="item">
+                <h2>Notifications</h2>
+
+                <ul class="notifications">
+                   <li><p>You have <span class="total-entry-count">0</span> unread entries.</p></li>
+                </ul>
+            </div>
+
+            <div class="item">
                 <table class="data fullwidth formbuilder-table" id="formbuilder-recent-entries">
                     <thead>
                         <tr>
@@ -96,19 +104,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                    <div class="button-group">
-                        <a href="{{ url('/admin/formbuilder/entries') }}" class="btns btn-info">View All Entries</a>
-                    </div>
-                {#</div>#}
-                <div class="features-wrapper">
-                    <div class="feature-item pane">
-                        <span class="feature-count">14</span>
-                        <span class="feature-title">Forms</span>
-                    </div>
-                    <div class="feature-item pane">
-                        <span>25</span>
-                        <span>Entries</span>
-                    </div>
+
+                <div class="button-group">
+                    <a href="{{ url('/admin/formbuilder/entries') }}" class="btns btn-info">View All Entries</a>
                 </div>
             </div>
         </div>
@@ -119,21 +117,6 @@
         <h1>Need Help? Join the Slack Team!</h1>
         <div class="tout-form">
             <a href="https://formbuildertools.slack.com/join/shared_invite/enQtMjQ1OTExNTQ1ODQ2LWU1OWY0YTY3Mzc2ZWU2MTc5Mzc2MjNlZjIyNmU4YWIxZWZjZDlkZTY0NDY1ZWI4NmFlZjcxODQ4NDA0YTFlNjc" target="_blank" class="btns btn-success">Join Slack Team!</a>
-        {#<form method="post" id="slack-invitation">#}
-        {#{{ getCsrfInput() }}#}
-        {#<input type="hidden" name="action" value="https://formbuilder.tools/actions/nutshell/slack/invite">#}
-        {#<input type="hidden" name="firstName" placeholder="First Name (optional)">#}
-        {#<input type="hidden" name="lastName" placeholder="Last Name (optional)">#}
-        {#<div class="input">#}
-        {#<input type="text" name="emailAddress" placeholder="E-mail address" />#}
-        {#<button type="submit" class="btns btn-success">Join</button>#}
-        {#<div class="slack-loader" >#}
-        {#<div class="loader"></div>#}
-        {#</div>#}
-        {#</div>#}
-        {#</form>#}
-
-        {#<p class="invitation-message"></p>#}
         </div>
     </div>
     </section>

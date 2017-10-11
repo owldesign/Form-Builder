@@ -23,6 +23,14 @@ Garnish.$doc.ready(function() {
     if (response.success) {
       menuItem.append(response.markup);
     }
-    return $('.total-entry-count').html(window.FormBuilder.unreadCount);
+    if (window.FormBuilder.unreadCount > 0) {
+      return $('.total-entry-count').html(window.FormBuilder.unreadCount);
+    } else {
+      if ($('body').hasClass('fb-dashboard')) {
+        return $('.notifications .total-entry-count').html('0');
+      } else {
+        return $('.total-entry-count').html('');
+      }
+    }
   }), this));
 });

@@ -37,6 +37,8 @@ if $ and window.Garnish
             ].join('')).appendTo(@$form)
 
             $.each option.$inputs, (i, item) ->
+                required = if item.required then 'data-required' else 'data-not-required'
+
                 if item.toggler
                    self.$togglerInput = item
 
@@ -51,13 +53,13 @@ if $ and window.Garnish
                         self.$validationItems[i] = item
 
                     if item.type == 'textarea'
-                        $input = "<textarea class='#{className}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' />#{item.value}</textarea>"
+                        $input = "<textarea class='#{className} #{required}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' #{required} />#{item.value}</textarea>"
                     else if item.type == 'select'
                         $input = $.parseJSON(item.options)
                     else
-                        $input = "<input type='#{item.type}' class='#{className}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' />"
+                        $input = "<input type='#{item.type}' class='#{className} #{required}' value='#{item.value}' data-hint='#{item.hint}' data-name='#{item.name}' #{required} />"
 
-                    self.renderInputs($input, item.value, item.type, item.name, item.hint, className)
+                    self.renderInputs(required, $input, item.value, item.type, item.name, item.hint, className)
 
             # Load Fields
             if @option.$container.hasClass 'has-fields'
@@ -91,13 +93,13 @@ if $ and window.Garnish
                 input.val target
             ), this)
 
-        renderInputs: (el, value, type, name, hint, className) ->
+        renderInputs: (required, el, value, type, name, hint, className) ->
             if type == 'select'
                 $input = $('<div class="fb-field">' +
                     '<div class="input-hint" data-selection-target="'+hint.toLowerCase()+'">' +
                         hint +
                     '</div>' +
-                    '<div class="select input"><select class='+className+' data-hint='+hint+' data-name='+name+' /></div>' +
+                    '<div class="select input"><select class="'+className+' '+required+'" data-hint="'+hint+'" data-name="'+name+'" /></div>' +
                 '</div>')
                 $.each el, (i, item) ->
                     $input.find('select').append $('<option>',
@@ -212,15 +214,14 @@ if $ and window.Garnish
             @errors = []
             @errorLength = 0
             $.each @$modalInputs, (i, item) ->
-                if $(item).val() == ''
-                    self.errors[i] = item
-                    self.errorLength += 1
+                if $(item).hasClass('data-required')
+                    if $(item).val() == ''
+                        self.errors[i] = item
+                        self.errorLength += 1
 
         updateOption: ->
             @option.updateHtmlFromModal()
             @closeModal()
             @$form[0].reset()
             Craft.cp.displayNotice(@option.$data.successMessage)
-            
-
     )

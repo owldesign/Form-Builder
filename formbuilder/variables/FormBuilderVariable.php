@@ -61,7 +61,17 @@ class FormBuilderVariable
         $oldPath = craft()->templates->getTemplatesPath();
         $type = StringHelper::toLowerCase($field->type);
 
-        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields');
+        if (isset($form->settings['fields']['globalInputTemplatePath']) && $form->settings['fields']['globalInputTemplatePath'] != '') {
+            craft()->templates->setTemplatesPath(craft()->path->getSiteTemplatesPath().$form->settings['fields']['globalInputTemplatePath']);
+        } else {
+            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields/');
+        }
+
+        $fileExist = IOHelper::fileExists(craft()->templates->getTemplatesPath().$type.'/input.twig') ? true : false;
+
+        if (!$fileExist) {
+            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields/');
+        }
 
         $input = craft()->templates->render($type.'/input', array(
             'form'          => $form,
@@ -182,7 +192,7 @@ class FormBuilderVariable
      */
     public function getAllTemplates()
     {
-        return formbuilder()->templates->getAllTemplates();
+        return emailNotifications()->templates->getAllTemplates();
     }
 
     /**

@@ -36,11 +36,15 @@ if $ and window.Garnish
 
     Garnish.$doc.ready ->
         if Craft.elementIndex
+
             Craft.elementIndex.on 'updateElements', (e) ->
                 Craft.postActionRequest 'formBuilder/entry/getUnreadEntries', $.proxy(((response, textStatus) ->
                     if response.success
                         window.FormBuilder.unreadCount = response.count
-                        $('.total-entry-count').html response.count
+                        if response.count > 0
+                            $('.total-entry-count').html response.count
+                        else
+                            $('.total-entry-count').html ''
                 ), this)
 
                 selectedSource = e.target.instanceState.selectedSource

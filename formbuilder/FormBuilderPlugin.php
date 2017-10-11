@@ -188,10 +188,10 @@ class FormBuilderPlugin extends BasePlugin
             'formbuilder/forms/new' => array('action' => 'formBuilder/form/edit'),
             'formbuilder/forms/edit/(?P<formId>\d+)' => array('action' => 'formBuilder/form/edit'),
             'formbuilder/entries/edit/(?P<entryId>\d+)' => array('action' => 'formBuilder/entry/edit'),
-            'formbuilder/templates' => 'emailnotifications/templates',
-            'formbuilder/templates/new' => array('action' => 'emailNotifications/template/edit'),
-            'formbuilder/templates/(?P<templateId>\d+)' => array('action' => 'emailNotifications/template/edit'),
-            'formbuilder/templates/(?P<templateId>\d+)/edit' => array('action' => 'emailNotifications/template/edit'),
+            'formbuilder/templates' => 'formbuilderemailnotifications/templates',
+            'formbuilder/templates/new' => array('action' => 'formBuilderEmailNotifications/template/edit'),
+            'formbuilder/templates/(?P<templateId>\d+)' => array('action' => 'formBuilderEmailNotifications/template/edit'),
+            'formbuilder/templates/(?P<templateId>\d+)/edit' => array('action' => 'formBuilderEmailNotifications/template/edit'),
             'formbuilder/settings' => array('action' => 'formBuilder/setting/index'),
         );
     }

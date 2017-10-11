@@ -54,6 +54,12 @@
     .dashboard-container {
         padding: 40px 60px;
 
+        .total-entry-count {
+            position: static;
+            padding: 3px 7px;
+            font-size: inherit;
+        }
+
         .pane {
             padding: 0;
         }
@@ -103,8 +109,6 @@
 
 
     .slack-tout {
-        margin-left: -35px;
-        margin-right: -35px;
         background-color: rgba($c-purple, .6);
         padding: 30px 20px;
 

@@ -16,6 +16,12 @@ Garnish.$doc.ready ->
         if response.success
             menuItem.append response.markup
 
-        $('.total-entry-count').html window.FormBuilder.unreadCount
+        if window.FormBuilder.unreadCount > 0
+            $('.total-entry-count').html window.FormBuilder.unreadCount
+        else
+            if $('body').hasClass 'fb-dashboard'
+                $('.notifications .total-entry-count').html '0'
+            else
+                $('.total-entry-count').html ''
 
     ), this)

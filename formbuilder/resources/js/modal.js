@@ -19,7 +19,8 @@ if ($ && window.Garnish) {
       this.setContainer(this.$form);
       body = $(['<header>', '<span class="modal-title">', option.$data.title, '</span>', '<div class="instructions">', option.$data.instructions, '</div>', '</header>', '<div class="body"></div>', '<footer class="footer">', '<div class="buttons">', '<input type="button" class="btns btn-modal cancel" value="' + Craft.t('Cancel') + '">', '<input type="submit" class="btns btn-modal submit" value="' + Craft.t('Save') + '">', '</div>', '</footer>'].join('')).appendTo(this.$form);
       $.each(option.$inputs, function(i, item) {
-        var $input, camelClassName, className, validation;
+        var $input, camelClassName, className, required, validation;
+        required = item.required ? 'data-required' : 'data-not-required';
         if (item.toggler) {
           self.$togglerInput = item;
         }
@@ -35,13 +36,13 @@ if ($ && window.Garnish) {
             self.$validationItems[i] = item;
           }
           if (item.type === 'textarea') {
-            $input = "<textarea class='" + className + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' />" + item.value + "</textarea>";
+            $input = "<textarea class='" + className + " " + required + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' " + required + " />" + item.value + "</textarea>";
           } else if (item.type === 'select') {
             $input = $.parseJSON(item.options);
           } else {
-            $input = "<input type='" + item.type + "' class='" + className + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' />";
+            $input = "<input type='" + item.type + "' class='" + className + " " + required + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' " + required + " />";
           }
-          return self.renderInputs($input, item.value, item.type, item.name, item.hint, className);
+          return self.renderInputs(required, $input, item.value, item.type, item.name, item.hint, className);
         }
       });
       if (this.option.$container.hasClass('has-fields')) {
@@ -73,10 +74,10 @@ if ($ && window.Garnish) {
         return input.val(target);
       }), this));
     },
-    renderInputs: function(el, value, type, name, hint, className) {
+    renderInputs: function(required, el, value, type, name, hint, className) {
       var $input;
       if (type === 'select') {
-        $input = $('<div class="fb-field">' + '<div class="input-hint" data-selection-target="' + hint.toLowerCase() + '">' + hint + '</div>' + '<div class="select input"><select class=' + className + ' data-hint=' + hint + ' data-name=' + name + ' /></div>' + '</div>');
+        $input = $('<div class="fb-field">' + '<div class="input-hint" data-selection-target="' + hint.toLowerCase() + '">' + hint + '</div>' + '<div class="select input"><select class="' + className + ' ' + required + '" data-hint="' + hint + '" data-name="' + name + '" /></div>' + '</div>');
         $.each(el, function(i, item) {
           return $input.find('select').append($('<option>', {
             value: item.value,
@@ -206,9 +207,11 @@ if ($ && window.Garnish) {
       this.errors = [];
       this.errorLength = 0;
       return $.each(this.$modalInputs, function(i, item) {
-        if ($(item).val() === '') {
-          self.errors[i] = item;
-          return self.errorLength += 1;
+        if ($(item).hasClass('data-required')) {
+          if ($(item).val() === '') {
+            self.errors[i] = item;
+            return self.errorLength += 1;
+          }
         }
       });
     },
