@@ -67,15 +67,6 @@ class FormBuilderVariable
             craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields/');
         }
 
-        // Themes
-        if (isset($form->settings['fields']['theme']['enabled']) && $form->settings['fields']['theme']['enabled'] == '1') {
-            switch ($form->settings['fields']['theme']['name']) {
-                case 'bootstrap':
-                    craft()->templates->includeCssResource('formbuilder/css/bootstrap.css');
-                    break;
-            }
-        }
-
         $fileExist = IOHelper::fileExists(craft()->templates->getTemplatesPath().$type.'/input.twig') ? true : false;
 
         if (!$fileExist) {
