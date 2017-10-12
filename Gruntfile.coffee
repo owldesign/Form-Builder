@@ -59,6 +59,7 @@ module.exports = (grunt) ->
           '<%= ResourcesDirectory %>/js/field-settings.js': ['<%= CoffeeDirectory %>/field-settings.coffee']
           '<%= ResourcesDirectory %>/js/fields.js': ['<%= CoffeeDirectory %>/fields.coffee']
           '<%= ResourcesDirectory %>/js/tags.js': ['<%= CoffeeDirectory %>/tags.coffee']
+          '<%= ResourcesDirectory %>/js/editabletable.js': ['<%= CoffeeDirectory %>/editabletable.coffee']
 
     # =============================================
     # UGLIFY JAVASCRIPT

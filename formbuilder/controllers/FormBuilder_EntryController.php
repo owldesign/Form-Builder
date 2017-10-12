@@ -11,6 +11,7 @@ class FormBuilder_EntryController extends BaseController
     public $form;
     public $entry;
     public $post;
+    public $files;
 
     // Public Methods
     // =========================================================================
@@ -54,6 +55,7 @@ class FormBuilder_EntryController extends BaseController
         $formId         = craft()->request->getRequiredParam('formId');
         $this->form     = formbuilder()->forms->getFormRecordById($formId);
         $this->post     = craft()->request->getPost();
+        $this->files    = $_FILES;
         $saveToDatabase = isset($this->form->settings['database']['enabled']) && $this->form->settings['database']['enabled'] == '1' ? true : false;
 
         // Setup entry model
@@ -294,7 +296,7 @@ class FormBuilder_EntryController extends BaseController
                     case 'slack':
                         if (craft()->plugins->getPlugin('FormBuilderSlackNotifications', true)) {
                             FormBuilderPlugin::log("Sending Slack Notifications");
-                            craft()->formBuilderSlackNotifications->prepareNotification($this->entry, $notification, $this->post);
+                            craft()->formBuilderSlackNotifications->prepareNotification($this->entry, $notification, $this->post, $this->files);
                         }
                         break;
                 }

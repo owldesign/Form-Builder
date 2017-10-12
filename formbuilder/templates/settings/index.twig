@@ -81,9 +81,9 @@
                                         {% if attribute(integration.plugin.settings, key) %}
 
                                         {% else %}
-                                            <div class="plugin-status warning">
-                                                <code>{{ required.empty }}</code>
-                                            </div>
+                                            {#<div class="plugin-status warning">#}
+                                                {#<code>{{ required.empty }}</code>#}
+                                            {#</div>#}
                                             {% set needsAttention = true %}
                                         {% endif %}
                                     {% endfor %}
