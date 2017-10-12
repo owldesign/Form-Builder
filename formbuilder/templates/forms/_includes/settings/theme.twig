@@ -1,0 +1,51 @@
+{% set themes = [
+    { label: 'Select Theme', value: '' },
+    { label: 'Bootstrap', value: 'bootstrap' }
+] %}
+
+{% set name = 'settings[fields][theme][name]' %}
+{% set enabledName = 'settings[fields][theme][enabled]' %}
+{% set enabled = form.settings.fields.theme.enabled is defined and form.settings.fields.theme.enabled ? true : false %}
+
+{% set container = {
+    title: 'Theme' |t,
+    info: 'Select theme to use for input markup & styling.' |t,
+    icon: null,
+    toggle: true,
+    class: null,
+    id: null
+} %}
+
+{% set inputs = {
+    0: {
+        type: 'select',
+        name: name,
+        value: form.settings.fields.theme.name is defined and form.settings.fields.theme.name != '' ? form.settings.fields.theme.name : '',
+        options: themes |json_encode(),
+        class: 'hidden',
+        id: null,
+        hint: 'THEME',
+        required: true
+    },
+    1: {
+        type: 'checkbox',
+        name: enabledName,
+        value: '1',
+        checked: enabled,
+        class: 'hidden',
+        id: null
+    },
+} %}
+
+{% set modal = {
+    title: 'Input Class' |t,
+    instructions: 'Global class for all inputs.' |t,
+    successMessage: 'Global Input Class Updated' |t,
+    inputs: inputs
+} %}
+
+{{ components.optionItem(
+    container,
+    modal,
+    inputs
+) }}

@@ -1,6 +1,10 @@
+{%- set classes = [
+    'form-control-file',
+    (form.settings.fields.globalInputClass is defined and form.settings.fields.globalInputClass != '' ? form.settings.fields.globalInputClass : null),
+    (custom.html.class is defined and custom.html.class != '' ? custom.html.class : null)
+    ]|filter|join(' ') %}
 {%- set id          = custom.html.id is defined ? custom.html.id : '' %}
-{%- set classes     = {} %}
-{%- set required    = field.required is defined and field.required ? " required" %}
+{%- set required     = field.required is defined and field.required ? ' required' %}
 {%- set name        = name ~ '[]' %}
 
 {%- set multiple   = false %}
@@ -11,7 +15,7 @@
 <input
     type="file"
     id="{{ id }}"
-    class="{%- for class in classes %}{{ class }} {%- endfor %}"
+    class="{{ classes }}"
     name="{{ name }}"
     {%- if multiple %} multiple{% endif %}
     {{- required -}}

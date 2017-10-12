@@ -33,6 +33,7 @@ module.exports = (grunt) ->
           sourcemap: 'none' # none, file, inline, none
           style: 'nested' # nested, compact, compressed, expanded
         files: 
+          '<%= ResourcesDirectory %>/css/bootstrap.css': '<%= ScssDirectory %>/themes/bootstrap.scss'
           '<%= ResourcesDirectory %>/css/formbuilder.css': '<%= ScssDirectory %>/formbuilder.scss'
           '<%= ResourcesDirectory %>/css/unreadcount.css': '<%= ScssDirectory %>/unreadcount.scss'
 
