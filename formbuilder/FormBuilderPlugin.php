@@ -247,8 +247,8 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function addTwigExtension()
     {
-        Craft::import('plugins.formbuilder.twigextensions.formBuilderTwigExtension');
-        return new formBuilderTwigExtension();
+        Craft::import('plugins.formBuilder.twigextensions.FormBuilderTwigExtension');
+        return new FormBuilderTwigExtension();
     }
 
     // Private Methods
