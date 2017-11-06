@@ -6,7 +6,7 @@ Plugin Url: https://github.com/owldesign/Form-Builder
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://github.com/owldesign
 Description: Form Builder is a Craft CMS plugin that lets you create and manage forms for your front-end.
-Version: 1.0.0
+Version: 1.0.1
 */
 
 namespace Craft;
@@ -65,7 +65,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.0.0';
+        return '1.0.1';
     }
 
     /**
@@ -247,7 +247,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function addTwigExtension()
     {
-        Craft::import('plugins.formBuilder.twigextensions.FormBuilderTwigExtension');
+        Craft::import('plugins.formbuilder.twigextensions.FormBuilderTwigExtension');
         return new FormBuilderTwigExtension();
     }
 
@@ -337,7 +337,7 @@ class FormBuilderPlugin extends BasePlugin
         formbuilder()->forms->installDefaultStatuses();
         formbuilder()->entries->installDefaultStatuses();
 
-        craft()->request->redirect('/admin/formbuilder/dashboard');
+        craft()->request->redirect('/'.craft()->config->get('cpTrigger').'/formbuilder/dashboard');
     }
 
     public function onBeforeUninstall()

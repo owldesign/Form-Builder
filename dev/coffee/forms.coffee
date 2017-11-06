@@ -223,17 +223,17 @@ if $ and window.Garnish
             Craft.elementIndex.on 'selectSource', (e) ->
                 groupId = e.target.$source.data 'id'
                 if groupId
-                    $('#new-form-btn').attr("href", "/admin/formbuilder/forms/new?groupId=#{groupId}");
+                    $('#new-form-btn').attr("href", window.FormBuilder.adminUrl+"/forms/new?groupId=#{groupId}");
                 else
-                    $('#new-form-btn').attr('href', '/admin/formbuilder/forms/new?groupId=1');
+                    $('#new-form-btn').attr('href', window.FormBuilder.adminUrl+'/forms/new?groupId=1');
 
             Craft.elementIndex.on 'updateElements', (e) ->
                 elementsCount = e.target.view.elementSelect.$items.length
                 groupId = e.target.$source.data 'id'
                 if groupId
-                    $('#new-form-btn').attr("href", "/admin/formbuilder/forms/new?groupId=#{groupId}");
+                    $('#new-form-btn').attr("href", window.FormBuilder.adminUrl+"/forms/new?groupId=#{groupId}");
                 else
-                    $('#new-form-btn').attr('href', '/admin/formbuilder/forms/new?groupId=1');
+                    $('#new-form-btn').attr('href', window.FormBuilder.adminUrl+'/forms/new?groupId=1');
                 if elementsCount == 0
                     e.target.view.elementSelect.$container.html($('<tr><td colspan="6">'+Craft.t("No forms available")+'</td></tr>'))
 
@@ -256,5 +256,5 @@ if $ and window.Garnish
                 Craft.postActionRequest 'formBuilder/form/delete', data, $.proxy(((response, textStatus) ->
                     if textStatus == 'success'
                         Craft.cp.displayNotice Craft.t('Form deleted')
-                        window.location.href = '/admin/formbuilder/forms'
+                        window.location.href = window.FormBuilder.adminUrl+'/forms'
                 ), this)

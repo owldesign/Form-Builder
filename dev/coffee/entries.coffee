@@ -76,10 +76,10 @@ if $ and window.Garnish
             if type == 'submission'
                 $('<li><a href="#" class="delete-submission">Delete Submission</a></li>').appendTo($menu.find('ul'))
             else if type == 'form'
-                $('<li><a href="/admin/formbuilder/forms/edit/'+formId+'">View Form</a></li>').appendTo($menu.find('ul'))
+                $('<li><a href="'+window.FormBuilder.adminUrl+'/forms/edit/'+formId+'">View Form</a></li>').appendTo($menu.find('ul'))
             else if type == 'uploads'
-                $('<li><a href="/admin/formbuilder/entries" class="delete-all-files">Delete All</a></li>').appendTo($menu.find('ul'))
-                $('<li><a href="/admin/formbuilder/entries" class="download-all-files">Download All</a></li>').appendTo($menu.find('ul'))
+                $('<li><a href="'+window.FormBuilder.adminUrl+'/entries" class="delete-all-files">Delete All</a></li>').appendTo($menu.find('ul'))
+                $('<li><a href="'+window.FormBuilder.adminUrl+'/entries" class="download-all-files">Download All</a></li>').appendTo($menu.find('ul'))
 
             new (Garnish.HUD)($(this), $menu,
                 hudClass: 'hud fb-hud submissionhud'
@@ -92,7 +92,7 @@ if $ and window.Garnish
                     Craft.postActionRequest 'formBuilder/entry/delete', data, $.proxy(((response, textStatus) ->
                         if textStatus == 'success'
                             Craft.cp.displayNotice Craft.t('Entry deleted')
-                            window.location.href = '/admin/formbuilder/entries'
+                            window.location.href = window.FormBuilder.adminUrl + '/entries'
                     ), this)
 
             $menu.find('.delete-all-files').on 'click', (e) ->

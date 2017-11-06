@@ -238,9 +238,9 @@ if ($ && window.Garnish) {
         var groupId;
         groupId = e.target.$source.data('id');
         if (groupId) {
-          return $('#new-form-btn').attr("href", "/admin/formbuilder/forms/new?groupId=" + groupId);
+          return $('#new-form-btn').attr("href", window.FormBuilder.adminUrl + ("/forms/new?groupId=" + groupId));
         } else {
-          return $('#new-form-btn').attr('href', '/admin/formbuilder/forms/new?groupId=1');
+          return $('#new-form-btn').attr('href', window.FormBuilder.adminUrl + '/forms/new?groupId=1');
         }
       });
       Craft.elementIndex.on('updateElements', function(e) {
@@ -248,9 +248,9 @@ if ($ && window.Garnish) {
         elementsCount = e.target.view.elementSelect.$items.length;
         groupId = e.target.$source.data('id');
         if (groupId) {
-          $('#new-form-btn').attr("href", "/admin/formbuilder/forms/new?groupId=" + groupId);
+          $('#new-form-btn').attr("href", window.FormBuilder.adminUrl + ("/forms/new?groupId=" + groupId));
         } else {
-          $('#new-form-btn').attr('href', '/admin/formbuilder/forms/new?groupId=1');
+          $('#new-form-btn').attr('href', window.FormBuilder.adminUrl + '/forms/new?groupId=1');
         }
         if (elementsCount === 0) {
           return e.target.view.elementSelect.$container.html($('<tr><td colspan="6">' + Craft.t("No forms available") + '</td></tr>'));
@@ -283,7 +283,7 @@ if ($ && window.Garnish) {
         return Craft.postActionRequest('formBuilder/form/delete', data, $.proxy((function(response, textStatus) {
           if (textStatus === 'success') {
             Craft.cp.displayNotice(Craft.t('Form deleted'));
-            return window.location.href = '/admin/formbuilder/forms';
+            return window.location.href = window.FormBuilder.adminUrl + '/forms';
           }
         }), this));
       }

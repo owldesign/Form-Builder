@@ -6,6 +6,8 @@
 {% includeJsResource "formbuilder/js/formbuilder.js" %}
 {% includeCssResource "formbuilder/css/formbuilder.css" %}
 
+{% set adminUrl = craft.formBuilder.adminUrl() %}
+
 <div class="plugin-status">
     <span class="status-text">BETA</span>
 </div>
@@ -26,15 +28,13 @@
 {% if createTemplate is defined and createTemplate %}
     <div class="button-wrapper">
         <a href="{{ url('formbuilder/templates/new') }}" class="btns btn-info">{{ "Create New Template"|t }}</a>
-        {#<div class="is-menu">#}
-            {#<a href="#">Minimal</a>#}
-            {#<a href="#">Branded</a>#}
-        {#</div>#}
     </div>
 {% endif %}
+
 <script type="text/javascript">
     window.FormBuilder = {
         pageTitle: '{{ _context.title is defined ? _context.title : '' }}',
-        unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}'
+        unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}',
+        adminUrl: '{{ adminUrl }}'
     }
 </script>

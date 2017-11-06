@@ -13,7 +13,7 @@ class FormBuilderVariable
     public function form($handle, array $options = null)
     {
         $form = formbuilder()->forms->getFormByHandle($handle);
-
+        
         if ($form->statusId == 2) {
             return false;
         }
@@ -252,5 +252,20 @@ class FormBuilderVariable
     public function getAssetsById($ids)
     {
         return formbuilder()->templates->getAssetsById($ids);
+    }
+
+    /**
+     * Return dynamic admin url
+     *
+     * @param bool $includePluginPath
+     * @return string
+     */
+    public function adminUrl($includePluginPath = true)
+    {
+        if ($includePluginPath) {
+            return '/'.craft()->config->get('cpTrigger').'/formbuilder';
+        } else {
+            return '/'.craft()->config->get('cpTrigger').'';
+        }
     }
 }

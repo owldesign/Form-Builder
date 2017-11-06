@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.0.1",
+    "downloadUrl": "https://github.com/owldesign/Form-Builder/archive/master.zip",
+    "date": "2017-11-06T10:21:59-08:000",
+    "notes": [
+      "[Fixed] admin urls now use cpTrigger for dynamic urls",
+      "[Fixed] settings page"
+    ]
+  },
+  {
     "version": "1.0.0",
     "downloadUrl": "https://github.com/owldesign/Form-Builder/archive/master.zip",
     "date": "2017-10-04T23:15:52-07:00",

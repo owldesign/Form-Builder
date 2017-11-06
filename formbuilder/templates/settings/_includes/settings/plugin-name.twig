@@ -1,6 +1,6 @@
 {% set name = 'pluginName' %}
 
-{% set value = settings.pluginName ? settings.pluginName %}
+{% set value = settings.pluginName is defined and settings.pluginName ? settings.pluginName %}
 
 {% set container = {
     title: 'Plugin Name' |t,

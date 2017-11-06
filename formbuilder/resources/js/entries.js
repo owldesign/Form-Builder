@@ -80,10 +80,10 @@ if ($ && window.Garnish) {
       if (type === 'submission') {
         $('<li><a href="#" class="delete-submission">Delete Submission</a></li>').appendTo($menu.find('ul'));
       } else if (type === 'form') {
-        $('<li><a href="/admin/formbuilder/forms/edit/' + formId + '">View Form</a></li>').appendTo($menu.find('ul'));
+        $('<li><a href="' + window.FormBuilder.adminUrl + '/forms/edit/' + formId + '">View Form</a></li>').appendTo($menu.find('ul'));
       } else if (type === 'uploads') {
-        $('<li><a href="/admin/formbuilder/entries" class="delete-all-files">Delete All</a></li>').appendTo($menu.find('ul'));
-        $('<li><a href="/admin/formbuilder/entries" class="download-all-files">Download All</a></li>').appendTo($menu.find('ul'));
+        $('<li><a href="' + window.FormBuilder.adminUrl + '/entries" class="delete-all-files">Delete All</a></li>').appendTo($menu.find('ul'));
+        $('<li><a href="' + window.FormBuilder.adminUrl + '/entries" class="download-all-files">Download All</a></li>').appendTo($menu.find('ul'));
       }
       new Garnish.HUD($(this), $menu, {
         hudClass: 'hud fb-hud submissionhud',
@@ -99,7 +99,7 @@ if ($ && window.Garnish) {
           return Craft.postActionRequest('formBuilder/entry/delete', data, $.proxy((function(response, textStatus) {
             if (textStatus === 'success') {
               Craft.cp.displayNotice(Craft.t('Entry deleted'));
-              return window.location.href = '/admin/formbuilder/entries';
+              return window.location.href = window.FormBuilder.adminUrl + '/entries';
             }
           }), this));
         }

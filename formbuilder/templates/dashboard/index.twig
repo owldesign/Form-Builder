@@ -4,6 +4,7 @@
 {% set title = 'Dashboard' %}
 {% set selectedSubnavItem = "dashboard" %}
 {% set bodyClass = 'formbuilder fb-dashboard' %}
+{% set adminUrl = craft.formBuilder.adminUrl() %}
 
 {% includeJsResource "formbuilder/js/dashboard.js" %}
 
@@ -98,7 +99,7 @@
                         </tr>
                         {% for entry in craft.formBuilder.entries({ limit: 5 }) %}
                         <tr>
-                            <td data-title="{{ "Name"|t }}" class="name col-left"><a href="{{ url('/admin/formbuilder/entries/edit/' ~ entry.id) }}">{{ entry.getTitle }}</a></td>
+                            <td data-title="{{ "Name"|t }}" class="name col-left"><a href="{{ url(adminUrl ~ '/entries/edit/' ~ entry.id) }}">{{ entry.getTitle }}</a></td>
                             <td data-title="{{ "Date Created"|t }}" class="name col-right"><span class="light">{{ entry.dateCreated |date("M d, Y") }}</span></td>
                         </tr>
                         {% endfor %}
@@ -106,7 +107,7 @@
                 </table>
 
                 <div class="button-group">
-                    <a href="{{ url('/admin/formbuilder/entries') }}" class="btns btn-info">View All Entries</a>
+                    <a href="{{ url(adminUrl ~ '/entries') }}" class="btns btn-info">View All Entries</a>
                 </div>
             </div>
         </div>

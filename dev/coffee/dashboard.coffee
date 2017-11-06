@@ -7,10 +7,10 @@ if $ and window.Garnish
 #            '</ul>')
 #
 #        if type == 'forms'
-#            $('<li><a href="/admin/formbuilder2/forms/new">Create New</a></li>').appendTo($menu.find('ul'))
-#            $('<li><a href="/admin/formbuilder2/forms">View All</a></li>').appendTo($menu.find('ul'))
+#            $('<li><a href="'+window.FormBuilder.adminUrl+'/forms/new">Create New</a></li>').appendTo($menu.find('ul'))
+#            $('<li><a href="'+window.FormBuilder.adminUrl+'/forms">View All</a></li>').appendTo($menu.find('ul'))
 #        else if type == 'entries'
-#            $('<li><a href="/admin/formbuilder2/entries">View All</a></li>').appendTo($menu.find('ul'))
+#            $('<li><a href="'+window.FormBuilder.adminUrl+'/entries">View All</a></li>').appendTo($menu.find('ul'))
 #
 #        new (Garnish.HUD)($(this), $menu,
 #            hudClass: 'hud fb-hud touthud'
