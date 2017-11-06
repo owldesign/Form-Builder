@@ -24,7 +24,7 @@ class FormBuilder_EntryService extends BaseApplicationComponent
      */
     public function getCriteria(array $attributes = array())
     {
-        return craft()->elements->getCriteria('Formbuilder_Entry', $attributes);
+        return craft()->elements->getCriteria('FormBuilder_Entry', $attributes);
     }
 
     /**

@@ -9,7 +9,7 @@ class FormBuilder_FormModel extends BaseElementModel
     /**
      * @var string
      */
-    protected $elementType = 'Formbuilder_Form';
+    protected $elementType = 'FormBuilder_Form';
 
     public $totalEntries;
 

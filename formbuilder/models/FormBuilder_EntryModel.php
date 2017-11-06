@@ -7,7 +7,7 @@ class FormBuilder_EntryModel extends BaseElementModel
     // Properties
     // =========================================================================
 
-    protected $elementType = 'Formbuilder_Entry';
+    protected $elementType = 'FormBuilder_Entry';
 
     // Public Methods
     // =========================================================================

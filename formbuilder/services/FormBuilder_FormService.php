@@ -20,7 +20,7 @@ class FormBuilder_FormService extends BaseApplicationComponent
      */
     public function getCriteria(array $attributes = array())
     {
-        return craft()->elements->getCriteria('Formbuilder_Form', $attributes);
+        return craft()->elements->getCriteria('FormBuilder_Form', $attributes);
     }
 
     /**

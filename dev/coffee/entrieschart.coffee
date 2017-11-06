@@ -11,7 +11,7 @@ EntriesIndex = Craft.BaseElementIndex.extend(
             'desc'
         ]
 )
-Craft.registerElementIndexClass 'Formbuilder_Entry', EntriesIndex
+Craft.registerElementIndexClass 'FormBuilder_Entry', EntriesIndex
 
 
 EntriesTableView = Craft.TableElementIndexView.extend({

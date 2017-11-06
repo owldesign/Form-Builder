@@ -15,7 +15,7 @@ Craft.FormBuilder.EntriesIndex = Craft.BaseElementIndex.extend({
     }
 });
 
-Craft.registerElementIndexClass('Formbuilder_Entry', Craft.FormBuilder.EntriesIndex);
+Craft.registerElementIndexClass('FormBuilder_Entry', Craft.FormBuilder.EntriesIndex);
 
 Craft.FormBuilder.EntriesTableView = Craft.TableElementIndexView.extend({
 

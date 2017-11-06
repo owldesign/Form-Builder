@@ -87,7 +87,7 @@ class FormBuilder_FormController extends BaseController
         // Craft::dd($_POST);
 
         $fieldLayout = craft()->fields->assembleLayoutFromPost();
-        $fieldLayout->type = 'Formbuilder_Form';
+        $fieldLayout->type = 'FormBuilder_Form';
         $this->form->setFieldLayout($fieldLayout);
 
         if (formbuilder()->forms->save($this->form)) {
