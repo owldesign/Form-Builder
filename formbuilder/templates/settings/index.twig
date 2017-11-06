@@ -17,7 +17,6 @@
 {% block main %}
     <input type="hidden" name="action" value="formBuilder/setting/save">
     {{ getCsrfInput() }}
-
     <section class="settings-container">
         <div class="grid" data-max-cols="3">
             <div class="item" data-colspan="1">
@@ -149,7 +148,6 @@
 
             </div>
         </div>
-
     </section>
 
     {% includeJsResource "formbuilder/js/option.js" %}

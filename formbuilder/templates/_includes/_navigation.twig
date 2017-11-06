@@ -16,9 +16,11 @@
         </a>
     </li>
 
+    {% if craft.plugins.getPlugin('formbuilderemailnotifications') and craft.plugins.getPlugin('formbuilderemailnotifications').isInstalled() %}
     <li>
         <a href="{{ adminUrl }}/templates" {% if title == 'Templates' %}class="sel"{% endif %}><i class="far fa-paint-brush"></i> {{ "Templates" |t }}</a>
     </li>
+    {% endif %}
 
     <li>
         <a href="{{ adminUrl }}/settings" {% if title == 'Settings' %}class="sel"{% endif %}><i class="far fa-cogs"></i> {{ "Settings" |t }}</a>
