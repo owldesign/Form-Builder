@@ -268,7 +268,7 @@ if ($ && window.Garnish) {
       text: function(trigger) {
         var handle, snippet;
         handle = $(trigger).data('handle');
-        snippet = '{{ craft.formBuilder.form("' + handle + '") }}';
+        snippet = '{{ craft.formBuilder.form({formHandle: "' + handle + '", submission: submission is defined ? submission : null})}}';
         Craft.cp.displayNotice(snippet + Craft.t(" copied"));
         return snippet;
       }

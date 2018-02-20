@@ -244,7 +244,8 @@ if $ and window.Garnish
 
         new Clipboard('.twig-snippet', text: (trigger) ->
             handle = $(trigger).data 'handle'
-            snippet = '{{ craft.formBuilder.form("'+handle+'") }}'
+            snippet = '{{ craft.formBuilder.form({formHandle: "'+handle+'", submission: submission is defined ? submission : null})}}'
+
             Craft.cp.displayNotice snippet + Craft.t(" copied")
             return snippet
         )
