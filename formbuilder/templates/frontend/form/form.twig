@@ -1,5 +1,6 @@
 {%- set options     = options is defined and options is not empty ? options : {} %}
 {%- set errors      = entry.getErrors()|length ? entry.getErrors() : false %}
+{%- set errorClass  = 'fb-submission-error' %}
 {%- set id          = options.id is defined ? options.id : form.handle ~ '-form' %}
 {%- set class       = options.class is defined ? options.class : form.handle ~ '-form' -%}
 
@@ -24,7 +25,7 @@
 
     {# Spam Protection #}
     {% if spam.honeypot.enabled %}
-        <div style="display:none;"><label for="email-address-new-one">{{ spam.honeypot.message }}</label><input name="email-address-new-one" value="" id="email-address-new-one"></div>
+        <div style="display: none;"><label for="email-address-new-one">{{ spam.honeypot.message }}</label><input name="email-address-new-one" value="" id="email-address-new-one"></div>
     {% endif %}
 
     {% if spam.timed.enabled %}
@@ -40,6 +41,16 @@
     {% endif %}
 
     {% hook 'formBuilder.afterFieldsHook' %}
+
+    <div class="notifications">
+        {% if errors %}
+        <ul class="errors">
+            {% for key, error in errors %}
+                <li>{{ error[0] }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
 
     <button type="submit">
         {% if settings.submitButton.enabled %}

@@ -1,5 +1,13 @@
 [
   {
+    "version": "1.0.2",
+    "downloadUrl": "https://github.com/owldesign/Form-Builder/archive/master.zip",
+    "date": "2018-02-20T18:57:47+00:00",
+    "notes": [
+      "[Fixed] spam validation should be working now"
+    ]
+  },
+  {
     "version": "1.0.1",
     "downloadUrl": "https://github.com/owldesign/Form-Builder/archive/master.zip",
     "date": "2017-11-06T10:21:59-08:000",

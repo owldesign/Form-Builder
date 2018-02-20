@@ -5,7 +5,8 @@
   "homepage": "https://github.com/owldesign/Form-Builder",
   "authors": "Vadim Goncharov <vadim@owl-design.net> (https://github.com/owldesign)",
   "contributors": {
-    "name": "Vadim Goncharov", "email": "vadim@owl-design.net"
+    "name": "Vadim Goncharov",
+    "email": "vadim@owl-design.net"
   },
   "repository": {
     "type": "git",

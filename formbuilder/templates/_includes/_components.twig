@@ -13,7 +13,7 @@
 
 {% macro select(type, name, value, options, class, id) %}
     <select name="{{ name }}" {% if class %}class="{{ class }}"{% endif %} {% if id %} id="{{ id }}"{% endif %}>
-        {% for option in options|json_decode() %}
+        {% for option in options %}
             <option value="{{ option.value }}" {% if option.value == value %}selected{% endif %}>{{ option.label }}</option>
         {% endfor %}
     </select>

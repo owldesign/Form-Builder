@@ -68,6 +68,10 @@ class FormBuilder_EntryController extends BaseController
         // Terms & Conditions
         $this->_checkTermsConditions();
 
+        if ($this->entry->hasErrors()) {
+            $this->_returnErrorMessage();
+        }
+
         if ($saveToDatabase) {
             if (formbuilder()->entries->save($this->entry)) {
                 $saved = true;
@@ -166,17 +170,18 @@ class FormBuilder_EntryController extends BaseController
         if (isset($this->form->options['terms']['enabled']) && $this->form->options['terms']['enabled'] == '1') {
             $accepted = craft()->request->getPost('formbuilderTermsConditions');
             if ($accepted == '0') {
-                if (craft()->request->isAjaxRequest()) {
-                    $this->returnJson(array(
-                        'success' => false,
-                        'message' => Craft::t('You must accept terms!')
-                    ));
-                } else {
-                    craft()->userSession->setError(Craft::t('You must accept terms!'));
-                    craft()->urlManager->setRouteVariables(array(
-                        'entry' => $this->entry
-                    ));
-                }
+                $this->entry->addError('terms', Craft::t('You must accept terms!'));
+                // if (craft()->request->isAjaxRequest()) {
+                //     $this->returnJson(array(
+                //         'success' => false,
+                //         'message' => Craft::t('You must accept terms!')
+                //     ));
+                // } else {
+                //     craft()->userSession->setError(Craft::t('You must accept terms!'));
+                //     craft()->urlManager->setRouteVariables(array(
+                //         'entry' => $this->entry
+                //     ));
+                // }
             }
         }
     }
@@ -205,17 +210,7 @@ class FormBuilder_EntryController extends BaseController
         if (isset($this->form->spam['honeypot']['enabled']) && $this->form->spam['honeypot']['enabled'] == '1') {
             $honeypotField = craft()->request->getPost('email-address-new-one');
             if ($honeypotField != '') {
-                if (craft()->request->isAjaxRequest()) {
-                    $this->returnJson(array(
-                        'success' => false,
-                        'message' => Craft::t('You failed honeypot validation!')
-                    ));
-                } else {
-                    craft()->userSession->setError(Craft::t('Failed honeypot validation!'));
-                    craft()->urlManager->setRouteVariables(array(
-                        'entry' => $this->entry
-                    ));
-                }
+                $this->entry->addError('honeypot', Craft::t('Failed honeypot validation!'));
             }
         }
 
@@ -226,17 +221,7 @@ class FormBuilder_EntryController extends BaseController
             $allowedTime = (int)$this->form->spam['timed']['number'];
 
             if ($submissionDuration < $allowedTime) {
-                if (craft()->request->isAjaxRequest()) {
-                    $this->returnJson(array(
-                        'success' => false,
-                        'message' => Craft::t('You submitted too fast!')
-                    ));
-                } else {
-                    craft()->userSession->setError(Craft::t('You submitted too fast!'));
-                    craft()->urlManager->setRouteVariables(array(
-                        'entry' => $this->entry
-                    ));
-                }
+                $this->entry->addError('timed', Craft::t('You submitted too fast!'));
             }
         }
     }
@@ -265,12 +250,12 @@ class FormBuilder_EntryController extends BaseController
         if (craft()->request->isAjaxRequest()) {
             $this->returnJson(array(
                 'success' => false,
-                'message' => isset($this->form['options']['ajax']['messages']['error']) ? $this->form['options']['ajax']['messages']['error'] : Craft::t('Failed to submit message.')
+                'message' => isset($this->form['options']['ajax']['messages']['error']) ? $this->form['options']['ajax']['messages']['error'] : Craft::t('Failed to submit message.'),
+                'submission' => $this->entry
             ));
         } else {
-            craft()->userSession->setError(Craft::t('Couldn’t save entry.'));
             craft()->urlManager->setRouteVariables(array(
-                'entry' => $this->entry
+                'submission' => $this->entry
             ));
         }
     }

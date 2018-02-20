@@ -10,12 +10,20 @@ class FormBuilderVariable
      * @param array|null $options
      * @return \Twig_Markup
      */
-    public function form($handle, array $options = null)
+    public function form($variables)
     {
-        $form = formbuilder()->forms->getFormByHandle($handle);
+        $form = formbuilder()->forms->getFormByHandle(($variables['formHandle']));
+        $options = isset($variables['options']) ? $variables['options'] : null;
+        $submission = isset($variables['submission']) ? $variables['submission'] : null;
         
         if ($form->statusId == 2) {
             return false;
+        }
+
+        if ($submission) {
+            $entry = $submission;
+        } else {
+            $entry = formbuilder()->entries->getEntryModel($form);
         }
 
         if ($form) {
@@ -25,16 +33,17 @@ class FormBuilderVariable
             craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form');
 
             $fieldsetHtml = craft()->templates->render('fieldset', array(
-                'tabs'      => $tabs,
-                'form'      => $form,
-                'entry'     => formbuilder()->entries->getEntryModel($form),
-                'options'   => $options
+                'tabs'          => $tabs,
+                'form'          => $form,
+                'submission'    => $submission,
+                'entry'         => $entry,
+                'options'       => $options
             ));
 
             $formHtml = craft()->templates->render('form', array(
                 'form'          => $form,
                 'fieldset'      => $fieldsetHtml,
-                'entry'         => formbuilder()->entries->getEntryModel($form),
+                'entry'         => $entry,
                 'options'       => $options
             ));
 

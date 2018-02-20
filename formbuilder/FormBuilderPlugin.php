@@ -6,7 +6,7 @@ Plugin Url: https://github.com/owldesign/Form-Builder
 Author: Vadim Goncharov (https://github.com/owldesign)
 Author URI: http://github.com/owldesign
 Description: Form Builder is a Craft CMS plugin that lets you create and manage forms for your front-end.
-Version: 1.0.1
+Version: 1.0.2
 */
 
 namespace Craft;
@@ -65,7 +65,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.0.1';
+        return '1.0.2';
     }
 
     /**
