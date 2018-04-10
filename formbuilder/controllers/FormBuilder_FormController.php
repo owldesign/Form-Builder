@@ -169,7 +169,7 @@ class FormBuilder_FormController extends BaseController
     /**
      * Prepare form model
      *
-     * @return FormBuilder2_Model
+     * @return FormBuilder_FormModel
      */
     private function _prepareNewFormModel()
     {

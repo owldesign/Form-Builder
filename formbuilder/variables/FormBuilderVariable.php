@@ -202,7 +202,13 @@ class FormBuilderVariable
      */
     public function getAllTemplates()
     {
-        return emailNotifications()->templates->getAllTemplates();
+        $notificationPlugin = craft()->plugins->getPlugin('formbuilderemailnotifications');
+
+        if ($notificationPlugin->isInstalled) {
+            return craft()->formBuilderEmailNotifications->templates->getAllTemplates();
+        }
+
+        return null;
     }
 
     /**
@@ -212,7 +218,13 @@ class FormBuilderVariable
      */
     public function getTemplateModel()
     {
-        return formbuilder()->templates->getTemplateModel();
+        $notificationPlugin = craft()->plugins->getPlugin('formbuilderemailnotifications');
+
+        if ($notificationPlugin->isInstalled) {
+            return craft()->formBuilderEmailNotifications->templates->getTemplateModel();
+        }
+
+        return null;
     }
 
     /**
@@ -222,8 +234,14 @@ class FormBuilderVariable
      * @return mixed
      */
     public function getTemplateByHandle($handle)
-    {
-        return formbuilder()->templates->getTemplateByHandle($handle);
+    {   
+        $notificationPlugin = craft()->plugins->getPlugin('formbuilderemailnotifications');
+
+        if ($notificationPlugin->isInstalled) {
+            return craft()->formBuilderEmailNotifications->templates->getTemplateByHandle($handle['handle']);
+        }
+
+        return null;
     }
 
     /**
@@ -260,7 +278,14 @@ class FormBuilderVariable
      */
     public function getAssetsById($ids)
     {
-        return formbuilder()->templates->getAssetsById($ids);
+        $notificationPlugin = craft()->plugins->getPlugin('formbuilderemailnotifications');
+
+        if ($notificationPlugin->isInstalled) {
+            return craft()->formBuilderEmailNotifications->templates->getAssetsById($ids);
+        }
+
+        return null;
+        
     }
 
     /**

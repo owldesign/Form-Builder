@@ -113,6 +113,6 @@ class FormBuilderTwigExtension extends \Twig_Extension
      * @return mixed
      */
     public function json_decode($json) {
-        return json_decode($json);
+        return json_decode($json, true);
     }
 }

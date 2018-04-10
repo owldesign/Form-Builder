@@ -39,6 +39,7 @@ if ($ && window.Garnish) {
             $input = "<textarea class='" + className + " " + required + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' " + required + " />" + item.value + "</textarea>";
           } else if (item.type === 'select') {
             $input = $.parseJSON(item.options);
+            console.log($input);
           } else {
             $input = "<input type='" + item.type + "' class='" + className + " " + required + "' value='" + item.value + "' data-hint='" + item.hint + "' data-name='" + item.name + "' " + required + " />";
           }
