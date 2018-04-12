@@ -117,7 +117,7 @@ class FormBuilder_GroupService extends BaseApplicationComponent
     public function getGroupById($groupId)
     {
         if (!$this->_groupsById) {
-            $this->getAllFormGroups('id');
+            $this->getAllGroups('id');
         }
 
         if (!$groupId) {

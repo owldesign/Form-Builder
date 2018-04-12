@@ -11,9 +11,6 @@
 {% set sources = craft.elementIndexes.getSources(elementTypeClass, 'index') %}
 {% set customizableSources = (sources is not empty and context == 'index' and currentUser.admin) %}
 
-{% includeJsResource "formbuilder/js/groups.js" %}
-{% includeJsResource "formbuilder/js/forms.js" %}
-
 {% set groups = craft.formBuilder.getAllGroups('id') %}
 
 {% if groupId is defined %}

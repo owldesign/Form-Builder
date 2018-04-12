@@ -125,97 +125,66 @@ class FormBuilder_FormService extends BaseApplicationComponent
         return $this->getCriteria(array('limit' => 1, 'handle' => $handle))->first();
     }
 
-    /**
-     * Save Form
-     *
-     * @param FormBuilder_FormModel $form
-     * @return bool
-     * @throws Exception
-     * @throws \Exception
-     */
     public function save(FormBuilder_FormModel $form)
     {
-        if ($form->id) {
+        $isNewForm = !$form->id;
+
+        if (!$isNewForm) {
             $formRecord = FormBuilder_FormRecord::model()->findById($form->id);
 
             if (!$formRecord) {
-                throw new Exception(Craft::t('No form exists with the ID “{id}”', array('id' => $form->id)));
+                throw new \Exception("No form exist with the ID '{$form->id}'");
             }
-
-            $oldForm = FormBuilder_FormModel::populateModel($formRecord);
-            $isNewForm = false;
         } else {
             $formRecord = new FormBuilder_FormRecord();
-            $isNewForm = true;
+        }
+
+        $form->validate();
+
+        if ($form->hasErrors()) {
+            return false;
         }
 
         $formRecord->name               = $form->name;
         $formRecord->handle             = $form->handle;
         $formRecord->statusId           = $form->statusId;
         $formRecord->groupId            = $form->groupId;
-        $formRecord->fieldLayoutId      = $form->fieldLayoutId;
+
         $formRecord->options            = JsonHelper::encode($form->options);
         $formRecord->spam               = JsonHelper::encode($form->spam);
         $formRecord->notifications      = JsonHelper::encode($form->notifications);
         $formRecord->settings           = JsonHelper::encode($form->settings);
 
-        $attributes     = $form->getAttributes();
-        $options        = $attributes['options'];
-        $spam           = $attributes['spam'];
-        $notifications  = $attributes['notifications'];
-        $settings       = $attributes['settings'];
+        $fieldLayout = $form->getFieldLayout();
+        //$form->oldHandle = $formRecord->getOldHandle();
+        //$form->oldFIeldLayoutId = $formRecord->getOldFieldLayoutId();
 
-        $formRecord->validate();
-        $form->addErrors($formRecord->getErrors());
+        $fieldLayoutResult = craft()->fields->saveLayout($fieldLayout);
 
-        if (!$form->hasErrors()) {
-            $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
+        $transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
 
-            try {
-                if (!$isNewForm && $oldForm->fieldLayoutId) {
-                    craft()->fields->deleteLayoutById($oldForm->fieldLayoutId);
-                }
+        try {
+            $form->fieldLayoutId = $fieldLayout->id;
+            $formRecord->fieldLayoutId = $fieldLayout->id;
 
-                $fieldLayout = $form->getFieldLayout();
-                craft()->fields->saveLayout($fieldLayout);
-
-                $form->fieldLayoutId = $fieldLayout->id;
-                $formRecord->fieldLayoutId = $fieldLayout->id;
-
-                if (craft()->elements->saveElement($form)){
-                    if ($isNewForm){
-                        $formRecord->id = $form->id;
-                    }
-
-                    $formRecord->save();
-
-                    if (!$form->id) {
-                        $form->id = $formRecord->id;
-                    }
-
-                    $this->_formsById[$form->id] = $form;
-
-                    if ($transaction !== null) {
-                        $transaction->commit();
-                    }
-
-                    return true;
-                }
-
-            } catch (\Exception $e) {
-                if ($transaction !== null) {
-                    $transaction->rollback();
-                }
-
-                throw $e;
+            if (!craft()->elements->saveElement($form, false)) {
+                throw new \Exception('Form was not saved');
             }
 
-            return true;
+            if ($isNewForm) {
+                $formRecord->id = $form->id;
+            }
 
-        } else {
-            return false;
+            $formRecord->save(false);
 
+            $transaction->commit();
+        } catch (\Throwable $e) {
+            $transaction->rollback();
+
+            throw $e;
         }
+
+        return true;
     }
 
     /**

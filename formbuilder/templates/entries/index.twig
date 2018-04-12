@@ -11,11 +11,6 @@
 {% set sources = craft.elementIndexes.getSources(elementTypeClass, 'index') %}
 {% set customizableSources = (sources is not empty and context == 'index' and currentUser.admin) %}
 
-{% includeJsResource "formbuilder/js/entries.js" %}
-
-{% includeCssResource "formbuilder/css/charts-explorer.css" %}
-{% includeJsResource 'formbuilder/js/entrieschart.js' %}
-
 {% set groups = craft.formBuilder.getAllGroups('id') %}
 
 {% if groupId is defined %}
@@ -51,7 +46,6 @@
                                     {%- endif %}>
                                 {{- source.label -}}
                                 {% if source.criteria.formId is defined %}
-                                    {#<span class="entry-count"></span>#}
                                     {% set entryCount = craft.formBuilder.getUnreadEntriesByFormId(source.criteria.formId) %}
                                     {% if entryCount > 0 %}
                                         <span class="entry-count">{{ entryCount }}</span>

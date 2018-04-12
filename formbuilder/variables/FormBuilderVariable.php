@@ -4,18 +4,17 @@ namespace Craft;
 class FormBuilderVariable
 {
     /**
-     * Render form on the frontend
+     * Render form
      *
-     * @param $handle
-     * @param array|null $options
-     * @return \Twig_Markup
+     * @param $variables
+     * @return bool|\Twig_Markup
      */
     public function form($variables)
     {
-        $form = formbuilder()->forms->getFormByHandle(($variables['formHandle']));
+        $form = FormBuilder()->forms->getFormByHandle(($variables['formHandle']));
         $options = isset($variables['options']) ? $variables['options'] : null;
         $submission = isset($variables['submission']) ? $variables['submission'] : null;
-        
+
         if ($form->statusId == 2) {
             return false;
         }
@@ -23,16 +22,18 @@ class FormBuilderVariable
         if ($submission) {
             $entry = $submission;
         } else {
-            $entry = formbuilder()->entries->getEntryModel($form);
+            $entry = new FormBuilder_EntryModel();
+            $entry->form = $form;
         }
 
         if ($form) {
             $tabs = $form->fieldLayout->getTabs();
+
             $oldPath = craft()->templates->getTemplatesPath();
 
             craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form');
 
-            $fieldsetHtml = craft()->templates->render('fieldset', array(
+            $fieldsets = craft()->templates->render('fieldset', array(
                 'tabs'          => $tabs,
                 'form'          => $form,
                 'submission'    => $submission,
@@ -42,7 +43,7 @@ class FormBuilderVariable
 
             $formHtml = craft()->templates->render('form', array(
                 'form'          => $form,
-                'fieldset'      => $fieldsetHtml,
+                'fieldset'      => $fieldsets,
                 'entry'         => $entry,
                 'options'       => $options
             ));
@@ -50,52 +51,106 @@ class FormBuilderVariable
             craft()->templates->setTemplatesPath($oldPath);
 
             return TemplateHelper::getRaw($formHtml);
+
         } else {
-            $notice = '<code>'.Craft::t('There is no form with handle: '. $handle).'</code>';
+            $notice = '<code>'.Craft::t('There is no form with handle: '. $variables['formHandle']).'</code>';
+
             echo $notice;
         }
     }
 
     /**
-     * Get input HTML
+     * Get input html
      *
-     * @param $form
-     * @param $field
      * @param $value
-     * @param array|null $options
-     * @return \Twig_Markup
+     * @param $entry
+     * @param $field
+     * @param $form
+     * @return string|\Twig_Markup
      */
-    public function getInputHtml($form, $field, $value, array $options = null)
+    public function getInputHtml($value, $entry, $field, $form)
     {
         $oldPath = craft()->templates->getTemplatesPath();
-        $type = StringHelper::toLowerCase($field->type);
 
-        if (isset($form->settings['fields']['globalInputTemplatePath']) && $form->settings['fields']['globalInputTemplatePath'] != '') {
-            craft()->templates->setTemplatesPath(craft()->path->getSiteTemplatesPath().$form->settings['fields']['globalInputTemplatePath']);
+        $type = StringHelper::toLowerCase($field->type);
+        $settings = $form->settings;
+
+        if (isset($settings['fields']['global']['inputTemplate']) && $settings['fields']['global']['inputTemplate'] != '') {
+            $customPath = $settings['fields']['global']['inputTemplate'];
+            craft()->templates->setTemplatesPath(craft()->path->getSiteTemplatesPath() . $customPath);
+
         } else {
-            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields/');
+            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/_includes/forms/');
         }
 
         $fileExist = IOHelper::fileExists(craft()->templates->getTemplatesPath().$type.'/input.twig') ? true : false;
 
+
         if (!$fileExist) {
-            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields/');
+            craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/_includes/forms/');
         }
 
-
-        $input = craft()->templates->render($type.'/input', array(
-            'form'          => $form,
+        $variables = [
             'name'          => $field->handle,
             'value'         => $value,
             'field'         => $field,
-            'settings'      => $field->settings,
-            'options'       => $options,
-            'custom'        => formbuilder()->fields->getFieldSettingsByFieldId($field->id, $form->fieldLayoutId)
-        ));
+            'settings'      => $field,
+            'form'          => $form,
+            'options'       => null,
+            'class'         => ''
+        ];
+
+        if (isset($field->settings['placeholder'])) {
+            $variables['placeholder'] = $field->settings['placeholder'];
+        }
+
+        if (isset($field->settings['charLimit'])) {
+            $variables['maxlength'] = $field->settings['charLimit'];
+        }
+
+        if (isset($field->settings['size'])) {
+            $variables['size'] = $field->settings['size'];
+        }
+
+        if (isset($field->settings['initialRows'])) {
+            $variables['rows'] = $field->settings['initialRows'];
+        }
+
+
+        $fieldOptions = FormBuilder()->fields->getFieldRecordByFieldId($field->id);
+
+
+        if ($fieldOptions) {
+            $options = JsonHelper::decode($fieldOptions->options);
+            if (isset($options['class'])) {
+                $variables['class'] = $options['class'];
+            }
+        }
+
+        if (isset($settings['fields']['global']['inputClass'])) {
+            $availableClasses = $variables['class'];
+            $variables['class'] = $availableClasses . ' ' . $settings['fields']['global']['inputClass'];
+        }
+
+        switch ($type) {
+            case 'plaintext':
+                $variables['type'] = 'text';
+                if ($field->settings['multiline']) {
+                    $input = craft()->templates->render('textarea', $variables);
+                } else {
+                    $input = craft()->templates->render('text', $variables);
+                }
+                break;
+        }
+
 
         craft()->templates->setTemplatesPath($oldPath);
 
-        return TemplateHelper::getRaw($input);
+        if (isset($input)) {
+            return TemplateHelper::getRaw($input);
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -267,7 +322,12 @@ class FormBuilderVariable
 
     public function getUnreadEntriesByFormId($formId)
     {
-        return formbuilder()->entries->getUnreadEntriesByFormId($formId);
+        $entries = FormBuilder_EntryRecord::model()->findAllByAttributes(array(
+            'formId' => $formId,
+            'statusId' => 1
+        ));
+
+        return count($entries);
     }
 
     /**
@@ -301,5 +361,15 @@ class FormBuilderVariable
         } else {
             return '/'.craft()->config->get('cpTrigger').'';
         }
+    }
+
+    /**
+     * Get tab settings
+     *
+     * @param $tabId
+     * @return mixed
+     */
+    public function getTabSettings($tabId) {
+        return FormBuilder()->tabs->getTabSettings($tabId);
     }
 }

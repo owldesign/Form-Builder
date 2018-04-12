@@ -4,6 +4,15 @@ namespace Craft;
 class FormBuilder_FieldModel extends BaseComponentModel
 {
 
+    // Public Properties
+    // =========================================================================
+
+    public $id;
+    public $fieldId;
+    public $fieldLayoutId;
+    public $options;
+    public $formId;
+
     /**
      * @access protected
      * @return array
@@ -14,10 +23,8 @@ class FormBuilder_FieldModel extends BaseComponentModel
             'id'                => AttributeType::Number,
             'fieldId'           => AttributeType::Number,
             'fieldLayoutId'     => AttributeType::Number,
-            'settings'          => AttributeType::Mixed,
-            'input'             => AttributeType::Mixed,
-            'html'              => AttributeType::Mixed,
-            'template'          => AttributeType::String
+            '$options'          => AttributeType::Mixed,
+            'formId'           => AttributeType::Number
         );
     }
 }

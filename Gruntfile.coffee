@@ -1,3 +1,5 @@
+# TODO: Delete this file
+
 module.exports = (grunt) ->
   grunt.initConfig
 

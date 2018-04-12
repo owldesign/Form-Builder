@@ -1,0 +1,29 @@
+{% set id = (id ?? 'date'~random())~'-date' -%}
+{% set name = name ?? null -%}
+{% set value = value ?? null -%}
+
+{% if field.showDate %}
+    <div class="datewrapper">
+            <input type="date"
+                name="{{ name }}"
+                value="{{ value ? value|date('short') : '' }}"
+                placeholder=" "
+                autocomplete="off"
+                size="10">
+
+        <div data-icon="date"></div>
+    </div>
+{% endif %}
+
+{% if field.showTime %}
+    <div class="timewrapper">
+            <input type="time"
+               name="{{ name }}"
+               value="{{ value ? value|time('short') : '' }}"
+               placeholder=" "
+               autocomplete="off"
+               size="10">
+
+        <div data-icon="time"></div>
+    </div>
+{% endif %}

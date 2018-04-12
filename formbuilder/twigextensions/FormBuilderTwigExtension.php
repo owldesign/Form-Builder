@@ -25,6 +25,7 @@ class FormBuilderTwigExtension extends \Twig_Extension
             'camelCase' => new Twig_Filter_Method($this, 'camelCase'),
             'uncamelCase' => new Twig_Filter_Method($this, 'uncamelCase'),
             'unescape' => new Twig_Filter_Method($this, 'unescape'),
+            'timeAgo' => new Twig_Filter_Method($this, 'getTimeAgo'),
             'json_decode' => new Twig_Filter_Method($this, 'json_decode')
         );
     }
@@ -114,5 +115,32 @@ class FormBuilderTwigExtension extends \Twig_Extension
      */
     public function json_decode($json) {
         return json_decode($json, true);
+    }
+
+    /**
+     * Get user friend time ago value
+     *
+     * @param $time
+     * @return string
+     */
+    public function getTimeAgo($time)
+    {
+        $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+        $lengths = array("60","60","24","7","4.35","12","10");
+
+        $now = time();
+        $difference     = $now - strtotime($time);
+
+        for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+            $difference /= $lengths[$j];
+        }
+
+        $difference = round($difference);
+
+        if($difference != 1) {
+            $periods[$j].= "s";
+        }
+
+        return "$difference $periods[$j]";
     }
 }

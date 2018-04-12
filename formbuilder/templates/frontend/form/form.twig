@@ -1,13 +1,25 @@
 {%- set options     = options is defined and options is not empty ? options : {} %}
 {%- set errors      = entry.getErrors()|length ? entry.getErrors() : false %}
 {%- set errorClass  = 'fb-submission-error' %}
-{%- set id          = options.id is defined ? options.id : form.handle ~ '-form' %}
-{%- set class       = options.class is defined ? options.class : form.handle ~ '-form' -%}
 
-{%- set settings    = form.options -%}
-{%- set spam        = form.spam -%}
+{%- set formOptions     = form.options -%}
+{%- set formSettings    = form.settings -%}
+{%- set spam            = form.spam -%}
 
-<form method="post" accept-charset="utf-8" enctype="multipart/form-data" {%- if id %} id="{{ id }}"{% endif -%} {%- if class %} class="{{ class -}}{%- if errors %} {{ errorClass }}{% endif -%}"{% endif -%}>
+{%- set formClass = [
+    options.formClass is defined ? options.formClass : form.handle ~ '-form',
+    (formSettings.fields.global.formClass is defined and formSettings.fields.global.formClass ? formSettings.fields.global.formClass : null)
+]|filter|join(' ') %}
+
+{% set formId = form.handle ~ '-form' %}
+{% if formSettings.fields.global.formId is defined %}
+    {% set formId = formSettings.fields.global.formId %}
+{% endif %}
+{% if options.formId is defined ? options.formId %}
+    {% set formId = options.formId %}
+{% endif %}
+
+<form method="post" accept-charset="utf-8" enctype="multipart/form-data" {%- if formId %} id="{{ formId }}"{% endif -%} {%- if formClass %} class="{{ formClass -}}{%- if errors %} {{ errorClass }}{% endif -%}"{% endif -%}>
     {{ getCsrfInput() }}
     <input type="hidden" name="action" value="formBuilder/entry/save">
     <input type="hidden" name="formId" value="{{ form.id }}">
@@ -19,8 +31,8 @@
     {% endif %}
 
     {# Redirect #}
-    {% if settings.redirect.enabled %}
-        <input type="hidden" name="redirect" value="{% if settings.redirect.enabled %}{{ url(settings.redirect.url) }}{% else %}{{ craft.request.url }}{% endif %}">
+    {% if formOptions.redirect.enabled %}
+        <input type="hidden" name="redirect" value="{% if formOptions.redirect.enabled %}{{ url(formOptions.redirect.url) }}{% else %}{{ craft.request.url }}{% endif %}">
     {% endif %}
 
     {# Spam Protection #}
@@ -33,28 +45,35 @@
     {% endif %}
 
     {% hook 'formBuilder.beforeFieldsHook' %}
+
     {{ fieldset | raw }}
 
     {# Terms & Conditions #}
-    {% if settings.terms.enabled %}
+    {% if formOptions.terms.enabled is defined and formOptions.terms.enabled %}
         {{ craft.formBuilder.getTermsConditionsInputs(form) |raw }}
     {% endif %}
 
     {% hook 'formBuilder.afterFieldsHook' %}
 
     <div class="notifications">
-        {% if errors %}
-        <ul class="errors">
-            {% for key, error in errors %}
-                <li>{{ error[0] }}</li>
-            {% endfor %}
-        </ul>
+
+        {% if craft.session.getFlash('success') %}
+            <p class="notification success-message">{{ craft.session.getFlash('success') }}</p>
         {% endif %}
+
+        {% if errors %}
+            <ul class="errors">
+                {% for key, error in errors %}
+                    <li>{{ error[0] }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     </div>
 
     <button type="submit">
-        {% if settings.submitButton.enabled %}
-            {{ settings.submitButton.text }}
+        {% if formOptions.submitButton.enabled %}
+            {{ formOptions.submitButton.text }}
         {% else %}
             {{ "Submit Message" |t }}
         {% endif %}
@@ -62,12 +81,12 @@
 
 </form>
 
-{% if settings.ajax.enabled %}
-    {% includeJsResource 'formbuilder/js/ajaxsubmit.js' %}
-    {% includejs %}
-        new AjaxForm('#{{ id }}').init();
-    {% endincludejs %}
-{% endif %}
+{#{% if settings.ajax.enabled %}#}
+    {#{% includeJsResource 'formbuilder/js/ajaxsubmit.js' %}#}
+    {#{% includejs %}#}
+        {#new AjaxForm('#{{ id }}').init();#}
+    {#{% endincludejs %}#}
+{#{% endif %}#}
 
 
 

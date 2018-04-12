@@ -1,0 +1,375 @@
+%tabs {
+    position: relative;
+    padding: 0;
+    background: rgba(gray, .2);
+    width: 100%;
+
+    &:hover {
+        background: rgba(gray, .3);
+    }
+    
+    .tab {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        margin: 0;
+        border: none;
+        float: none !important;
+        border-radius: none;
+        box-shadow: none;
+        background: $c-moss;
+
+        span {
+            font-weight: 700;
+            text-transform: none;
+            color: $c-white;
+        }
+
+        a {
+            &:before {
+                color: white;
+            }
+        }
+    }
+
+    .settings {
+        margin-left: auto;
+    }
+
+    .field-options-preview {
+        display: flex;
+        background: $c-moss;
+        padding: 0 12px 10px;
+        margin-top: -4px;
+
+        &:before {
+            display: none !important;
+        }
+
+        & > div {
+            color: rgba(white, .5);
+            margin-right: 10px;
+            font-weight: 100;
+            letter-spacing: .05em;
+
+            &:first-child {
+                margin-top: 10px;
+            }
+        }
+
+        .preview-type {
+            letter-spacing: normal;
+        }
+    }
+}
+
+%fld-tabcontent {
+    position: relative;
+    padding: 0;
+    border: 1px solid $c-border;
+}
+
+%fld-field {
+    padding: 15px 20px;
+    border: none;
+    border-bottom: 1px solid rgba(gray, .1);
+    background: $c-white;
+
+    &:hover {
+        background: darken(white, 1);
+    }
+
+    span:not(.preview-type) {
+        font-weight: 500;
+        font-size: 12px;
+        text-transform: none;
+        color: $c-textDarkBlue;
+    }
+
+    &:last-child { border-bottom: none; }
+
+    & + .fld-field { margin: 0; }
+
+    .field-icon {
+        display: inline-block;
+        width: 20px;
+        text-align: center
+    }
+
+    &.not-available {
+        pointer-events: none;
+        // display: none;
+    }
+}
+
+%fld-insertion {
+    border: 2px dashed $c-green;
+    background-color: rgba($c-green, .1);
+
+    .tabs, .tab, .fld-tabcontent {
+        background: none;
+        border: none;
+    }
+}
+
+.field-options-preview {
+    position: relative;
+
+    &:before {
+        content: "";
+        background-color: $c-green;
+        width: 3px;
+        height: 100%;
+        position: absolute;
+        left: -20px;
+        top: 0;
+        bottom: 0;
+    }
+
+    & > div {
+        font-size: 10px;
+        color: $c-textLight;
+        line-height: 1.2;
+
+        &:first-child {
+            margin-top: 10px;
+        }
+    }
+
+    .preview-type {
+        color: $c-gray;
+        font-size: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        &:after {
+            content: '' !important;
+            margin: 0 !important;
+        }
+    }
+}
+
+.formbuilder {
+    #fieldlayoutform {
+        background-image: none;
+        padding: 0;
+
+        hr {
+            border-color: darken($c-border, 5);
+        }
+
+        .newtabbtn-container {
+            margin-bottom: 30px;
+
+            &:before { display: none; }
+
+            .btn.icon {
+                padding: 12px 35px 10px;
+                &:before {
+                    content: "+";
+                }
+            }
+
+            .settings-button {
+                display: flex;
+                margin-left: auto;
+            }
+        }
+
+        // Global settings preview
+        .settings-preview {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 10px;
+            color: rgba($c-gray, .6);
+            line-height: 1.2;
+
+            margin-left: 10px;
+
+            span {
+                text-transform: uppercase;
+                font-weight: 900;
+                font-size: 8px;
+            }
+        }
+
+        header {
+            padding: 0;
+            margin-bottom: 20px;
+            border-bottom: none;
+
+            &.unused-header {
+                margin-bottom: 0;
+                padding: 25px;
+                border: 1px solid $c-border;
+                border-bottom: none;
+                background-color: white;
+
+                border-top-left-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+            }
+            
+            .unused-title {
+                margin: 0 0 2px 0;
+                font-size: 12px;
+                line-height: 1;
+                color: black;
+                font-weight: 700;
+                text-transform: none;
+                text-decoration: none;
+                color: $c-textDarkBlue;
+            }
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 10px;
+                font-weight: 400;
+                color: $c-textLight;
+                text-transform: none;
+            }
+        }
+    }
+
+    .fld-tabs {
+        margin: 0 0 20px 0 !important;
+        display: flex;
+        flex-wrap: wrap;
+
+        & > .fld-tab {
+            float: none !important;
+            width: 31%;
+            margin-right: 2.3333% !important;
+        }
+
+        & > .fld-tab.fld-tab-caboose {
+            border: 2px dashed $c-border;
+            padding: 20px !important;
+            margin: 0 0 0 -1px !important;
+        }
+    }
+
+    .unusedfields {
+        margin: 0 !important;
+        padding: 25px;
+        padding-top: 0;
+        box-sizing: border-box;
+        background-color: white;
+        border: 1px solid $c-border;
+        border-top: none;
+
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+
+        .fld-tab {
+            width: 31%;
+            margin-right: 2.3333%;
+        }
+    }
+
+
+    // Field Tabs
+    .fld-tab {
+        margin-left: 0 !important;
+        // margin-right: 0 !important;
+        margin-bottom: 30px !important;
+        height: 100% !important;
+        box-sizing: border-box;
+
+        .tabs {
+            @extend %tabs;
+        }
+
+        .fld-tabcontent {
+            @extend %fld-tabcontent;
+
+            .fld-field {
+                @extend %fld-field;
+
+                &.fld-required {
+                    span:after {
+                        color: $c-red;
+                    }
+                }
+
+                a {
+                    &:before {
+                        color: #c9c9c9;
+                    }
+                }
+
+                & + .fld-field { margin: 0; }
+
+                // Background insertion container
+                &.fld-insertion {
+                    @extend %fld-insertion;
+                }
+            }
+
+            .fld-tab.fld-tab-caboose {
+                position: absolute;
+                margin: 0 0 0 -1px !important;
+                padding: 0 !important;
+                min-height: auto !important;
+                height: 52px !important;
+                width: 100%;
+                border: none !important;
+                border: 2px dashed $c-border !important;
+                box-sizing: border-box;
+            }
+        }
+
+        // Background insertion container
+        &.fld-insertion {
+            @extend %fld-insertion;
+        }
+    }
+
+    // Dragging
+    .draghelper {
+
+        // Tab being dragged
+        &.fld-tab {
+
+            .tabs { @extend %tabs; }
+            
+            .fld-tabcontent {
+                @extend %fld-tabcontent;
+
+                .fld-field { @extend %fld-field; }
+            }
+        }
+
+        // Field being dragged
+        &.fld-field {
+            @extend %fld-field;
+
+            .settings:before { color: $c-textLight !important; opacity: .2; }
+        }
+    }
+}
+
+@include bp(max-width, $tablet) {
+    .formbuilder .fld-tabs > .fld-tab {
+        width: 47.33%;
+    }
+
+    .formbuilder .unusedfields {
+        .fld-tab {
+            width: 47%;
+        }
+    }
+}
+
+@include bp(max-width, $mobile) {
+    .formbuilder .fld-tabs > .fld-tab {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+
+    .formbuilder .unusedfields {
+        .fld-tab {
+            width: 100%;
+        }
+    }
+}

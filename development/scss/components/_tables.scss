@@ -1,0 +1,434 @@
+.formbuilder {
+
+    .status {
+        border: none;
+        @include size(10px);
+        &.green, &.on, &.live, &.active, &.enabled {
+            background-color: $c-success;
+        }
+        &.red, &.off, &.disabled {
+            background-color: $c-danger;
+        }
+        &.yellow, &.warning {
+            background-color: $c-warning;
+        }
+        &.blue, &.unread {
+            background-color: $c-info;
+        }
+    }
+
+    .elementindex {
+
+        .tableview {
+            .checkbox {
+                &:before {
+                    width: 22px !important;
+                    height: 22px !important;
+                }
+            }
+
+            tr.sel .checkbox {
+                &:before {
+                    background: transparent;
+                    box-shadow: none !important;
+                    line-height: 22px;
+                }
+            }
+        }
+
+        .toolbar {
+            background-color: $c-moss;
+            padding: 10px 20px;
+            border-radius: $border-radius;
+            &.fixed {
+                background-color: $c-offWhite;
+            }
+            td {
+                border: none !important;
+            }
+
+            .search {
+                input {
+                    box-shadow: none;
+                    background: transparent;
+                    border: none;
+                    color: $c-offWhite;
+                }
+            }
+
+            .menubtn {
+                background: transparent;
+                box-shadow: none;
+                color: $c-offWhite;
+                outline: none !important;
+            }
+        }
+
+        .selectallcontainer {
+            .btn {
+                background: transparent;
+                padding: 0;
+                @include size(22px);
+                box-shadow: none;
+                outline: none;
+                .checkbox {
+                    display: inline-block;
+                    padding-left: 0;
+                    outline: none;
+                    @include size(100%);
+                    &:before {
+                        width: 22px !important;
+                        height: 11px;
+                        background: transparent;
+                        box-shadow: none;
+                        padding: 6px 0;
+                        content: 'check';
+                        font-size: 13px;
+                        font-family: 'Craft';
+                        line-height: normal !important;
+                        color: darken($c-moss, 5);
+                    }
+                    &.checked {
+                        &:before {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+
+        th.ordered {
+            background-position: 93% 9px;
+            &.desc { background-position: 93% -23px; }
+            &.loading { background-position: 93% 16px; }
+        }
+
+        thead {
+            tr {
+                th:nth-child(1) {
+                    text-align: left;
+                    padding-left: 30px !important;
+                }
+            }
+            td, th {
+                font-weight: 700;
+                font-size: 14px;
+                letter-spacing: .07em;
+                text-transform: uppercase;
+                color: $c-white;
+                background-color: $c-moss;
+                letter-spacing: $letter-spacing;
+                padding: 16px 10px !important;
+                text-align: center;
+                @include antialias;
+
+                &:first-child {
+                    border-top-left-radius: $border-radius;
+                }
+                &:last-child { border-top-right-radius: $border-radius; }
+                &:hover {
+                    background-color: $c-moss;
+                }
+            }
+        }
+
+        .elements {
+
+            input.checkbox:focus + label:before, :focus div.checkbox:before {
+                box-shadow: 0 0 2px rgba(51, 170, 255, 0), inset 0 0 0 1px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(51, 170, 255, 0);
+            }
+
+            tbody {
+                tr {
+                    &:hover {
+                        td[data-attr="submission"] a, .title a {
+                            color: $c-info;
+                        }
+                    }
+                    &:last-child {
+                        td:first-child {
+                            border-bottom-left-radius: $border-radius;
+                        }
+                        td:last-child {
+                            border-bottom-right-radius: $border-radius;
+                        }
+                    }
+
+                    &.sel {
+                        td {
+                            background-color: $c-info !important;
+                            color: $c-white !important;
+                            a {
+                                color: $c-white !important;
+                            }
+                            svg * {
+                                fill: $c-white !important;
+                            }
+                        }
+                    }
+
+                    td:nth-child(1) {
+                        padding-left: 20px;
+                    }
+                }
+                td {
+                    font-size: 14px;
+                    padding: 16px 10px;
+                    background-color: $c-white;
+                    text-align: center;
+                    border-bottom: 1px solid $c-border;
+                    @include antialias;
+
+                    &.dragsort, &.checkbox-cell {
+                        text-align: center;
+                        outline: none;
+                    }
+
+                    &[data-attr="submission"] a, .title a {
+                        color: $c-textDarkBlue;
+                        transition: color .3s ease;
+                    }
+                    &.updated, &.count {
+                        color: $c-textLight;
+                        text-align: center;
+                    }
+
+                    &:first-child {
+                        border-left: 1px solid $c-border;
+                    }
+
+                    &:last-child {
+                        border-right: 1px solid $c-border;
+                    }
+                }
+            }
+        }
+
+        .element {
+            &.hasstatus {
+                padding-left: 35px !important;
+            }
+
+            .status {
+                @include size(10px);
+                top: calc(50% - 5px);
+            }
+        }
+
+        .copy-handle, .twig-snippet {
+            cursor: pointer;
+            font-size: 10px;
+
+            svg {
+                vertical-align: middle;
+                opacity: .3;
+            }
+
+            svg {
+                transition: all .3s ease;
+            }
+            &:hover {
+                svg {
+                    opacity: .6;
+                }
+
+            }
+            .icon {
+                padding-left: 10px;
+                vertical-align: middle;
+            }
+        }
+
+        .group {
+            font-size: 12px;
+
+            .group-name {
+                padding-left: 5px;
+            }
+        }
+
+        .delete-action {
+            cursor: pointer;
+            svg * {
+                transition: all .3s ease;
+            }
+            &:hover {
+                svg * {
+                    fill: $c-danger;
+                }
+            }
+        }
+
+        //@include bp(max-width, $tablet) {
+        //    .elementindex .elements tbody tr:last-child td:first-child {
+        //        width: 100% !important;
+        //        text-align: center !important;
+        //    }
+        //}
+    }
+
+    // Collapsed
+    .tableview {
+        table.collapsed {
+            .checkbox-cell {
+                width: 100% !important;
+                box-sizing: border-box;
+                border-top: 1px solid $c-border !important;
+            }
+            tbody tr {
+                border: none;
+                margin-bottom: 30px;
+                &.sel {
+                    td {
+                        border-bottom: 1px solid rgba($c-white, .1);
+                    }
+                }
+                td {
+                    border-left: 1px solid $c-border;
+                    border-right: 1px solid $c-border;
+                    padding: 13px 20px !important;
+                    &:first-child {
+                        border-top-left-radius: $border-radius;
+                        border-top-right-radius: $border-radius;
+                    }
+                    &:last-child {
+                        border-bottom-left-radius: $border-radius;
+                        border-bottom-right-radius: $border-radius;
+                    }
+                }
+            }
+        }
+
+        td.checkbox-cell {
+            //width: 20px !important;
+            padding-right: 20px !important;
+        }
+    }
+}
+
+
+table.formbuilder-table {
+
+    .col-left {
+        text-align: left;
+    }
+
+    .col-center {
+        text-align: center;
+    }
+
+    .col-right {
+        text-align: right;
+    }
+
+    .thin {
+        padding: 0 !important;
+    }
+
+    .dragsort {
+        padding: 0 !important;
+    }
+
+    .plugin-status {
+        font-size: 10px;
+
+        .input-hint {
+            font-size: 8px;
+            letter-spacing: .05em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+
+    .heading-title {
+        font-size: 14px;
+    }
+
+    thead {
+        th {
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: $c-white;
+            background-color: $c-moss;
+            letter-spacing: $letter-spacing;
+            padding: 16px 20px;
+            @include antialias;
+            //&:nth-child(2) { text-align: left !important }
+            &:first-child { border-top-left-radius: $border-radius; }
+            &:last-child { border-top-right-radius: $border-radius; }
+        }
+    }
+
+    .heading-row {
+        td {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 10px;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                td.name a {
+                    color: $c-info;
+                }
+                .icon.move svg { opacity: 1; }
+            }
+            td:first-child {
+                border-left: 1px solid $c-border;
+            }
+            td:last-child {
+                border-right: 1px solid $c-border;
+            }
+            &:last-child {
+                td { 
+                    // border: none;
+                }
+                td:first-child {
+                    border-bottom-left-radius: $border-radius;
+                }
+                td:last-child {
+                    border-bottom-right-radius: $border-radius;
+                }
+            }
+        }
+        td {
+            font-size: 14px;
+            padding: 16px 20px;
+            background-color: $c-white;
+            border-bottom: 1px solid $c-border;
+            @include antialias;
+
+            &.dragsort {
+                text-align: center;
+                width: 60px;
+            }
+
+            &.form-actions {
+                text-align: center;
+            }
+
+            &.name a {
+                font-weight: bold;
+                color: $c-textDarkBlue;
+                transition: color .3s ease;
+            }
+            &.updated, &.count {
+                color: $c-textLight;
+                text-align: center;
+            }
+        }
+    }
+
+    .icon.move {
+        svg { opacity: .3; transition: opacity .3s ease; }
+        &:hover {
+            svg { opacity: 1; }
+        }
+        &:before {
+            display: none !important;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{% for entry in entries %}
+    {% set postDate = entry.dateCreated.date |timeAgo(entry.dateCreated.date) %}
+
+    <a href="{{ entry.url }}" class="item">
+        <div class="item-title">{{ entry.title }}</div>
+        <div class="item-meta">
+            <div class="item-form"><i class="fas fa-list"></i><span>{{ entry.getForm() }}</span></div>
+            <div class="item-date">{{ postDate }} ago</div>
+        </div>
+    </a>
+{% endfor %}

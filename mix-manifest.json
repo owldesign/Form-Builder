@@ -1,0 +1,17 @@
+{
+    "/formbuilder/resources/js/formbuilder.js": "/formbuilder/resources/js/formbuilder.js",
+    "/formbuilder/resources/css/formbuilder.css": "/formbuilder/resources/css/formbuilder.css",
+    "/formbuilder/resources/js/tags.js": "/formbuilder/resources/js/tags.js",
+    "/formbuilder/resources/js/tab-designer.js": "/formbuilder/resources/js/tab-designer.js",
+    "/formbuilder/resources/js/option.js": "/formbuilder/resources/js/option.js",
+    "/formbuilder/resources/js/modal.js": "/formbuilder/resources/js/modal.js",
+    "/formbuilder/resources/js/integrations.js": "/formbuilder/resources/js/integrations.js",
+    "/formbuilder/resources/js/groups.js": "/formbuilder/resources/js/groups.js",
+    "/formbuilder/resources/js/forms.js": "/formbuilder/resources/js/forms.js",
+    "/formbuilder/resources/js/fields.js": "/formbuilder/resources/js/fields.js",
+    "/formbuilder/resources/js/field-designer.js": "/formbuilder/resources/js/field-designer.js",
+    "/formbuilder/resources/js/entries.js": "/formbuilder/resources/js/entries.js",
+    "/formbuilder/resources/js/designer.js": "/formbuilder/resources/js/designer.js",
+    "/formbuilder/resources/js/dashboard.js": "/formbuilder/resources/js/dashboard.js",
+    "/formbuilder/resources/js/charts.js": "/formbuilder/resources/js/charts.js"
+}

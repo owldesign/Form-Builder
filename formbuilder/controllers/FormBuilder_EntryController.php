@@ -1,6 +1,7 @@
 <?php
 namespace Craft;
 
+require_once __DIR__ . '/functions/array-group-by.php';
 
 class FormBuilder_EntryController extends BaseController
 {
@@ -15,6 +16,16 @@ class FormBuilder_EntryController extends BaseController
 
     // Public Methods
     // =========================================================================
+
+    public function actionIndex()
+    {
+        craft()->templates->includeJsResource('/formbuilder/js/clipboard/clipboard.js');
+
+        craft()->templates->includeJsResource('/formbuilder/js/entries.js');
+        craft()->templates->includeJsResource('/formbuilder/js/charts.js');
+
+        $this->renderTemplate('formbuilder/entries/index');
+    }
 
     public function actionEdit(array $variables = array())
     {
@@ -53,9 +64,10 @@ class FormBuilder_EntryController extends BaseController
         $this->requirePostRequest();
 
         $formId         = craft()->request->getRequiredParam('formId');
-        $this->form     = formbuilder()->forms->getFormRecordById($formId);
+        $this->form     = FormBuilder()->forms->getFormRecordById($formId);
         $this->post     = craft()->request->getPost();
         $this->files    = $_FILES;
+
         $saveToDatabase = isset($this->form->settings['database']['enabled']) && $this->form->settings['database']['enabled'] == '1' ? true : false;
 
         // Setup entry model
@@ -66,14 +78,18 @@ class FormBuilder_EntryController extends BaseController
         $this->_spamProtection();
 
         // Terms & Conditions
-        $this->_checkTermsConditions();
+//        $this->_checkTermsConditions();
 
         if ($this->entry->hasErrors()) {
-            $this->_returnErrorMessage();
+            craft()->urlManager->setRouteVariables(array(
+                'submission' => $this->entry
+            ));
+
+            return null;
         }
 
         if ($saveToDatabase) {
-            if (formbuilder()->entries->save($this->entry)) {
+            if (FormBuilder()->entries->save($this->entry)) {
                 $saved = true;
             } else {
                 $saved = false;
@@ -161,6 +177,88 @@ class FormBuilder_EntryController extends BaseController
         craft()->request->sendFile(IOHelper::getFileName($filePath), IOHelper::getFileContents($filePath), array('forceDownload' => true));
     }
 
+    /**
+     * Get unread entries count
+     *
+     * @return mixed
+     */
+    public function actionGetUnreadEntries()
+    {
+
+        $query = FormBuilder_EntryRecord::model()->findAllByAttributes(array(
+            'statusId' => 1
+        ));
+
+        $entries = FormBuilder_EntryModel::populateModels($query);
+        $grouped = array_group_by($entries, 'formId');
+
+
+        $oldPath = craft()->templates->getTemplatesPath();
+        $newPath = craft()->path->getPluginsPath().'formBuilder/templates';
+        craft()->templates->setTemplatesPath($newPath);
+
+        if ($entries) {
+            $template = craft()->templates->render('entries/_includes/_unread-entries', array('entries' => $entries));
+        } else {
+            $template = false;
+        }
+
+        craft()->templates->setTemplatesPath($oldPath);
+
+        $this->returnJson(array(
+            'success' => true,
+            'entries' => $entries,
+            'grouped' => $grouped,
+            'template' => $template,
+            'totalCount' => count($entries)
+        ));
+    }
+
+    /**
+     * Get all unread entries by form ID
+     *
+     * @return mixed
+     */
+    public function actionGetUnreadEntriesBySource()
+    {
+        $this->requirePostRequest();
+
+        $source = craft()->request->getParam('source');
+        $entries = false;
+
+        if ($source) {
+            $formId = explode($source, ':');
+
+            $query = FormBuilder_EntryRecord::model()->findAllByAttributes(array(
+               'formId' => $formId[1],
+               'statusId' => 1
+            ));
+
+            $entries = FormBuilder_EntryModel::populateModels($query);
+
+        }
+
+        $oldPath = craft()->templates->getTemplatesPath();
+        $newPath = craft()->path->getPluginsPath().'formBuilder/templates';
+        craft()->templates->setTemplatesPath($newPath);
+
+        if ($entries) {
+            $template = craft()->templates->render('entries/_includes/_unread-entries', array('entries' => $entries));
+        } else {
+            $template = false;
+        }
+
+        craft()->templates->setTemplatesPath($oldPath);
+
+        $this->returnJson(array(
+            'success' => true,
+            'entries' => $entries,
+            'template' => $template,
+            'count' => count($entries)
+        ));
+    }
+
+
 
     // Protected Methods
     // =========================================================================
@@ -184,21 +282,6 @@ class FormBuilder_EntryController extends BaseController
                 // }
             }
         }
-    }
-
-    /**
-     * Get unread entries count
-     *
-     * @return mixed
-     */
-    public function actionGetUnreadEntries()
-    {
-        $count = formbuilder()->entries->getUnreadEntries();
-
-        $this->returnJson(array(
-            'success' => true,
-            'count' => $count
-        ));
     }
 
     /**

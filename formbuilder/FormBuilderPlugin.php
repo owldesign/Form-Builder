@@ -4,15 +4,20 @@
 Plugin Name: Form Builder
 Plugin Url: https://github.com/owldesign/Form-Builder
 Author: Vadim Goncharov (https://github.com/owldesign)
-Author URI: http://github.com/owldesign
+Author URI: https://github.com/owldesign
 Description: Form Builder is a Craft CMS plugin that lets you create and manage forms for your front-end.
 Version: 1.0.3
 */
 
 namespace Craft;
 
+require __dir__.'/plugin/Routes.php';
+
 class FormBuilderPlugin extends BasePlugin
 {
+    // Traits
+    // =========================================================================
+    use Routes;
 
     // Public Methods
     // =========================================================================
@@ -21,12 +26,14 @@ class FormBuilderPlugin extends BasePlugin
     {
         parent::init();
 
+        $this->registerCpRoutes();
+
         // Getting date for releases.json
         // Craft::dd(DateTimeHelper::toIso8601(DateTimeHelper::currentTimeStamp()));
 
         if (craft()->request->isCpRequest()) {
             // Plugin Prep Template Hook
-//            craft()->templates->hook('formBuilder.prepTemplate', array($this, '_prepTemplate'));
+            craft()->templates->hook('formBuilder.prepTemplate', array($this, '_prepTemplate'));
 
             // Check for unread entries
             if ($this->getSettings()->unreadNotifications && $this->getSettings()->unreadNotifications == '1') {
@@ -35,11 +42,6 @@ class FormBuilderPlugin extends BasePlugin
                     $this->_renderUnreadCount($count);
                 }
             }
-        }
-
-        // Render custom footer
-        if (craft()->request->isCpRequest() && craft()->request->getSegment(1) == 'formbuilder') {
-            $this->_renderFooter();
         }
 
         // Bind custom events
@@ -55,6 +57,7 @@ class FormBuilderPlugin extends BasePlugin
         if ($settings->pluginName) {
             return $settings->pluginName;
         }
+
         return 'Form Builder';
     }
 
@@ -75,7 +78,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function getSchemaVersion()
     {
-        return '1.0.0';
+        return '1.0.1';
     }
 
     /**
@@ -85,8 +88,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function getReleaseFeedUrl()
     {
-        return parent::getReleaseFeedUrl();
-         return 'https://raw.githubusercontent.com/owldesign/Form-Builder/master/releases.json';
+        return 'https://raw.githubusercontent.com/owldesign/Form-Builder/master/releases.json';
     }
 
     /**
@@ -106,7 +108,7 @@ class FormBuilderPlugin extends BasePlugin
      */
     public function getDeveloperUrl()
     {
-        return 'http://owl-design.net';
+        return 'https://owl-design.net';
     }
 
     /**
@@ -178,25 +180,6 @@ class FormBuilderPlugin extends BasePlugin
     }
 
     /**
-     * Register CP routes
-     */
-    public function registerCpRoutes()
-    {
-        return array(
-            'formbuilder' => 'formbuilder/dashboard',
-            'formbuilder/forms/(?P<groupId>\d+)' => 'formbuilder/forms',
-            'formbuilder/forms/new' => array('action' => 'formBuilder/form/edit'),
-            'formbuilder/forms/edit/(?P<formId>\d+)' => array('action' => 'formBuilder/form/edit'),
-            'formbuilder/entries/edit/(?P<entryId>\d+)' => array('action' => 'formBuilder/entry/edit'),
-            'formbuilder/templates' => 'formbuilderemailnotifications/templates',
-            'formbuilder/templates/new' => array('action' => 'formBuilderEmailNotifications/template/edit'),
-            'formbuilder/templates/(?P<templateId>\d+)' => array('action' => 'formBuilderEmailNotifications/template/edit'),
-            'formbuilder/templates/(?P<templateId>\d+)/edit' => array('action' => 'formBuilderEmailNotifications/template/edit'),
-            'formbuilder/settings' => array('action' => 'formBuilder/setting/index'),
-        );
-    }
-
-    /**
      *
      * Add Navigation
      *
@@ -219,7 +202,7 @@ class FormBuilderPlugin extends BasePlugin
         }
 
         $context['subnav']['entries'] = array(
-            'label' => '<span>something</span>' . Craft::t('Entries'),
+            'label' => Craft::t('Entries'),
             'url' => 'formbuilder/entries'
         );
 
@@ -242,12 +225,10 @@ class FormBuilderPlugin extends BasePlugin
 
     }
 
-    /**
-     * @return formBuilderTwigExtension
-     */
     public function addTwigExtension()
     {
         Craft::import('plugins.formbuilder.twigextensions.FormBuilderTwigExtension');
+
         return new FormBuilderTwigExtension();
     }
 
@@ -267,64 +248,82 @@ class FormBuilderPlugin extends BasePlugin
         // Check custom field settings
         craft()->on('fields.saveFieldLayout', function(Event $event) {
             $layout = $event->params['layout'];
-            $formbuilder = craft()->request->getPost('formbuilder');
+            $post = craft()->request->getPost('form-builder');
 
-            if ($formbuilder) {
-                $transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
-
-                try {
-                    foreach($formbuilder['field'] as $fieldId => $fieldInfo) {
+            if ($post) {
+                if (isset($post['field'])) {
+                    foreach ($post['field'] as $fieldId => $field) {
                         $fieldModel = new FormBuilder_FieldModel();
                         $fieldModel->fieldId = $fieldId;
-                        $fieldModel->fieldLayoutId = $layout->id;
 
-                        if (isset($fieldInfo['input'])) {
-                            $fieldModel->input = JsonHelper::encode($fieldInfo['input']);
+                        if ($layout->id) {
+                            $fieldModel->fieldLayoutId = $layout->id;
                         }
 
-                        if (isset($fieldInfo['html'])) {
-                            $fieldModel->html = JsonHelper::encode($fieldInfo['html']);
+                        if (isset($post['formId'])) {
+                            $fieldModel->formId = $post['formId'];
                         }
 
-                        formbuilder()->fields->save($fieldModel);
-                    }
+                        if (isset($field['options'])) {
+                            $fieldModel->options = JsonHelper::encode($field['options']);
+                        }
 
-                    if($transaction) {
-                        $transaction->commit();
+                        FormBuilder()->fields->save($fieldModel);
                     }
-
-                } catch (\Exception $e) {
-                    if($transaction) {
-                        $transaction->rollback();
-                    }
-
-                    throw $e;
                 }
 
-                unset($_POST['formbuilder']);
+                if (isset($post['tab'])) {
+                    craft()->getDb()->createCommand()
+                        ->delete('{{%formbuilder_tabs}}', ['layoutId' => $layout->id])
+                        ->execute();
+
+                    foreach ($layout->getTabs() as $key => $value) {
+                        if (isset(array_values($post['tab'])[$key]['options'])) {
+                            FormBuilder()->tabs->save($value, array_values($post['tab'])[$key], $post['formId'], $layout->id);
+                        }
+
+                    }
+                }
             }
+
+            unset($_POST['form-builder']);
+
+//            if ($formbuilder) {
+//                $transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
+//
+//                try {
+//                    foreach($formbuilder['field'] as $fieldId => $fieldInfo) {
+//                        $fieldModel = new FormBuilder_FieldModel();
+//                        $fieldModel->fieldId = $fieldId;
+//                        $fieldModel->fieldLayoutId = $layout->id;
+//
+//                        if (isset($fieldInfo['input'])) {
+//                            $fieldModel->input = JsonHelper::encode($fieldInfo['input']);
+//                        }
+//
+//                        if (isset($fieldInfo['html'])) {
+//                            $fieldModel->html = JsonHelper::encode($fieldInfo['html']);
+//                        }
+//
+//                        formbuilder()->fields->save($fieldModel);
+//                    }
+//
+//                    if($transaction) {
+//                        $transaction->commit();
+//                    }
+//
+//                } catch (\Exception $e) {
+//                    if($transaction) {
+//                        $transaction->rollback();
+//                    }
+//
+//                    throw $e;
+//                }
+//
+//                unset($_POST['formbuilder']);
+//            }
         });
     }
-
-    /**
-     * Display Form Builder Information in the footer
-     */
-    private function _renderFooter()
-    {
-        craft()->templates->includeJsResource('formbuilder/js/formbuilder.js');
-        craft()->templates->includeJs("
-            Branding = new Branding();
-            Branding.displayFooter({
-                pluginName: '" . $this->getName() . "',
-                pluginUrl: '" . $this->getDeveloperUrl() . "',
-                pluginVersion: '" . $this->getVersion() . "',
-                pluginDescription: '" . $this->getDescription() . "',
-                developerName: '" . $this->getDeveloper() . "',
-                developerUrl: '" . $this->getDeveloperUrl() . "'
-            });
-        ");
-    }
-
 
     /**
      * @inheritDoc IPlugin::onAfterInstall()
@@ -345,16 +344,18 @@ class FormBuilderPlugin extends BasePlugin
         formbuilder()->forms->clearOutElementIndex();
         formbuilder()->entries->clearOutElementIndex();
     }
+
+
 }
 
 
 /**
  *
- * formbuilder()->service->method()
+ * FormBuilder()->service->method()
  *
  * @return mixed
  */
-function formbuilder()
+function FormBuilder()
 {
     return Craft::app()->getComponent('formBuilder');
 }

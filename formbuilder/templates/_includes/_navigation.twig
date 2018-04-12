@@ -1,32 +1,76 @@
-{% set adminUrl = craft.formBuilder.adminUrl() %}
+{% set currentPage = craft.request.getSegment(2) %}
 
-<ul class="subnav">
-    <li>
-        <a href="{{ adminUrl }}/dashboard" {% if title == 'Dashboard' %}class="sel"{% endif %}><i class="far fa-tachometer"></i> {{ "Dashboard" |t }}</a>
-    </li>
+<section id="formbuilder-nav">
+    
+    <div class="fb-logo">
+        {% include 'formbuilder/_includes/icons/formbuilder-icon' ignore missing %}
+    </div>
 
-    <li>
-        <a href="{{ adminUrl }}/forms" {% if title == 'Forms' %}class="sel"{% endif %}><i class="far fa-server"></i> {{ "Forms" |t }}</a>
-    </li>
+    <div class="fb-nav">
+        <a href="{{ url('formbuilder') }}" {% if currentPage == null or currentPage == 'dashboard' %}class="active"{% endif %}>{{ "Dashboard"|t }}</a>
+        <a href="{{ url('formbuilder/forms') }}" {% if currentPage == 'forms' %}class="active"{% endif %}>{{ "Forms"|t }}</a>
+        <a href="{{ url('formbuilder/entries') }}" {% if currentPage == 'entries' %}class="active"{% endif %}>{{ "Entries"|t }}</a>
+    </div>
+    
+    <div class="fb-utility">
+        <div class="fb-utility-btn fb-alerts-container" data-type="alerts">
+            <span class="fb-badge">4</span>
+            <span class="icon"><i class="fas fa-bell"></i></span>
+            <div class="utility-menu">
+                <div class="wrapper">
+                    <header>
+                        <p>{{ "Alerts"|t }}</p>
+                    </header>
+                    <div class="body"></div>
+                    <footer></footer>
+                </div>
+            </div>
+        </div>
 
-    <li>
-        <a href="{{ adminUrl }}/entries" {% if title == 'Entries' %}class="sel"{% endif %}>
-            <i class="far fa-clipboard"></i> {{ "Entries" |t }}
-            <span class="total-entry-count"></span>
-        </a>
-    </li>
+        <div class="fb-utility-btn fb-unread-container" data-type="unread">
+            <span class="fb-badge">
+                <div class="loader hidden">
+                    {% include 'formbuilder/_includes/icons/loader-circle' ignore missing with {
+                        width: '7px',
+                        height: '7px',
+                        strokeColor: '#fff'
+                    } %}
+                </div>
+                <span class="count">{# {{ craft.formBuilder.getUnreadEntries() }} #}</span>
+            </span>
 
-    {% if craft.plugins.getPlugin('formbuilderemailnotifications') and craft.plugins.getPlugin('formbuilderemailnotifications').isInstalled() %}
-    <li>
-        <a href="{{ adminUrl }}/templates" {% if title == 'Templates' %}class="sel"{% endif %}><i class="far fa-paint-brush"></i> {{ "Templates" |t }}</a>
-    </li>
-    {% endif %}
+            <span class="icon">
+                <i class="fas fa-inbox"></i>
+            </span>
 
-    <li>
-        <a href="{{ adminUrl }}/settings" {% if title == 'Settings' %}class="sel"{% endif %}><i class="far fa-cogs"></i> {{ "Settings" |t }}</a>
-    </li>
+            <div id="unread-notifications" class="utility-menu">
+                <div class="wrapper">
+                    <header>
+                        <p>{{ "Unread Submissions"|t }}</p>
+                    </header>
+                    <div class="body"></div>
+                    <footer></footer>
+                </div>
+            </div>
+        </div>
 
-    <li>
-        <a href="{{ adminUrl }}/forms/new?groupId=1"><i class="fas fa-plus"></i> {{ "Create New Form" |t }}</a>
-    </li>
-</ul>
+       {#  <div class="fb-utility-btn fb-settings-container" data-type="settings">
+            <span class="icon"><i class="fas fa-cog"></i></span>
+
+            <div class="utility-menu">
+                <div class="wrapper">
+                    <header>
+                        <p>{{ "Settings"|t('form-builder') }}</p>
+                    </header>
+                    <div class="body"></div>
+                    <footer></footer>
+                </div>
+            </div>
+        </div> #}
+        
+        <div class="fb-mobile-nav">
+            <span class="icon"><i class="fas fa-bars"></i></span>
+        </div>
+    </div>
+
+</section>

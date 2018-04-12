@@ -1,40 +1,31 @@
-{% includeJsResource "formbuilder/js/packs/regular.min.js" %}
-{% includeJsResource "formbuilder/js/packs/light.min.js" %}
-{% includeJsResource "formbuilder/js/packs/solid.min.js" %}
-{% includeJsResource "formbuilder/js/fontawesome.min.js" %}
-{% includeJsResource "formbuilder/js/plugins.js" %}
-{% includeJsResource "formbuilder/js/formbuilder.js" %}
+{% include 'formbuilder/_includes/_navigation.twig' ignore missing %}
+
 {% includeCssResource "formbuilder/css/formbuilder.css" %}
+{% includeJsResource "formbuilder/js/formbuilder.js" %}
+{% includeJsResource "formbuilder/js/fontawesome/fa-regular.min.js" %}
+{% includeJsResource "formbuilder/js/fontawesome/fa-light.min.js" %}
+{% includeJsResource "formbuilder/js/fontawesome/fa-solid.min.js" %}
+{% includeJsResource "formbuilder/js/fontawesome/fontawesome.js" %}
 
-{% set adminUrl = craft.formBuilder.adminUrl() %}
-
-<div class="plugin-status">
-    <span class="status-text">BETA</span>
-</div>
-
-<div class="page-header">
-    <div class="logo">
-        {% include 'formbuilder/_includes/icons/formbuilder-icon.twig' ignore missing %}
+<section id="header">
+    <div class="page-header">
+        <h1>{{ title }}</h1>
     </div>
 
-    <h1>{{ title }}</h1>
-</div>
+    {% if createForm is defined and createForm %}
+        {% set newFormUrl = url('formbuilder/forms/new', (groupId is defined ? { groupId: groupId } : { groupId: 1 })) %}
+        <a href="{{ newFormUrl }}" id="new-form-btn" class="btns btn-info submit"><i class="fas fa-plus"></i><span class="txt">{{ "Create New Form"|t }}</span></a>
+    {% endif %}
 
-{% if createForm is defined and createForm %}
-    {% set newFormUrl = url('formbuilder/forms/new', (groupId is defined ? { groupId: groupId } : { groupId: 1 })) %}
-    <a href="{{ newFormUrl }}" id="new-form-btn" class="btns btn-info submit add icon">{{ "Create New Form"|t }}</a>
-{% endif %}
+    {% if createNotification is defined and createNotification %}
+        {% set newNotificationUrl = url('formbuilder/notifications/new', (type is defined ? { type: type } : { type: 'email' })) %}
+        <a href="{{ newNotificationUrl }}" id="new-form-btn" class="btns btn-info submit"><i class="fas fa-plus"></i><span class="txt">{{ "Create New Notification"|t }}</span></a>
+    {% endif %}
 
-{% if createTemplate is defined and createTemplate %}
-    <div class="button-wrapper">
-        <a href="{{ url('formbuilder/templates/new') }}" class="btns btn-info">{{ "Create New Template"|t }}</a>
-    </div>
-{% endif %}
+</section>
 
 <script type="text/javascript">
     window.FormBuilder = {
-        pageTitle: '{{ _context.title is defined ? _context.title : '' }}',
-        unreadCount: '{{ craft.formBuilder.getUnreadEntries() }}',
-        adminUrl: '{{ adminUrl }}'
+        pageTitle: '{{ _context.title is defined ? _context.title : '' }}'
     }
 </script>

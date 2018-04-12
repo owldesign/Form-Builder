@@ -53,7 +53,7 @@ class FormBuilder_FormModel extends BaseElementModel
      */
     public function getCpEditUrl()
     {
-        $url = UrlHelper::getCpUrl('formbuilder/forms/edit/' . $this->id);
+        $url = UrlHelper::getCpUrl('formbuilder/forms/' . $this->id);
 
         return $url;
     }
@@ -89,11 +89,35 @@ class FormBuilder_FormModel extends BaseElementModel
     public function getEntryStatus()
     {
         $status = formbuilder()->forms->getStatusById($this->statusId);
-        $url = UrlHelper::getUrl('formbuilder/forms/edit/' . $this->id);
+        $url = UrlHelper::getUrl('formbuilder/forms/' . $this->id);
         $markup = '<a href="' . $url . '">' . $status->name . '</a>';
         $this->__set('statusId', $markup);
 
         return $this;
+    }
+
+    /**
+     * Get allowed field types
+     *
+     * @return array
+     */
+    public function getAllowedFieldTypes()
+    {
+        $allowed = [
+            'PlainText',
+            'Email',
+            'Number',
+            'Url',
+            'Assets',
+            'Dropdown',
+            'Checkboxes',
+            'MultiSelect',
+            'RadioButtons',
+            'Date',
+            'Color'
+        ];
+
+        return $allowed;
     }
 
     // Protected Methods

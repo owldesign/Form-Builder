@@ -10,13 +10,6 @@
 {% import "_includes/forms" as forms %}
 {% import "formbuilder/_includes/_components" as components %}
 
-{% includeJsResource "formbuilder/js/forms.js" %}
-{% includeJsResource "formbuilder/js/option.js" %}
-{% includeJsResource "formbuilder/js/modal.js" %}
-{% includeJsResource "formbuilder/js/field-settings.js" %}
-{% includeJsResource "formbuilder/js/fields.js" %}
-{% includeJsResource "formbuilder/js/tags.js" %}
-
 {% if form is not defined and formId is defined %}
     {% set form = craft.formBuilder.getFormById(formId) %}
     {% if not form %}
@@ -80,8 +73,48 @@
     <div class="grid">
 
         <div class="item" data-colspan="2">
-            {% include 'formbuilder/forms/_includes/fields' ignore missing with { theme: 'moss' } %}
-            {% hook 'formBuilder.formNotificationsHtml' %}
+            {% include 'formbuilder/forms/_includes/fields/fields' ignore missing %}
+            {#{% hook 'formBuilder.formNotificationsHtml' %}#}
+
+            <section class="notifications">
+                <header>
+                    <h2>{{ "Integrations"|t }}</h2>
+                    <p>{{ "Send notifications or save submission to 3rd party services."|t }}</p>
+                </header>
+
+                <div class="notify-options">
+                    {% if craft.plugins.getPlugin('formbuilderemailnotifications') and craft.plugins.getPlugin('formbuilderemailnotifications').isInstalled() %}
+                        {% set templates = craft.formBuilderEmailNotifications.getAllTemplates() %}
+                        {% if templates %}
+                            <a class="notify-item-btn btns btn-info add-email-notification" data-type="email" data-element="FormBuilder_EmailNotification" data-context="{{ form |json_encode() }}">
+                                <i class="fas fa-plus"></i>
+                                <span>{{ "Email Notification"|t }}</span>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+                    {#{% if craft.app.plugins.isPluginInstalled('formbuilder-slack-message') %}#}
+                        {#<a class="notify-item-btn btns btn-info add-slack-notification" data-type="slack" data-element="roundhouse\slacknotifier\elements\SlackNotification" data-context="{{ form |json_encode() }}">#}
+                            {#<i class="fas fa-plus"></i>#}
+                            {#<span>{{ "Slack Message"|t('form-builder') }}</span>#}
+                        {#</a>#}
+                    {#{% endif %}#}
+                </div>
+
+                {% if craft.plugins.getPlugin('formbuilderemailnotifications') and craft.plugins.getPlugin('formbuilderemailnotifications').isInstalled() %}
+                    {% set templates = craft.formBuilderEmailNotifications.getAllTemplates() %}
+                    {% if templates %}
+                        <div id="formbuilder-notifications-container" class="elements">
+                            {% set notifications = form.notifications is defined ? form.notifications %}
+                            {% for key, notification in notifications %}
+                                {% for key, notify in notification %}
+                                    {% include 'form-builder/forms/_includes/integrations/' ~ loop.parent.key ~ '/_notification' ignore missing with { notification: notify, key: key } %}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </section>
         </div>
 
         <div class="editform-sidebar item last">
@@ -112,7 +145,7 @@
                     {% include 'formbuilder/forms/_includes/options/submit-button' ignore missing %}
                     {% include 'formbuilder/forms/_includes/options/redirect' ignore missing %}
                     {% include 'formbuilder/forms/_includes/options/ajax' ignore missing %}
-                    {% include 'formbuilder/forms/_includes/options/terms-conditions' ignore missing %}
+                    {#{% include 'formbuilder/forms/_includes/options/terms-conditions' ignore missing %}#}
                 </div>
             </section>
 

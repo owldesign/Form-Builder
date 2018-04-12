@@ -1,0 +1,212 @@
+.formbuilder-modal {
+    border: 1px solid $c-border;
+    min-width: 420px !important;
+    min-height: auto !important;
+
+    &.has-sidebar {
+        header {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .body {
+            padding: 0 20px 20px 20px;
+        }
+    }
+
+    .modal-container {
+        display: flex;
+        height: calc(100% - 53px);
+
+        .modal-sidebar {
+            width: 35px;
+            min-width: 35px;
+            max-width: 35px;
+        }
+
+        .modal-content-container {
+            width: 100%;
+
+            & > div {
+                display: none;
+
+                &.active {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .modal-sidebar {
+        border-right: 1px solid $c-border;
+
+        nav {
+            padding-top: 5px;
+        }
+
+        a {
+            display: block;
+            padding: 5px 10px;
+            color: $c-gray;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            transition: color .3s ease;
+
+            &:hover {
+                color: $c-green;
+            }
+
+            &.active {
+                color: $c-green;
+            }
+        }
+
+        .link-text {
+            padding-left: 5px;
+            display: none;
+        }
+    }
+    
+    header {
+        padding: 60px 60px 40px 60px;
+        text-align: center;
+        .modal-title {
+            margin: 0 0 2px 0;
+            font-size: 12px;
+            line-height: 1;
+            color: black;
+            font-weight: 700;
+            text-transform: none;
+            text-decoration: none;
+            color: $c-textDarkBlue;
+        }
+
+        .instructions {
+            padding: 0;
+            margin: 0;
+            font-size: 10px;
+            font-weight: 400;
+            color: $c-textLight;
+            text-transform: none;
+
+        }
+    }
+
+    .body {
+        position: relative;
+        padding: 0 60px 50px 60px;
+
+        .fb-field {
+            margin-bottom: 15px;
+
+            &.has-spinner {
+                .spinner {
+                    position: absolute;
+                    right: 8px;
+                }
+            }
+
+            &.toggle-field {
+                opacity: .5;
+            }
+
+            &.active-field {
+                opacity: 1;
+                
+                .toggle-btn {
+                    background: $c-green;
+                    border: 2px solid $c-green;
+                }
+            }
+        }
+
+        .toggle-btn {
+            position: absolute;
+            left: -30px;
+            @include size(10px);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid $c-border;
+        }
+
+        .footer-notes {
+            padding: 15px;
+            background-color: $c-offWhite;
+            border: 1px solid darken($c-offWhite, 5);
+            border-radius: 5px;
+            font-size: 12px;
+            color: $c-lightGray;
+            text-align: center;
+
+            a {
+                color: $c-info;
+                transition: all .3s ease;
+
+                &:hover {
+                    color: $c-gray;
+                }
+            }
+        }
+    }
+
+    footer {
+        border-top: 1px solid $c-border;
+        background-image: none;
+        background-color: $c-white;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        & > input {
+            display: block;
+            flex: 1;
+            border: none;
+            outline: none;
+            border-radius: 0;
+            padding: 20px;
+            cursor: pointer;
+            color: $c-textDarkBlue;
+            background-color: transparent;
+            @include appearance(none);
+            &:first-child {
+                border-right: 1px solid $c-border;
+            }
+            &:hover {
+                background-color: $c-border;
+            }
+
+            &.submit:focus {
+                background-color: $c-border;
+            }
+        }
+        &:before, &:after {
+            display: none;
+        }
+    }
+
+    .tags-container {
+        display: flex;
+        flex-direction: row;
+
+        .tag-btn {
+            border-radius: $border-radius;
+            border: 1px solid $c-border;
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 11px;
+            font-weight: 300;
+            color: $c-textLight;
+            cursor: pointer;
+            transition: all .3s ease;
+            
+            &:hover {
+                background-color: $c-border;
+            }
+        }
+    }
+
+}

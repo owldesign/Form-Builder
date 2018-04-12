@@ -20,7 +20,13 @@ class FormBuilder_SettingController extends BaseController
      */
     public function actionIndex()
     {
-        // Integrations
+        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-regular.min.js');
+        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-light.min.js');
+        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-solid.min.js');
+        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fontawesome.js');
+
+        craft()->templates->includeCssResource('/formbuilder/css/formbuilder.css');
+        craft()->templates->includeJsResource('/formbuilder/js/formbuilder.js');
 
         // Email
         $emailNotificationsPlugin = craft()->plugins->getPlugin('FormBuilderEmailNotifications', false);

@@ -1,0 +1,44 @@
+// ============================================ *
+// * Variables
+// ============================================ *
+@import "mixins"; // Custom mixins, functions, etc
+
+// Typography
+$letter-spacing: .04em;
+
+// Borders
+$border-radius: 5px;
+
+// Sizes
+$max-width: 1280px;
+$desktop: 998px;
+$tablet: 768px;
+$mobile: 482px;
+
+// Colors
+$c-gray: #474747;
+$c-lightGray: #a5a6a8;
+$c-teal: #47c5ca;
+$c-blue: #4da1ff;
+$c-darkBlue: #273037;
+$c-red: #f07575;
+$c-green: #A6E50F;
+
+// New Colors
+$c-text: #595D66;
+$c-textLight: #989898;
+$c-textDark: #4A4A4A;
+$c-textDarkBlue: #323C47;
+
+$c-border: #E9EFF4;
+$c-grayBackground: #F4F7F9;
+
+$c-offWhite: #f3f3f3;
+$c-white: #ffffff;
+$c-warning: #ffd012;
+$c-danger: #f07575;
+$c-success: #a6e50f;
+$c-info: #4da1ff;
+$c-purple: #624096;
+$c-moss: #637c8a;
+

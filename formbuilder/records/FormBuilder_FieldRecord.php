@@ -30,10 +30,8 @@ class FormBuilder_FieldRecord extends BaseRecord
     protected function defineAttributes()
     {
         return array(
-            'settings'  => AttributeType::Mixed,
-            'input'     => AttributeType::Mixed,
-            'html'      => AttributeType::Mixed,
-            'template'  => AttributeType::String
+            'formId'    => AttributeType::Number,
+            'options'   => AttributeType::Mixed
         );
     }
 }

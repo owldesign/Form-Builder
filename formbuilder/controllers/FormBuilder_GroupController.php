@@ -19,7 +19,7 @@ class FormBuilder_GroupController extends BaseController
 
         $isNewGroup = empty($group->id);
 
-        if (formbuilder()->groups->save($group)) {
+        if (FormBuilder()->groups->save($group)) {
             if ($isNewGroup) {
                 craft()->userSession->setNotice(Craft::t('Group added.'));
             }
@@ -44,7 +44,7 @@ class FormBuilder_GroupController extends BaseController
         $this->requireAjaxRequest();
 
         $groupId = craft()->request->getRequiredPost('id');
-        $success = formbuilder()->groups->deleteGroupById($groupId);
+        $success = FormBuilder()->groups->deleteGroupById($groupId);
 
         craft()->userSession->setNotice(Craft::t('Group deleted.'));
 

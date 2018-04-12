@@ -1,0 +1,29 @@
+{% set name = name ?? null -%}
+{% set value = value ?? null -%}
+{% set small = small ?? false -%}
+{% set autofocus = (autofocus ?? false) and not craft.app.request.isMobileBrowser(true) -%}
+{% set disabled = disabled ?? false -%}
+{%- set class = [
+    'text',
+    (class is defined and class ? class : null),
+    (disabled is defined and disabled ? 'disabled' : null),
+    (size is defined and size ? null : 'fullwidth')
+]|filter|join(' ') %}
+
+{% spaceless %}
+    <div class="flex color-container"
+            {%- if block('attr') is defined %} {{ block('attr') }}{% endif %}>
+        <div class="color static{% if small %} small{% endif %}">
+            <div class="color-preview"
+                {%- if value %} style="background-color: {{ value }};"{% endif -%}
+            ></div>
+        </div>
+
+        <input type="color" class="{{ class }}"
+            {%- if value is defined %} value="{{ value }}"{% endif %}
+            {%- if name is defined %} name="{{ name }}"{% endif %}
+            {%- if size is defined %} size="{{ size }}"{% endif %}
+            {%- if autofocus is defined and autofocus and not craft.app.request.isMobileBrowser(true) %} autofocus{% endif %} 
+            {%- if disabled is defined and disabled %} disabled {% endif %}>
+    </div>
+{% endspaceless -%}

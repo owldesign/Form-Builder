@@ -1,0 +1,18 @@
+{% set id = (id ?? 'time'~random())~'-time' -%}
+{% set name = name ?? null -%}
+{% set value = value ?? null -%}
+
+<div class="timewrapper"
+        {%- if block('attr') is defined %} {{ block('attr') }}{% endif %}>
+        <input type="{{ type }}"
+               name="{{ name ? name~'[time]' }}"
+               value="{{ value ? value|time('short') : '' }}"
+               placeholder=" "
+               autocomplete="off"
+               size="10">
+
+    <div data-icon="time"></div>
+    {% if name -%}
+        <input type="hidden" name="{{ name }}[timezone]" value="{{ craft.app.getTimeZone() }}">
+    {%- endif -%}
+</div>
