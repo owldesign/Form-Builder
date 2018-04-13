@@ -1,143 +1,195 @@
 {% extends "_layouts/cp" %}
 
-{% hook 'formBuilder.prepTemplate' %}
-
-{% set elementType = 'FormBuilder_Entry' %}
+{% set bodyClass = 'formbuilder fb-entry-edit' %}
+{% set pluginCpUrl = url('form-builder') %}
 {% set selectedSubnavItem = "entries" %}
-{% set bodyClass = 'formbuilder fb-entry' %}
 
-{% block pageHeader %}
-    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
+{% block header %}
+    {% include 'form-builder/_includes/_header' ignore missing with { title: title } %}
 {% endblock %}
 
-{% block content %}
-    {% set files = {} %}
-    {% set fileIds = {} %}
+{% set details = true %}
 
-    <section class="submission-container grid">
+{% block main %}
+    <input type="hidden" name="action" value="form-builder/entries/save">
+    {{ redirectInput('form-builder/entries/{groupId}') }}
 
-        <div class="item" data-colspan="2">
-            <div class="submission-details-tout theme-white">
-                <header>
-                    <span class="tout-title">{{ "Submission Content"|t }}</span>
-                    <span class="right">
-                        <span class="tout-date">{{ entry.dateCreated | date('F jS, Y') }}</span>
-                        <a href="#" class="submission-action-trigger" data-type="submission" data-form-id="{{ form.id }}" data-entry-id="{{ entry.id }}">
-                            <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
-                            </svg>
-                        </a>
-                    </span>
+    {% if entry.id %}
+        <input type="hidden" name="entryId" value="{{ entry.id }}">
+    {% endif %}
+
+
+
+    <div id="content-container">
+        <div id="content">
+            <div class="widget wide-col">
+                <header class="pad">
+                    <h2>{{ "Submission"|t('form-builder') }}</h2>
                 </header>
-                <div class="body no-pad">
-                    {% for tab in fieldTabs %}
-                        {% set fields = tab.getFields() %}
 
-                        {% for field in fields %}
-                            {% set self = field.getField() %}
-                            {% set handle = self.handle %}
+                <div class="body">
 
-                            <div class="field">
-                                <span class="entry-label">{{ self.name }}</span>
-                                {% if self.type == 'Assets' %}
-                                    {% set files = files|merge(attribute(entry, handle).find()) %}
-                                    {% if files %}
-                                        {% for file in files %}
-                                            {% if file.id not in fileIds %}
-                                                {% set fileIds = fileIds|merge([file.id]) %}
-                                            {% endif %}
-                                        {% endfor %}
-                                        <a href="#" class="submission-action-trigger right" data-type="uploads" data-entry-id="{{ entry.id }}" data-form-id="{{ form.id }}" data-file-ids="{{ fileIds |json_encode() }}">
-                                            <svg width="22" height="5" viewBox="0 0 22 5" xmlns="http://www.w3.org/2000/svg">
-                                              <path d="M19.578 5c-1.337 0-2.422-1.119-2.422-2.5S18.241 0 19.578 0C20.916 0 22 1.119 22 2.5S20.916 5 19.578 5zM11 5C9.671 5 8.594 3.881 8.594 2.5S9.671 0 11 0c1.329 0 2.406 1.119 2.406 2.5S12.329 5 11 5zM2.422 5C1.084 5 0 3.881 0 2.5S1.084 0 2.422 0c1.337 0 2.422 1.119 2.422 2.5S3.759 5 2.422 5z" fill="#D0D7DD" fill-rule="evenodd"/>
-                                            </svg>
-                                        </a>
-                                        <div class="asset-container upload-details">
-                                            <table class="data fullwidth">
-                                                {% for file in files %}
+                    {% set tabs = entry.getFieldLayout().getTabs() %}
 
-                                                    {% if file %}
-                                                        <tr data-id="{{ file.id }}" tabindex="0">
-                                                            <td data-title="Title">
-                                                                <div class="element small hasthumb" data-id="{{ file.id }}" data-locale="{{ file.locale }}" data-status="{{ file.getStatus() }}" data-label="{{ file.title }}" data-url="{{ file.url }}" data-editable="{{ file.isEditable() }}">
-                                                                    <div class="elementthumb">
-                                                                        <img sizes="30px" srcset="{{ file.getThumbUrl(30) }} 30w, {{ file.getThumbUrl(60) }} 60w, {{ file.getThumbUrl(100) }} 100w, {{ file.getThumbUrl(200) }} 200w" alt="{{ file.title }}">
-                                                                    </div>
-                                                                    <div class="label">
-                                                                        <span class="title">{{ file.title }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    {% else %}
-                                                        <p class="no-files">Looks like files were removed!</p>
-                                                    {% endif %}
+                    {% for tab in tabs %}
+                        <div class="list">
+                            {% set fields = tab.getFields() %}
 
+                            {% for field in fields %}
+                                {% set fieldClass = field|getClass %}
+                                {% set value = attribute(entry, field.handle) %}
+                                <div class="list-item">
+                                    <div class="item-meta">
+                                        <span class="item-meta-title">{{ field.name }}</span>
+                                    </div>
+
+                                    {% if value is iterable %}
+                                        {% set valueClass = value|getClass %}
+                                        <div class="item-list">
+                                            {% switch valueClass %}
+
+                                            {% case "AssetQuery" %}
+                                                {% for asset in value.all() %}
+                                                    <div class="item-asset">
+                                                        <span class="asset-thumbnail pad"><img src="{{ asset.getThumbUrl(80) }}"></span>
+
+                                                        <div class="asset-description pad">
+                                                            <span class="item-title asset-title">{{ asset.title }}</span>
+                                                            <span class="item-title">{{ asset.size|formatBytes }}</span>
+                                                            <span class="item-title download-asset"><a href="{{ asset.url }}" target="_blank"><i class="far fa-download"></i></a></span>
+                                                            <div class="asset-select" data-asset-id="{{ asset.id }}"><i class="far fa-check-circle"></i></div>
+                                                        </div>
+                                                    </div>
                                                 {% endfor %}
-                                            </table>
+                                            {% case "MultiOptionsFieldData" %}
+                                                <span class="item-title">
+                                                    {% for item in value.getOptions() %}
+                                                        {% if item.selected %}
+                                                            {{ item }}
+                                                            {%- if not loop.last -%}
+                                                                ,
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </span>
+
+                                            {% endswitch %}
                                         </div>
+                                    {% else %}
+                                        {% if fieldClass == 'Date' %}
+                                            <span class="item-title">{{ value.date |date('M j, Y', 'UTC') }}</span>
+                                        {% else %}
+                                            <span class="item-title">{{ value }}</span>
+                                        {% endif %}
+
+                                        {% if fieldClass == 'Color' %}
+                                            <span style="background: {{ value }};display:block;width:30px;height:30px;position:absolute;top:50%;right:25px;margin-top:-15px;"></span>
+                                        {% elseif fieldClass == 'Url' %}
+                                            <a href="{{ value }}" style="display:block;position:absolute;top:50%;right:25px;margin-top:-8px;"><i class="far fa-external-link-alt"></i></a>
+                                        {% endif %}
                                     {% endif %}
-                                {% elseif self.type == 'Checkboxes' %}
-                                    <div class="value-results">
-                                        {% for item in attribute(entry, handle) %}
-                                            <span class="entry-value tag-value">{{ item.label }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% elseif self.type == 'RadioButtons' %}
-                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                {% elseif self.type == 'Dropdown' %}
-                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                {% elseif self.type == 'MultiSelect' %}
-                                    <div class="value-results">
-                                        {% for item in attribute(entry, handle) %}
-                                            <span class="entry-value tag-value">{{ item.label }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% elseif self.type == 'Number' %}
-                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                {% elseif self.type == 'PlainText' %}
-                                    <span class="entry-value">{{ attribute(entry, handle) }}</span>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+
+                                </div>
+                            {% endfor %}
+
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="item" data-colspan="1">
-            <div class="submission-details-tout theme-moss">
-                <header>
-                    <span class="tout-title">Form Details</span>
-                    <a href="#" class="submission-action-trigger right" data-type="form" data-form-id="{{ form.id }}" data-entry-id="{{ entry.id }}">
-                        {% include 'formbuilder/_includes/icons/dots' %}
-                    </a>
-                </header>
+    {% set form = entry.getForm() %}
+    {% set group = form.getGroup() %}
+    {% set notes = craft.formBuilder.notes(entry.id) %}
 
-                <div class="body no-pad">
-                    <div class="field theme-moss" data-cpfieldlinks="true">
-                        <span class="entry-label">Form</span>
-                        <span class="entry-value">{{ form.name }}</span>
+    <div id="details">
+        <div id="settings">
+            <div class="widget form-widget">
+                <header class="pad">
+                    <div class="group-icon">
+                        <i class="far fa-{{ group.settings.icon.name }}"></i>
                     </div>
-                    <div class="field theme-moss" data-cpfieldlinks="true">
-                        <span class="entry-label">IP Address</span>
-                        <span class="entry-value">{{ entry.ipAddress }}</span>
+                    <div class="form-info">
+                        <h6>{{ "form"|t('form-builder') }}</h6>
+                        <h2>{{ form.name }}</h2>
+                    </div>
+                </header>
+                <div class="body">
+                    <div class="list">
+                        <div class="list-item pad">
+                            <div class="item-meta">
+                                <span class="item-meta-icon"><i class="far fa-calendar"></i></span>
+                                <span class="item-meta-title">Posted on</span>
+                            </div>
+                            <div class="item-title">
+                                {{ entry.dateCreated |date() }}
+                            </div>
+                        </div>
+                        <div class="list-item pad">
+                            <div class="item-meta">
+                                <span class="item-meta-icon"><i class="far fa-globe"></i></span>
+                                <span class="item-meta-title">IP Address</span>
+                            </div>
+                            <div class="item-title">
+                                {{ entry.ipAddress }}
+                            </div>
+                        </div>
+                        <div class="list-item pad">
+                            <div class="item-meta">
+                                <span class="item-meta-icon"><i class="far fa-browser"></i></span>
+                                <span class="item-meta-title">Browser</span>
+                            </div>
+                            <div class="item-title">
+                                {{ entry.userAgent |browser(entry.userAgent) }}
+                            </div>
+                        </div>
+                        <div class="list-item element-actions">
+                            <button id="delete-entry" class="btns btn-danger" data-entry-id="{{ entry.id }}"><span>Delete Entry</span></button>
+
+                            <form id="download-all-assets" method="post" accept-charset="UTF-8">
+                                <input type="hidden" name="action" value="form-builder/assets/download-all-files">
+                                <input type="hidden" name="entryId" value="{{ entry.id }}">
+
+                                {{ csrfInput() }}
+                                <button type="submit" class="btns btn-info hidden"><span>Download Assets</span><span class="asset-count">0</span></button>
+                                <div class="download-status"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="widget notes-widget" data-entry-id="{{ entry.id }}">
+                <header class="pad">
+                    <h2>{{ "Notes"|t('form-builder') }}</h2>
+                    <a href="#" id="write-note-btn">Leave a note</a>
+                </header>
+                <div class="body">
+                    <div class="loader hidden"><svg width="20px" height="20px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" stroke="#E9EFF4"><g fill="none" fill-rule="evenodd"><g transform="translate(4 3)" stroke-width="5"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg></div>
+                    <div class="list">
+                        {% for note in notes %}
+                            <div class="list-item pad">
+                                <div class="item-meta">
+                                    <span class="item-meta-icon"><i class="far fa-user"></i></span>
+                                    <span class="item-meta-title">{{ note.getAuthor() }}</span>
+                                    <span class="item-meta-right">{{ note.dateCreated |date() }}</span>
+                                </div>
+
+                                <div class="item-title">
+                                    {{ note.note }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <li class="list-item no-items pad">
+                                <div class="item-title">
+                                    {{ "No notes yet, leave some."|t('form-builder') }}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-
-    </section>
-
-    {% includeJsResource "formbuilder/js/entries.js" %}
-
-    {% includejs %}
-    new Craft.FileUploadsIndex('Asset', $('.asset-container'), {
-        context:        'index',
-        storageKey:     'elementindex.Asset',
-        criteria:       { localeEnabled: null }
-    });
-    {% endincludejs %}
-
+    </div>
 {% endblock %}

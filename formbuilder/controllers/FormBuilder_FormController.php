@@ -13,14 +13,7 @@ class FormBuilder_FormController extends BaseController
 
     public function actionIndex()
     {
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-regular.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-light.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-solid.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fontawesome.js');
         craft()->templates->includeJsResource('/formbuilder/js/clipboard/clipboard.js');
-
-        craft()->templates->includeCssResource('/formbuilder/css/formbuilder.css');
-        craft()->templates->includeJsResource('/formbuilder/js/formbuilder.js');
         craft()->templates->includeJsResource('/formbuilder/js/forms.js');
         craft()->templates->includeJsResource('/formbuilder/js/groups.js');
 
@@ -36,12 +29,6 @@ class FormBuilder_FormController extends BaseController
     {
         $this->_prepEditFormVariables($variables);
 
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-regular.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-light.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fa-solid.min.js');
-        craft()->templates->includeJsResource('/formbuilder/js/fontawesome/fontawesome.js');
-        craft()->templates->includeCssResource('/formbuilder/css/formbuilder.css');
-        craft()->templates->includeJsResource('/formbuilder/js/formbuilder.js');
         craft()->templates->includeJsResource('/formbuilder/js/modal.js');
         craft()->templates->includeJsResource('/formbuilder/js/fields.js');
         craft()->templates->includeJsResource('/formbuilder/js/forms.js');

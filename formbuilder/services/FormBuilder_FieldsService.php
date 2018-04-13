@@ -35,36 +35,49 @@ class FormBuilder_FieldsService extends BaseApplicationComponent
      */
     public function getAllFieldOptions()
     {
-        $field = $this->_getAllFieldOptions();
+        $fields = $this->_getAllFieldOptions();
         $output = [];
 
-        foreach ($field as $field) {
-            $output[$field->id] = array(
-                'fieldLayoutId' => $field->fieldLayoutId,
-                'fieldId' => $field->fieldId,
-                'options' => $field->options
+        foreach ($fields as $field) {
+            $output[$field->attributes['id']] = array(
+                'fieldLayoutId' => $field->attributes['fieldLayoutId'],
+                'fieldId' => $field->attributes['fieldId'],
+                'options' => $field->attributes['options']
             );
         }
 
         return $output;
     }
 
-    public function getFieldRecordByFieldId($fieldId)
+    /**
+     * Get field record by field ID
+     *
+     * @param $fieldId
+     * @param null $formId
+     * @return static
+     */
+    public function getFieldRecordByFieldId($fieldId, $formId = null)
     {
-        $fieldRecord = FormBuilder_FieldRecord::model()->findById($fieldId);
+        $fieldRecord = FormBuilder_FieldRecord::model()->findByAttributes(array(
+            'fieldId' => $fieldId,
+            'formId' => $formId
+        ));
 
         return $fieldRecord;
     }
 
+    /**
+     * Save field options
+     *
+     * @param FormBuilder_FieldModel $field
+     * @return bool
+     * @throws \Throwable
+     */
     public function save(FormBuilder_FieldModel $field)
     {
         $fieldRecord = FormBuilder()->fields->getFieldRecordByFieldId($field->fieldId);
 
-        if ($fieldRecord) {
-            if (!$fieldRecord) {
-                throw new Exception(Craft::t('No field settings exists with the ID “{id}”.', array('id' => $field->id)));
-            }
-        } else {
+        if (!$fieldRecord) {
             $fieldRecord = new FormBuilder_FieldRecord();
         }
 
@@ -98,9 +111,14 @@ class FormBuilder_FieldsService extends BaseApplicationComponent
     // Private Methods
     // =========================================================================
 
+    /**
+     * Get all field options
+     * @return static[]
+     */
     private function _getAllFieldOptions()
     {
-        $fields = FormBuilder_FieldRecord::model()->findAll();
+        $query = FormBuilder_FieldRecord::model()->findAll();
+        $fields = FormBuilder_FieldModel::populateModels($query);
 
         return $fields;
     }

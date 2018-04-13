@@ -49,7 +49,7 @@ class FormBuilder_EntryModel extends BaseElementModel
      */
     public function getCpEditUrl()
     {
-        return UrlHelper::getCpUrl('formbuilder/entries/edit/' . $this->id);
+        return UrlHelper::getCpUrl('formbuilder/entries/' . $this->id);
     }
 
     /**
@@ -59,7 +59,7 @@ class FormBuilder_EntryModel extends BaseElementModel
      */
     public function getUrl()
     {
-        return UrlHelper::getCpUrl('formbuilder/entries/edit/' . $this->id);
+        return UrlHelper::getCpUrl('formbuilder/entries/' . $this->id);
     }
 
     /**

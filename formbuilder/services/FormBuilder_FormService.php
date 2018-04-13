@@ -125,6 +125,14 @@ class FormBuilder_FormService extends BaseApplicationComponent
         return $this->getCriteria(array('limit' => 1, 'handle' => $handle))->first();
     }
 
+    /**
+     * Save form
+     *
+     * @param FormBuilder_FormModel $form
+     * @return bool
+     * @throws \Exception
+     * @throws \Throwable
+     */
     public function save(FormBuilder_FormModel $form)
     {
         $isNewForm = !$form->id;
@@ -157,7 +165,7 @@ class FormBuilder_FormService extends BaseApplicationComponent
 
         $fieldLayout = $form->getFieldLayout();
         //$form->oldHandle = $formRecord->getOldHandle();
-        //$form->oldFIeldLayoutId = $formRecord->getOldFieldLayoutId();
+        //$form->oldFieldLayoutId = $formRecord->getOldFieldLayoutId();
 
         $fieldLayoutResult = craft()->fields->saveLayout($fieldLayout);
 

@@ -268,13 +268,20 @@ class FormBuilderPlugin extends BasePlugin
                             $fieldModel->options = JsonHelper::encode($field['options']);
                         }
 
+                        // Clean up old field options
+                        craft()->getDb()->createCommand()
+                            ->delete('formbuilder_fields', array(
+                                'formId' => $post['formId'],
+                                'fieldId' => $fieldId
+                            ));
+
                         FormBuilder()->fields->save($fieldModel);
                     }
                 }
 
                 if (isset($post['tab'])) {
                     craft()->getDb()->createCommand()
-                        ->delete('{{%formbuilder_tabs}}', ['layoutId' => $layout->id])
+                        ->delete('formbuilder_tabs', array('layoutId' => $layout->id))
                         ->execute();
 
                     foreach ($layout->getTabs() as $key => $value) {
@@ -287,41 +294,6 @@ class FormBuilderPlugin extends BasePlugin
             }
 
             unset($_POST['form-builder']);
-
-//            if ($formbuilder) {
-//                $transaction = craft()->db->getCurrentTransaction() ? false : craft()->db->beginTransaction();
-//
-//                try {
-//                    foreach($formbuilder['field'] as $fieldId => $fieldInfo) {
-//                        $fieldModel = new FormBuilder_FieldModel();
-//                        $fieldModel->fieldId = $fieldId;
-//                        $fieldModel->fieldLayoutId = $layout->id;
-//
-//                        if (isset($fieldInfo['input'])) {
-//                            $fieldModel->input = JsonHelper::encode($fieldInfo['input']);
-//                        }
-//
-//                        if (isset($fieldInfo['html'])) {
-//                            $fieldModel->html = JsonHelper::encode($fieldInfo['html']);
-//                        }
-//
-//                        formbuilder()->fields->save($fieldModel);
-//                    }
-//
-//                    if($transaction) {
-//                        $transaction->commit();
-//                    }
-//
-//                } catch (\Exception $e) {
-//                    if($transaction) {
-//                        $transaction->rollback();
-//                    }
-//
-//                    throw $e;
-//                }
-//
-//                unset($_POST['formbuilder']);
-//            }
         });
     }
 

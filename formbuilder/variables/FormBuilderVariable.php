@@ -67,11 +67,11 @@ class FormBuilderVariable
      * @param $field
      * @param $form
      * @return string|\Twig_Markup
+     * @throws Exception
      */
     public function getInputHtml($value, $entry, $field, $form)
     {
         $oldPath = craft()->templates->getTemplatesPath();
-
         $type = StringHelper::toLowerCase($field->type);
         $settings = $form->settings;
 
@@ -85,7 +85,6 @@ class FormBuilderVariable
 
         $fileExist = IOHelper::fileExists(craft()->templates->getTemplatesPath().$type.'/input.twig') ? true : false;
 
-
         if (!$fileExist) {
             craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/_includes/forms/');
         }
@@ -97,7 +96,8 @@ class FormBuilderVariable
             'settings'      => $field,
             'form'          => $form,
             'options'       => null,
-            'class'         => ''
+            'class'         => '',
+            'id'         => ''
         ];
 
         if (isset($field->settings['placeholder'])) {
@@ -116,14 +116,17 @@ class FormBuilderVariable
             $variables['rows'] = $field->settings['initialRows'];
         }
 
+        $fieldModel = FormBuilder()->fields->getFieldRecordByFieldId($field->id, $form->id);
 
-        $fieldOptions = FormBuilder()->fields->getFieldRecordByFieldId($field->id);
+        if ($fieldModel->attributes['options']) {
+            $options = $fieldModel->attributes['options'];
 
-
-        if ($fieldOptions) {
-            $options = JsonHelper::decode($fieldOptions->options);
             if (isset($options['class'])) {
                 $variables['class'] = $options['class'];
+            }
+
+            if (isset($options['id'])) {
+                $variables['id'] = $options['id'];
             }
         }
 
@@ -131,6 +134,7 @@ class FormBuilderVariable
             $availableClasses = $variables['class'];
             $variables['class'] = $availableClasses . ' ' . $settings['fields']['global']['inputClass'];
         }
+
 
         switch ($type) {
             case 'plaintext':
@@ -153,28 +157,28 @@ class FormBuilderVariable
         }
     }
 
+//    public function getTermsConditionsInputs($form)
+//    {
+//        $oldPath    = craft()->templates->getTemplatesPath();
+//        $terms      = $form->options['terms'];
+//
+//        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields');
+//
+//        $html = craft()->templates->render('/terms-conditions', array(
+//            'terms' => $terms
+//        ));
+//
+//        craft()->templates->setTemplatesPath($oldPath);
+//
+//        return $html;
+//    }
+
     /**
-     * Load Terms & Conditions markup
+     * Get form by handle
      *
-     * @param $form
-     * @return string
+     * @param $handle
+     * @return mixed
      */
-    public function getTermsConditionsInputs($form)
-    {
-        $oldPath    = craft()->templates->getTemplatesPath();
-        $terms      = $form->options['terms'];
-
-        craft()->templates->setTemplatesPath(craft()->path->getPluginsPath().'formbuilder/templates/frontend/form/fields');
-
-        $html = craft()->templates->render('/terms-conditions', array(
-            'terms' => $terms
-        ));
-
-        craft()->templates->setTemplatesPath($oldPath);
-
-        return $html;
-    }
-
     public function getFormByHandle($handle)
     {
         $form = formbuilder()->forms->getFormByHandle($handle);

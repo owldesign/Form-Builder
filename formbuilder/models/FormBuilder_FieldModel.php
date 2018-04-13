@@ -23,8 +23,8 @@ class FormBuilder_FieldModel extends BaseComponentModel
             'id'                => AttributeType::Number,
             'fieldId'           => AttributeType::Number,
             'fieldLayoutId'     => AttributeType::Number,
-            '$options'          => AttributeType::Mixed,
-            'formId'           => AttributeType::Number
+            'options'          => AttributeType::Mixed,
+            'formId'            => AttributeType::Number
         );
     }
 }
