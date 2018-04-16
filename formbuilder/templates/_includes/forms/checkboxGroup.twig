@@ -1,0 +1,38 @@
+{% if name is defined and name %}
+    <input type="hidden" name="{{ name }}" value="">
+{% endif -%}
+
+{%- set options = (options is defined ? options : []) %}
+{%- set values = (values is defined ? values : []) %}
+{%- set name = (name is defined and name ? name~'[]' : null) %}
+
+<div class="checkbox-group">
+    {%- for key, option in options %}
+
+        {% set id = (id is defined and id ? id : 'checkbox'~random()) %}
+
+        {%- if option is not iterable %}
+            {%- set option = {label: option, value: key} %}
+        {%- endif %}
+
+            {% if name is defined and (name|length < 3 or name|slice(-2) != '[]') %}
+            <input type="hidden" name="{{ name }}" value="">
+            {% endif %}
+
+            <label {%- if loop.first and id is defined %} for="{{ id }}"{% endif %}>
+
+            <input type="checkbox" value="{{ option.value }}" class="{{ class }}"
+                   {%- if loop.first and id is defined %}id="{{ id }}"{% endif %}
+                   {%- if name is defined %} name="{{ name }}"{% endif %}
+                   {%- if option.value is defined and option.value in values %} checked{% endif %}
+                   {%- if autofocus is defined and autofocus and not craft.app.request.isMobileBrowser(true) %} autofocus{% endif %}
+                   {%- if disabled is defined and disabled %} disabled{% endif %}
+                   {%- if toggle is defined %} data-target="{{ toggle }}"{% endif %}
+                   {%- if reverseToggle is defined %} data-reverse-target="{{ reverseToggle }}"{% endif %}
+                   {%- if block('attr') is defined %} {{ block('attr') }}{% endif %}>
+
+                {{ option.label|raw }}
+            </label>
+
+    {%- endfor %}
+</div>

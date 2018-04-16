@@ -1,0 +1,23 @@
+{%- set options = (options is defined ? options : []) %}
+{%- set value = (value is defined ? value : null) %}
+
+<div class="radio-group">
+    {%- for key, option in options %}
+        {%- if option is not iterable %}
+            {%- set option = {label: option, value: key} %}
+        {%- endif %}
+
+        <label>
+            <input type="radio" value="{{ option.value }}"
+                    {%- if id is defined %} id="{{ id }}"{% endif %}
+                    {%- if class is defined %} class="{{ class }}"{% endif %}
+                    {%- if name is defined %} name="{{ name }}"{% endif %}
+                    {%- if checked is defined and checked %} checked{% endif %}
+                    {%- if autofocus is defined and autofocus and not craft.app.request.isMobileBrowser(true) %} autofocus{% endif %}
+                    {%- if disabled is defined and disabled %} disabled{% endif %}>
+
+            {% if option.label is defined %}{{ option.label|raw }}{% endif %}
+        </label>
+
+    {% endfor %}
+</div>

@@ -44,9 +44,8 @@
                                     <span class="item-meta-icon"><i class="far fa-list"></i></span>
                                     <span class="item-meta-title">{{ form.name }}</span>
                                 </div>
-
                                 <div class="item-title">
-                                    <a href="{{ entry.url }}">{{ entry.title }}</a>
+                                    <a href="{{ entry.url }}">{{ entry.getTitle() }}</a>
                                 </div>
                             </div>
                         {% else %}
@@ -68,36 +67,41 @@
 
                 <div class="body">
                     <div class="list">
-                        <div class="list-item has-hover pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-cog"></i></span>
-                                <span class="item-meta-title">{{ "Plugin Update"|t('form-builder') }}</span>
-                                <span class="item-meta-right">March 23rd</span>
-                            </div>
-                            <div class="item-title">
-                                <a href="#">Version 3.0.4 Released!</a>
-                            </div>
-                        </div>
-                        <div class="list-item has-hover pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-book"></i></span>
-                                <span class="item-meta-title">{{ "Article"|t('form-builder') }}</span>
-                                <span class="item-meta-right">Jan 13th</span>
-                            </div>
-                            <div class="item-title">
-                                <a href="#">Form Builder hits top charts.</a>
-                            </div>
-                        </div>
-                        <div class="list-item has-hover pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-cog"></i></span>
-                                <span class="item-meta-title">{{ "Plugin Update"|t('form-builder') }}</span>
-                                <span class="item-meta-right">Jan 16th</span>
-                            </div>
-                            <div class="item-title">
-                                <a href="#">Version 3.0.3 Released!</a>
-                            </div>
-                        </div>
+                        {% for update in updates %}
+                            {% if update %}
+                                <div class="list-item has-hover pad">
+                                    <div class="item-meta">
+                                        <span class="item-meta-icon"><i class="far fa-cog"></i></span>
+                                        <span class="item-meta-title">{{ "Plugin Update"|t('form-builder') }}</span>
+                                        <span class="item-meta-right">{{ update.date |date }}</span>
+                                    </div>
+                                    <div class="item-title">
+                                        <a href="#">Version {{ update.version }} Released!</a>
+                                        {{ update.notes |inspect }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {#<div class="list-item has-hover pad">#}
+                            {#<div class="item-meta">#}
+                                {#<span class="item-meta-icon"><i class="far fa-book"></i></span>#}
+                                {#<span class="item-meta-title">{{ "Article"|t('form-builder') }}</span>#}
+                                {#<span class="item-meta-right">Jan 13th</span>#}
+                            {#</div>#}
+                            {#<div class="item-title">#}
+                                {#<a href="#">Form Builder hits top charts.</a>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="list-item has-hover pad">#}
+                            {#<div class="item-meta">#}
+                                {#<span class="item-meta-icon"><i class="far fa-cog"></i></span>#}
+                                {#<span class="item-meta-title">{{ "Plugin Update"|t('form-builder') }}</span>#}
+                                {#<span class="item-meta-right">Jan 16th</span>#}
+                            {#</div>#}
+                            {#<div class="item-title">#}
+                                {#<a href="#">Version 3.0.3 Released!</a>#}
+                            {#</div>#}
+                        {#</div>#}
                     </div>
                 </div>
             </div>

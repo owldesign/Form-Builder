@@ -27,8 +27,15 @@ class FormBuilder_EntryController extends BaseController
         $this->renderTemplate('formbuilder/entries/index');
     }
 
+    /**
+     * Edit entry page
+     *
+     * @param array $variables
+     * @throws HttpException
+     */
     public function actionEdit(array $variables = array())
     {
+        craft()->templates->includeJsResource('/formbuilder/js/entries.js');
         $entry = formbuilder()->entries->getEntryById($variables['entryId']);
         $form = $entry->getForm();
         $tabs   = $entry->getFieldLayout()->getTabs();
@@ -117,12 +124,21 @@ class FormBuilder_EntryController extends BaseController
         $this->requireAjaxRequest();
 
         $entryId = craft()->request->getRequiredPost('id');
+        $entry = FormBuilder()->entries->getEntryById($entryId);
+
+        $this->_removeAllAssets($entry);
 
         if (craft()->elements->deleteElementById($entryId)) {
-            $this->returnJson(array('success' => true));
+            $this->returnJson(array(
+                'success' => true
+            ));
+
             craft()->userSession->setNotice(Craft::t('Entry deleted.'));
+
         } else {
-            $this->returnJson(array('success' => false));
+            $this->returnJson(array(
+                'success' => false
+            ));
         }
     }
 
@@ -285,6 +301,22 @@ class FormBuilder_EntryController extends BaseController
     }
 
     /**
+     * Remove all assets
+     *
+     * @param $entry
+     */
+    private function _removeAllAssets($entry)
+    {
+        $criteria = craft()->elements->getCriteria(ElementType::Asset);
+        $criteria->relatedTo = $entry;
+        $assets = $criteria->find();
+
+        foreach ($assets as $asset) {
+            craft()->elements->deleteElementById($asset->id);
+        }
+    }
+
+    /**
      * Spam protection validation
      */
     private function _spamProtection()
@@ -342,7 +374,6 @@ class FormBuilder_EntryController extends BaseController
             ));
         }
     }
-
 
     /**
      * Sending notifications

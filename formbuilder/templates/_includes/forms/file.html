@@ -1,5 +1,5 @@
 <input type="file"
-       {%- if field.limit !="1" %}} multiple {% endif %}
+       {%- if field.settings.limit !="1" %}} multiple {% endif %}
     {%- if id is defined %} id="{{ id }}"{% endif %}
     {%- if class is defined %} class="{{ class }}"{% endif %}
     {%- if name is defined %} name="{{ name }}[]"{% endif %}

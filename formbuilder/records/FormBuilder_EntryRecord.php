@@ -18,6 +18,30 @@ class FormBuilder_EntryRecord extends BaseRecord
     }
 
     /**
+     * @inheritDoc BaseRecord::scopes()
+     *
+     * @return array
+     */
+    public function scopes()
+    {
+        return array(
+            'ordered' => array('order' => 'dateCreated desc'),
+        );
+    }
+
+    /**
+     * @inheritDoc BaseRecord::defineIndexes()
+     *
+     * @return array
+     */
+    public function defineIndexes()
+    {
+        return array(
+            array('columns' => array('dateCreated')),
+        );
+    }
+
+    /**
      * @inheritDoc BaseRecord::defineRelations()
      *
      * @return array

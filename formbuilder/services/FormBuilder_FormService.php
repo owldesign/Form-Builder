@@ -430,7 +430,7 @@ class FormBuilder_FormService extends BaseApplicationComponent
     private function _createGroupQuery()
     {
         return craft()->db->createCommand()
-            ->select('id, name')
+            ->select('id, name, settings')
             ->from('formbuilder_groups')
             ->order('name');
     }

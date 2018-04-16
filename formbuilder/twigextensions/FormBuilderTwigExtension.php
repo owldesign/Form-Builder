@@ -26,6 +26,9 @@ class FormBuilderTwigExtension extends \Twig_Extension
             'uncamelCase' => new Twig_Filter_Method($this, 'uncamelCase'),
             'unescape' => new Twig_Filter_Method($this, 'unescape'),
             'timeAgo' => new Twig_Filter_Method($this, 'getTimeAgo'),
+            'formatBytes' => new Twig_Filter_Method($this, 'formatBytes'),
+            'browser' => new Twig_Filter_Method($this, 'browser'),
+            'getClass' => new Twig_Filter_Method($this, 'getClass'),
             'json_decode' => new Twig_Filter_Method($this, 'json_decode')
         );
     }
@@ -108,6 +111,18 @@ class FormBuilderTwigExtension extends \Twig_Extension
     }
 
     /**
+     * Get clean element class name
+     *
+     * @param $object
+     * @return string
+     */
+    public function getClass($object)
+    {
+        return (new \ReflectionClass($object))->getShortName();
+    }
+
+
+    /**
      * json_decode
      *
      * @param $json
@@ -143,4 +158,50 @@ class FormBuilderTwigExtension extends \Twig_Extension
 
         return "$difference $periods[$j]";
     }
+
+    /**
+     * Get browser from user-agent string
+     *
+     * @param $browser
+     */
+    public function browser($browser)
+    {
+        if(strpos($browser, 'MSIE') !== FALSE)
+            echo 'Internet explorer';
+        elseif(strpos($browser, 'Trident') !== FALSE) //For Supporting IE 11
+            echo 'Internet explorer';
+        elseif(strpos($browser, 'Firefox') !== FALSE)
+            echo 'Mozilla Firefox';
+        elseif(strpos($browser, 'Chrome') !== FALSE)
+            echo 'Google Chrome';
+        elseif(strpos($browser, 'Opera Mini') !== FALSE)
+            echo "Opera Mini";
+        elseif(strpos($browser, 'Opera') !== FALSE)
+            echo "Opera";
+        elseif(strpos($browser, 'Safari') !== FALSE)
+            echo "Safari";
+        else
+            echo 'Unknown';
+    }
+
+    /**
+     * Format bytes to ...
+     *
+     * @param $bytes
+     * @param int $precision
+     * @return string
+     */
+    public function formatBytes($bytes, $precision = 0)
+    {
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+
+        // Uncomment one of the following alternatives
+        $bytes /= pow(1024, $pow);
+
+        return round($bytes, $precision) . ' ' . $units[$pow];
+    }
 }
+

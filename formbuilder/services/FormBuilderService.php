@@ -14,6 +14,7 @@ class FormBuilderService extends BaseApplicationComponent
     public $fields;
     public $tabs;
     public $fieldsets;
+    public $notes;
 
     // Public Methods
     // =========================================================================
@@ -29,6 +30,7 @@ class FormBuilderService extends BaseApplicationComponent
         $this->fields           = Craft::app()->getComponent('formBuilder_fields');
         $this->tabs             = Craft::app()->getComponent('formBuilder_tabs');
         $this->fieldsets        = Craft::app()->getComponent('formBuilder_fieldset');
+        $this->notes            = Craft::app()->getComponent('formBuilder_notes');
     }
 
 

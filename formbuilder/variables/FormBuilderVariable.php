@@ -118,7 +118,7 @@ class FormBuilderVariable
 
         $fieldModel = FormBuilder()->fields->getFieldRecordByFieldId($field->id, $form->id);
 
-        if ($fieldModel->attributes['options']) {
+        if ($fieldModel && $fieldModel->attributes['options']) {
             $options = $fieldModel->attributes['options'];
 
             if (isset($options['class'])) {
@@ -145,8 +145,40 @@ class FormBuilderVariable
                     $input = craft()->templates->render('text', $variables);
                 }
                 break;
+            case 'number':
+                $variables['type'] = 'number';
+                $input = craft()->templates->render('text', $variables);
+                break;
+            case 'dropdown':
+                $variables['type'] = 'select';
+                $variables['options'] = $field->settings['options'];
+                $input = craft()->templates->render('select', $variables);
+                break;
+            case 'multiselect':
+                $variables['options'] = $field->settings['options'];
+                $input = craft()->templates->render('multiselect', $variables);
+                break;
+            case 'checkboxes':
+                $variables['type'] = 'checkbox';
+                $variables['options'] = $field->settings['options'];
+                $input = craft()->templates->render('checkboxGroup', $variables);
+                break;
+            case 'radiobuttons':
+                $variables['options'] = $field->settings['options'];
+                $input = craft()->templates->render('radioGroup', $variables);
+                break;
+            case 'color':
+                $variables['type'] = 'color';
+                $input = craft()->templates->render('color', $variables);
+                break;
+            case 'date':
+                $variables['type'] = 'date';
+                $input = craft()->templates->render('date', $variables);
+                break;
+            case 'assets':
+                $input = craft()->templates->render('file', $variables);
+                break;
         }
-
 
         craft()->templates->setTemplatesPath($oldPath);
 
@@ -375,5 +407,16 @@ class FormBuilderVariable
      */
     public function getTabSettings($tabId) {
         return FormBuilder()->tabs->getTabSettings($tabId);
+    }
+
+    /**
+     * Get entry notes
+     *
+     * @param $entryId
+     * @return mixed
+     */
+    public function notes($entryId)
+    {
+        return FormBuilder()->notes->getNotes($entryId);
     }
 }

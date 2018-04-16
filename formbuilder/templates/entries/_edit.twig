@@ -1,195 +1,210 @@
 {% extends "_layouts/cp" %}
 
+{% hook 'formBuilder.prepTemplate' %}
+
 {% set bodyClass = 'formbuilder fb-entry-edit' %}
 {% set pluginCpUrl = url('form-builder') %}
 {% set selectedSubnavItem = "entries" %}
 
-{% block header %}
-    {% include 'form-builder/_includes/_header' ignore missing with { title: title } %}
+{% block pageHeader %}
+    {% include 'formbuilder/_includes/_header' ignore missing with { title: title } %}
 {% endblock %}
 
-{% set details = true %}
 
-{% block main %}
-    <input type="hidden" name="action" value="form-builder/entries/save">
-    {{ redirectInput('form-builder/entries/{groupId}') }}
+{% block content %}
+    <input type="hidden" name="action" value="formBuilder/entries/save">
 
     {% if entry.id %}
         <input type="hidden" name="entryId" value="{{ entry.id }}">
     {% endif %}
 
 
-
     <div id="content-container">
-        <div id="content">
-            <div class="widget wide-col">
-                <header class="pad">
-                    <h2>{{ "Submission"|t('form-builder') }}</h2>
-                </header>
+        <div id="content" class="flex-container">
 
-                <div class="body">
 
-                    {% set tabs = entry.getFieldLayout().getTabs() %}
 
-                    {% for tab in tabs %}
-                        <div class="list">
-                            {% set fields = tab.getFields() %}
+            <div class="wide-col">
 
-                            {% for field in fields %}
-                                {% set fieldClass = field|getClass %}
-                                {% set value = attribute(entry, field.handle) %}
-                                <div class="list-item">
-                                    <div class="item-meta">
-                                        <span class="item-meta-title">{{ field.name }}</span>
-                                    </div>
+                <div class="widget">
+                    <header class="pad">
+                        <h2>{{ "Submission"|t }}</h2>
+                    </header>
 
-                                    {% if value is iterable %}
-                                        {% set valueClass = value|getClass %}
-                                        <div class="item-list">
-                                            {% switch valueClass %}
+                    <div class="body">
 
-                                            {% case "AssetQuery" %}
-                                                {% for asset in value.all() %}
-                                                    <div class="item-asset">
-                                                        <span class="asset-thumbnail pad"><img src="{{ asset.getThumbUrl(80) }}"></span>
+                        {% set tabs = entry.getFieldLayout().getTabs() %}
 
-                                                        <div class="asset-description pad">
-                                                            <span class="item-title asset-title">{{ asset.title }}</span>
-                                                            <span class="item-title">{{ asset.size|formatBytes }}</span>
-                                                            <span class="item-title download-asset"><a href="{{ asset.url }}" target="_blank"><i class="far fa-download"></i></a></span>
-                                                            <div class="asset-select" data-asset-id="{{ asset.id }}"><i class="far fa-check-circle"></i></div>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            {% case "MultiOptionsFieldData" %}
-                                                <span class="item-title">
-                                                    {% for item in value.getOptions() %}
-                                                        {% if item.selected %}
-                                                            {{ item }}
-                                                            {%- if not loop.last -%}
-                                                                ,
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </span>
+                        {% for tab in tabs %}
+                            <div class="list">
+                                {% set fields = tab.getFields() %}
 
-                                            {% endswitch %}
+                                {% for item in fields %}
+                                    {% set field = item.getField() %}
+                                    {% set value = attribute(entry, field.handle) %}
+                                    <div class="list-item">
+                                        <div class="item-meta">
+                                            <span class="item-meta-title">{{ field.name }}</span>
                                         </div>
-                                    {% else %}
-                                        {% if fieldClass == 'Date' %}
-                                            <span class="item-title">{{ value.date |date('M j, Y', 'UTC') }}</span>
+
+                                        {% if value is iterable %}
+                                            {% set type = value|getClass %}
+
+                                            <div class="item-list">
+                                                {% if type == 'ElementCriteriaModel' %}
+                                                    {% for asset in value.find() %}
+                                                        <div class="item-asset">
+                                                            <span class="asset-thumbnail pad"><img src="{{ asset.getThumbUrl(80) }}"></span>
+
+                                                            <div class="asset-description pad">
+                                                                <span class="item-title asset-title">{{ asset.title }}</span>
+                                                                <span class="item-title">{{ asset.size|formatBytes }}</span>
+                                                                <span class="item-title download-asset"><a href="{{ asset.url }}" target="_blank"><i class="far fa-download"></i></a></span>
+                                                                <div class="asset-select" data-asset-id="{{ asset.id }}"><i class="far fa-check-circle"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                                {% if type == 'MultiOptionsFieldData' %}
+                                                    <span class="item-title">
+                                                        {% for item in value.getOptions() %}
+                                                            {% if item.selected %}
+                                                                {{ item }}
+                                                                {%- if not loop.last -%}
+                                                                    ,
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+
                                         {% else %}
-                                            <span class="item-title">{{ value }}</span>
+                                            {% if field.type == 'Date' %}
+                                                {% if value.date is defined %}
+                                                    <span class="item-title">{{ value.date |date('M j, Y', 'UTC') }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="item-title">{{ value }}</span>
+                                            {% endif %}
+
+                                            {% if field.type == 'Color' %}
+                                                <span style="background: {{ value }};display:block;width:30px;height:30px;position:absolute;top:50%;right:25px;margin-top:-15px;"></span>
+                                            {% elseif field.type == 'Url' %}
+                                                <a href="{{ value }}" style="display:block;position:absolute;top:50%;right:25px;margin-top:-8px;"><i class="far fa-external-link-alt"></i></a>
+                                            {% else %}
+                                            {% endif %}
                                         {% endif %}
 
-                                        {% if fieldClass == 'Color' %}
-                                            <span style="background: {{ value }};display:block;width:30px;height:30px;position:absolute;top:50%;right:25px;margin-top:-15px;"></span>
-                                        {% elseif fieldClass == 'Url' %}
-                                            <a href="{{ value }}" style="display:block;position:absolute;top:50%;right:25px;margin-top:-8px;"><i class="far fa-external-link-alt"></i></a>
-                                        {% endif %}
-                                    {% endif %}
+                                    </div>
+                                {% endfor %}
 
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% set form = entry.getForm() %}
-    {% set group = form.getGroup() %}
-    {% set notes = craft.formBuilder.notes(entry.id) %}
-
-    <div id="details">
-        <div id="settings">
-            <div class="widget form-widget">
-                <header class="pad">
-                    <div class="group-icon">
-                        <i class="far fa-{{ group.settings.icon.name }}"></i>
-                    </div>
-                    <div class="form-info">
-                        <h6>{{ "form"|t('form-builder') }}</h6>
-                        <h2>{{ form.name }}</h2>
-                    </div>
-                </header>
-                <div class="body">
-                    <div class="list">
-                        <div class="list-item pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-calendar"></i></span>
-                                <span class="item-meta-title">Posted on</span>
                             </div>
-                            <div class="item-title">
-                                {{ entry.dateCreated |date() }}
-                            </div>
-                        </div>
-                        <div class="list-item pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-globe"></i></span>
-                                <span class="item-meta-title">IP Address</span>
-                            </div>
-                            <div class="item-title">
-                                {{ entry.ipAddress }}
-                            </div>
-                        </div>
-                        <div class="list-item pad">
-                            <div class="item-meta">
-                                <span class="item-meta-icon"><i class="far fa-browser"></i></span>
-                                <span class="item-meta-title">Browser</span>
-                            </div>
-                            <div class="item-title">
-                                {{ entry.userAgent |browser(entry.userAgent) }}
-                            </div>
-                        </div>
-                        <div class="list-item element-actions">
-                            <button id="delete-entry" class="btns btn-danger" data-entry-id="{{ entry.id }}"><span>Delete Entry</span></button>
-
-                            <form id="download-all-assets" method="post" accept-charset="UTF-8">
-                                <input type="hidden" name="action" value="form-builder/assets/download-all-files">
-                                <input type="hidden" name="entryId" value="{{ entry.id }}">
-
-                                {{ csrfInput() }}
-                                <button type="submit" class="btns btn-info hidden"><span>Download Assets</span><span class="asset-count">0</span></button>
-                                <div class="download-status"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="widget notes-widget" data-entry-id="{{ entry.id }}">
-                <header class="pad">
-                    <h2>{{ "Notes"|t('form-builder') }}</h2>
-                    <a href="#" id="write-note-btn">Leave a note</a>
-                </header>
-                <div class="body">
-                    <div class="loader hidden"><svg width="20px" height="20px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" stroke="#E9EFF4"><g fill="none" fill-rule="evenodd"><g transform="translate(4 3)" stroke-width="5"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg></div>
-                    <div class="list">
-                        {% for note in notes %}
-                            <div class="list-item pad">
-                                <div class="item-meta">
-                                    <span class="item-meta-icon"><i class="far fa-user"></i></span>
-                                    <span class="item-meta-title">{{ note.getAuthor() }}</span>
-                                    <span class="item-meta-right">{{ note.dateCreated |date() }}</span>
-                                </div>
-
-                                <div class="item-title">
-                                    {{ note.note }}
-                                </div>
-                            </div>
-                        {% else %}
-                            <li class="list-item no-items pad">
-                                <div class="item-title">
-                                    {{ "No notes yet, leave some."|t('form-builder') }}
-                                </div>
-                            </li>
                         {% endfor %}
                     </div>
                 </div>
             </div>
-        </div>
+
+            {% set form = entry.getForm() %}
+            {% set group = form.getGroup() %}
+            {% set notes = craft.formBuilder.notes(entry.id) %}
+
+            <div class="short-col">
+                <div class="widget form-widget">
+                    <header class="pad">
+                        <div class="group-icon">
+                            <i class="far fa-{{ group.settings.icon.name }}"></i>
+                        </div>
+                        <div class="form-info">
+                            <h6>{{ "form"|t }}</h6>
+                            <h2>{{ form.name }}</h2>
+                        </div>
+                    </header>
+                    <div class="body">
+                        <div class="list">
+                            <div class="list-item pad">
+                                <div class="item-meta">
+                                    <span class="item-meta-icon"><i class="far fa-calendar"></i></span>
+                                    <span class="item-meta-title">Posted on</span>
+                                </div>
+                                <div class="item-title">
+                                    {{ entry.dateCreated |date() }}
+                                </div>
+                            </div>
+                            <div class="list-item pad">
+                                <div class="item-meta">
+                                    <span class="item-meta-icon"><i class="far fa-globe"></i></span>
+                                    <span class="item-meta-title">IP Address</span>
+                                </div>
+                                <div class="item-title">
+                                    {{ entry.ipAddress }}
+                                </div>
+                            </div>
+                            <div class="list-item pad">
+                                <div class="item-meta">
+                                    <span class="item-meta-icon"><i class="far fa-browser"></i></span>
+                                    <span class="item-meta-title">Browser</span>
+                                </div>
+                                <div class="item-title">
+                                    {{ entry.userAgent |browser(entry.userAgent) }}
+                                </div>
+                            </div>
+                            <div class="list-item element-actions">
+                                <button id="delete-entry" class="btns btn-danger" data-entry-id="{{ entry.id }}"><span>Delete Entry</span></button>
+
+                                <form id="download-all-assets" method="post" accept-charset="UTF-8">
+                                    <input type="hidden" name="action" value="formBuilder/assets/downloadAllFiles">
+                                    <input type="hidden" name="entryId" value="{{ entry.id }}">
+
+                                    {{ getCsrfInput() }}
+                                    <button type="submit" class="btns btn-info hidden"><span>Download Assets</span><span class="asset-count">0</span></button>
+                                    <div class="download-status"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="widget notes-widget" data-entry-id="{{ entry.id }}">
+                    <header class="pad">
+                        <h2>{{ "Notes"|t }}</h2>
+                        <a href="#" id="write-note-btn">Leave a note</a>
+                    </header>
+                    <div class="body">
+                        <div class="loader hidden"><svg width="20px" height="20px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" stroke="#E9EFF4"><g fill="none" fill-rule="evenodd"><g transform="translate(4 3)" stroke-width="5"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg></div>
+                        <div class="list">
+                            {% for note in notes %}
+                                <div class="list-item pad">
+                                    <div class="item-meta">
+                                        <span class="item-meta-icon"><i class="far fa-user"></i></span>
+                                        <span class="item-meta-title">{{ note.getAuthor().getName() }}</span>
+                                        <span class="item-meta-right">{{ note.dateCreated |date() }}</span>
+                                    </div>
+
+                                    <div class="item-title">
+                                        {{ note.note }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <li class="list-item no-items pad">
+                                    <div class="item-title">
+                                        {{ "No notes yet, leave some."|t }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+
+    </div>
+
+    {% set notes = craft.formBuilder.notes(entry.id) %}
+
+    {#<div id="details">#}
+        {#<div id="settings">#}
+            {#</div>#}
+        {#</div>#}
     </div>
 {% endblock %}

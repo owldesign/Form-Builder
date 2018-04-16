@@ -2,10 +2,10 @@
 {% set name = name ?? null -%}
 {% set value = value ?? null -%}
 
-{% if field.showDate %}
+{% if field.settings.showDate %}
     <div class="datewrapper">
-            <input type="date"
-                name="{{ name }}"
+            <input type="text"
+                name="{{ name }}[date]"
                 value="{{ value ? value|date('short') : '' }}"
                 placeholder=" "
                 autocomplete="off"
@@ -15,11 +15,11 @@
     </div>
 {% endif %}
 
-{% if field.showTime %}
+{% if field.settings.showTime %}
     <div class="timewrapper">
-            <input type="time"
-               name="{{ name }}"
-               value="{{ value ? value|time('short') : '' }}"
+            <input type="text"
+               name="{{ name }}[time]"
+               value="{{ value ? value|date('short') : '' }}"
                placeholder=" "
                autocomplete="off"
                size="10">

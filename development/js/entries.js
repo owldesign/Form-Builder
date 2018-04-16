@@ -47,7 +47,7 @@ WriteNoteWidget = Garnish.Base.extend({
             if (textStatus === 'success') {
                 Craft.cp.displayNotice(Craft.t('Note added'))
                 this.$spinner.addClass('hidden')
-                this.updateNotesHtml(response.note)
+                this.updateNotesHtml(response)
             }
         }), this))
 
@@ -57,9 +57,9 @@ WriteNoteWidget = Garnish.Base.extend({
     updateNotesHtml(data) {
         let author
         let note
-
-        note = data.note
-        author = data.author.fullName
+        console.log(data)
+        note = data.note.note
+        author = data.user.fullName
 
         $markup = $('<div class="list-item pad">' +
                 '<div class="item-meta">' +
@@ -241,6 +241,11 @@ AssetManagement = Garnish.Base.extend({
                 this.$trigger.trigger('focus')
             }, this)
         })
+
+        Craft.cp.displayNotice(Craft.t('Download complete...'))
+
+        $('.item-asset').removeClass('selected')
+        $('.asset-select').removeClass('active')
     }
 
 }, {
@@ -362,8 +367,8 @@ Garnish.$doc.ready(() => {
                     Craft.cp.displayNotice(Craft.t('Deleting entry...'))
 
                     setTimeout(function() { 
-                        window.location.href = `${window.FormBuilder.adminUrl}/entries`
-                    }, 2000)
+                        window.location.href = `${Craft.getCpUrl()}/formbuilder/entries`
+                    }, 1000)
 
                 }
             }), this));

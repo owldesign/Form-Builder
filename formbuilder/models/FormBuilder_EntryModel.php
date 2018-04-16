@@ -156,7 +156,6 @@ class FormBuilder_EntryModel extends BaseElementModel
             'formId'          => AttributeType::Number,
             'statusId'        => AttributeType::Number,
             'title'           => AttributeType::String,
-            'dateSubmitted'   => AttributeType::DateTime,
             'ipAddress'       => AttributeType::String,
             'userAgent'       => AttributeType::Mixed
         ));

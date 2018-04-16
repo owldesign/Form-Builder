@@ -49,7 +49,7 @@
 {% endblock %}
 
 
-{% block main %}
+{% block content %}
     <input type="hidden" name="action" value="formBuilder/form/save">
     <input type="hidden" name="redirect" value="formbuilder/forms/{groupId}">
 
@@ -70,9 +70,9 @@
 
     {% set errors = form.getErrors() %}
 
-    <div class="grid">
+    <div class="flex-container">
 
-        <div class="item" data-colspan="2">
+        <div class="wide-col">
             {% include 'formbuilder/forms/_includes/fields/fields' ignore missing %}
             {#{% hook 'formBuilder.formNotificationsHtml' %}#}
 
@@ -117,7 +117,7 @@
             </section>
         </div>
 
-        <div class="editform-sidebar item last">
+        <div class="short-col">
 
             <section class="form-settings-tout cmp-tout theme-white">
                 <header>

@@ -248,9 +248,7 @@ class FormBuilder_EntryElementType extends BaseElementType
             entries.formId,
             entries.statusId,
             entries.ipAddress,
-            entries.userAgent,
-            entries.dateCreated,
-			entries.dateUpdated';
+            entries.userAgent';
 
         $query->join('formbuilder_entries entries', 'entries.id = elements.id')
             ->join('formbuilder_forms forms', 'forms.id = entries.formId')
@@ -270,20 +268,6 @@ class FormBuilder_EntryElementType extends BaseElementType
             $query->andWhere(DbHelper::parseParam('entries.statusId', $criteria->statusId, $query->params));
         }
 
-        if ($criteria->dateCreated) {
-            $query->andWhere(DbHelper::parseParam('entries.dateCreated', $criteria->dateCreated, $query->params));
-        }
-
-        if ($criteria->order) {
-            if (stripos($criteria->order, 'elements.') === false) {
-                $criteria->order = str_replace('dateCreated', 'entries.dateCreated', $criteria->order);
-                $criteria->order = str_replace('dateUpdated', 'entries.dateUpdated', $criteria->order);
-            }
-
-            if (stripos($criteria->order, 'title') !== false && !$criteria->formId) {
-                $criteria->order = null;
-            }
-        }
     }
 
     /**
@@ -331,8 +315,6 @@ class FormBuilder_EntryElementType extends BaseElementType
      */
     public function populateElementModel($row)
     {
-        $entry = FormBuilder_EntryModel::populateModel($row);
-
-        return $entry;
+        return FormBuilder_EntryModel::populateModel($row);
     }
 }

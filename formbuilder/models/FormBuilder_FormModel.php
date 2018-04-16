@@ -65,7 +65,9 @@ class FormBuilder_FormModel extends BaseElementModel
      */
     public function getGroup()
     {
-        return formbuilder()->forms->getFormGroupById($this->groupId);
+        $group = FormBuilder()->forms->getFormGroupById($this->groupId);
+
+        return $group;
     }
 
     /**
